@@ -2,6 +2,15 @@
   "version": 3,
   "targets": {
     ".NETCoreApp,Version=v2.1": {
+      "32feet.NET/3.5.0": {
+        "type": "package",
+        "compile": {
+          "lib/net/InTheHand.Net.Personal.dll": {}
+        },
+        "runtime": {
+          "lib/net/InTheHand.Net.Personal.dll": {}
+        }
+      },
       "InTheHand.Pontoon/10.2018.3.19": {
         "type": "package",
         "compile": {
@@ -288,6 +297,21 @@
     }
   },
   "libraries": {
+    "32feet.NET/3.5.0": {
+      "sha512": "Edc4otytrDm/zSpssF61LsZzkxZeaCEAo4cOUO1foS6OhUUCsEPRRTmwEG+jYC2zU1sYFrpZnjJU6F3a6NjSgA==",
+      "type": "package",
+      "path": "32feet.net/3.5.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "32feet.net.3.5.0.nupkg.sha512",
+        "32feet.net.nuspec",
+        "lib/net-cf/InTheHand.Net.Personal.XML",
+        "lib/net-cf/InTheHand.Net.Personal.dll",
+        "lib/net/InTheHand.Net.Personal.XML",
+        "lib/net/InTheHand.Net.Personal.dll"
+      ]
+    },
     "InTheHand.Pontoon/10.2018.3.19": {
       "sha512": "duLIBdQOfWBS1gflOGnr3LnrLQQuwh5NDUbSQjWNaEFtO0Iw0/OmS/TgEJ5Rz6eFGqamGGOcAtMUuPEr7Le9hg==",
       "type": "package",
@@ -1072,6 +1096,7 @@
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v2.1": [
+      "32feet.NET >= 3.5.0",
       "Microsoft.NETCore.App >= 2.1.0",
       "Network.Bluetooth >= 4.0.1803.22",
       "Plugin.BluetoothLE >= 6.2.6"
@@ -1118,6 +1143,10 @@
     "frameworks": {
       "netcoreapp2.1": {
         "dependencies": {
+          "32feet.NET": {
+            "target": "Package",
+            "version": "[3.5.0, )"
+          },
           "Microsoft.NETCore.App": {
             "target": "Package",
             "version": "[2.1.0, )",
@@ -1139,5 +1168,17 @@
         "warn": true
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package '32feet.NET 3.5.0' was restored using '.NETFramework,Version=v4.6.1' instead of the project target framework '.NETCoreApp,Version=v2.1'. This package may not be fully compatible with your project.",
+      "libraryId": "32feet.NET",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v2.1"
+      ]
+    }
+  ]
 }

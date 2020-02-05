@@ -1,17 +1,46 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v2.1",
-    "signature": "ef84a8d3630ce019f348b8ea0e5f5bb168bfff6a"
+    "signature": "51d9e1b0a81344c28369fac63f6bc6a2f61725dd"
   },
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v2.1": {
       "bluetooth_test/1.0.0": {
         "dependencies": {
+          "32feet.NET": "3.5.0",
+          "Network.Bluetooth": "4.0.1803.22",
           "Plugin.BluetoothLE": "6.2.6"
         },
         "runtime": {
           "bluetooth_test.dll": {}
+        }
+      },
+      "32feet.NET/3.5.0": {
+        "runtime": {
+          "lib/net/InTheHand.Net.Personal.dll": {
+            "assemblyVersion": "3.5.605.0",
+            "fileVersion": "3.5.605.0"
+          }
+        }
+      },
+      "InTheHand.Pontoon/10.2018.3.19": {
+        "runtime": {
+          "lib/netstandard1.0/InTheHand.dll": {
+            "assemblyVersion": "10.2018.0.0",
+            "fileVersion": "10.2018.3.16"
+          }
+        }
+      },
+      "Network.Bluetooth/4.0.1803.22": {
+        "dependencies": {
+          "InTheHand.Pontoon": "10.2018.3.19"
+        },
+        "runtime": {
+          "lib/netstandard1.4/InTheHand.Devices.Bluetooth.dll": {
+            "assemblyVersion": "4.0.0.0",
+            "fileVersion": "4.2018.2.8"
+          }
         }
       },
       "Plugin.BluetoothLE/6.2.6": {
@@ -51,6 +80,27 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "32feet.NET/3.5.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Edc4otytrDm/zSpssF61LsZzkxZeaCEAo4cOUO1foS6OhUUCsEPRRTmwEG+jYC2zU1sYFrpZnjJU6F3a6NjSgA==",
+      "path": "32feet.net/3.5.0",
+      "hashPath": "32feet.net.3.5.0.nupkg.sha512"
+    },
+    "InTheHand.Pontoon/10.2018.3.19": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-duLIBdQOfWBS1gflOGnr3LnrLQQuwh5NDUbSQjWNaEFtO0Iw0/OmS/TgEJ5Rz6eFGqamGGOcAtMUuPEr7Le9hg==",
+      "path": "inthehand.pontoon/10.2018.3.19",
+      "hashPath": "inthehand.pontoon.10.2018.3.19.nupkg.sha512"
+    },
+    "Network.Bluetooth/4.0.1803.22": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-0fp0UmkAnJCvMPujGmYDrKrJ4soD4ZTCR2WdkybkHJu1A7//cKrXc9TjvADcfp99aNdW2JokjU8yHTGDxMh20Q==",
+      "path": "network.bluetooth/4.0.1803.22",
+      "hashPath": "network.bluetooth.4.0.1803.22.nupkg.sha512"
     },
     "Plugin.BluetoothLE/6.2.6": {
       "type": "package",
