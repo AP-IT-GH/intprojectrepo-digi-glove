@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="32feet.NET" Version="3.5.0" />
+    <PackageReference Include="Network.Bluetooth" Version="4.0.1803.22" />
+    <PackageReference Include="Plugin.BluetoothLE" Version="6.2.6" />
+  </ItemGroup>
+
+</Project>
