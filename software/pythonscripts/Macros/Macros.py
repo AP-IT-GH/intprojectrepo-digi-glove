@@ -54,7 +54,8 @@ elif(flexFinger3>=230 and flexFinger4>=230):
 
 #the CallMacro function gets the value of each finger
 #in the MacroClass the corresponding macro gets activated
-#def CallMacro(wijsVinger)
+
+if(wijsVinger): PrintScreen();
 
 def RightMouseClick():
     pt = POINT()
@@ -99,5 +100,4 @@ def Cut():
 def Bold():
     pyautogui.hotkey('ctrl','b')
 
-PrintScreen()
 CloseCommandPrompt()
