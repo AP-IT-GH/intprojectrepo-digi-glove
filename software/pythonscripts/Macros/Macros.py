@@ -31,6 +31,20 @@ touchFinger2 = 0.00J
 touchFinger3 = 0.00J
 touchFinger4 = 0.00J
 
+#Variable rotation time
+timeRotation = 0
+
+#Variables rotation
+rotationXaxis = 0.00
+rotationYaxis = 0.00
+rotationZaxis = 0.00
+
+#Variables acceleration
+accelerationTime = 0
+accelerationXaxis = 0.00
+accelerationYaxis = 0.00
+accelerationZaxis = 0.00
+
 def RightMouseClick():
     pt = POINT()
     windll.user32.GetCursorPos(byref(pt))
