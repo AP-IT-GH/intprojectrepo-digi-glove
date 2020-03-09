@@ -12,38 +12,49 @@ import datetime
 
 
 #Variables for fingers - 10 sensors, each finger has 2
-flexFinger1 = 0.00J
-flexFinger2 = 0.00J
-flexFinger3 = 0.00J
-flexFinger4 = 0.00J
-flexFinger5 = 0.00J
-flexFinger6 = 0.00J
-flexFinger7 = 0.00J
-flexFinger8 = 0.00J
-flexFinger9= 0.00J
-flexFinger10 = 0.00J
+flexFinger1 = 0
+flexFinger2 = 0
+flexFinger3 = 0
+flexFinger4 = 0
+flexFinger5 = 0
+flexFinger6 = 0
+flexFinger7 = 0
+flexFinger8 = 0
+flexFinger9= 0
+flexFinger10 = 0
 
 wijsVinger = False
 
 #Variables for touch sensors
-touchFinger1 = 0.00J
-touchFinger2 = 0.00J
-touchFinger3 = 0.00J
-touchFinger4 = 0.00J
+touchFinger1 = 0
+touchFinger2 = 0
+touchFinger3 = 0
+touchFinger4 = 0
 
 #Variable rotation time
 timeRotation = 0
 
 #Variables rotation
-rotationXaxis = 0.00
-rotationYaxis = 0.00
-rotationZaxis = 0.00
+rotationXaxis = 0
+rotationYaxis = 0
+rotationZaxis = 0
 
 #Variables acceleration
 accelerationTime = 0
-accelerationXaxis = 0.00
-accelerationYaxis = 0.00
-accelerationZaxis = 0.00
+accelerationXaxis = 0
+accelerationYaxis = 0
+accelerationZaxis = 0
+
+#the indexfinger is bend when the value of the flex resistor (2 flex sensors on each finger) is larger than 230 for each
+#the indexfinger is not bend when the value is smaller than 20
+if(flexFinger3<=20.0 and flexFinger4<=20.0):
+    wijsVinger=False
+elif(flexFinger3>=230.0 and flexFinger4>=230.0):
+    wijsVinger=True
+
+#the CallMacro function gets the value of each finger
+#in the MacroClass the corresponding macro gets activated
+#def CallMacro(wijsVinger)
 
 #the indexfinger is bend when the value of the flex resistor (2 flex sensors on each finger) is larger than 230 for each
 #the indexfinger is not bend when the value is smaller than 20
