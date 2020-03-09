@@ -45,6 +45,17 @@ accelerationXaxis = 0.00
 accelerationYaxis = 0.00
 accelerationZaxis = 0.00
 
+#the indexfinger is bend when the value of the flex resistor (2 flex sensors on each finger) is larger than 230 for each
+#the indexfinger is not bend when the value is smaller than 20
+if(flexFinger3<=20 and flexFflexFinger4<=20):
+    wijsVinger=False
+elif(flexFinger3>=230 and flexFinger4>=230):
+    wijsVinger=True
+
+#the CallMacro function gets the value of each finger
+#in the MacroClass the corresponding macro gets activated
+#def CallMacro(wijsVinger)
+
 def RightMouseClick():
     pt = POINT()
     windll.user32.GetCursorPos(byref(pt))
