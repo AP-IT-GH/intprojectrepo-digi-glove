@@ -7,7 +7,7 @@ class POINT(Structure):
     _fields_ = [("x", c_long), ("y", c_long)]
 
 
-
+ 
 def RightMouseClick():
     pt = POINT()
     windll.user32.GetCursorPos(byref(pt))
