@@ -6,8 +6,31 @@ import pyautogui
 class POINT(Structure):
     _fields_ = [("x", c_long), ("y", c_long)]
 
+import datetime
 
- 
+#Variable flex time
+
+
+#Variables for fingers - 10 sensors, each finger has 2
+flexFinger1 = 0.00J
+flexFinger2 = 0.00J
+flexFinger3 = 0.00J
+flexFinger4 = 0.00J
+flexFinger5 = 0.00J
+flexFinger6 = 0.00J
+flexFinger7 = 0.00J
+flexFinger8 = 0.00J
+flexFinger9= 0.00J
+flexFinger10 = 0.00J
+
+wijsVinger = False
+
+#Variables for touch sensors
+touchFinger1 = 0.00J
+touchFinger2 = 0.00J
+touchFinger3 = 0.00J
+touchFinger4 = 0.00J
+
 def RightMouseClick():
     pt = POINT()
     windll.user32.GetCursorPos(byref(pt))
