@@ -1,3 +1,5 @@
 .vscode
 esp32/glove-mcu/build
 test/
+
+esp32/esp-idf
