@@ -15,9 +15,10 @@ void loop()
   String inputFromOtherSide;
   if (SerialBT.available()) {
     inputFromOtherSide = SerialBT.readString();
-    SerialBT.println("You had entered: ");
+    //SerialBT.println("You had entered: ");
     SerialBT.println(inputFromOtherSide);
     Serial.println(inputFromOtherSide);
+    SerialBT.flush();
   }
 
   //SerialBT.println("test");
