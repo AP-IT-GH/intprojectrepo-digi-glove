@@ -1,5 +1,7 @@
-#how to program in python
-#first a word, python is a language that is run by an interperator, so the code is executed as the interperator reads the lines
-#which would mean that it's executed as a script, though python can also create objects ans classes.
-#every python script can be included in any script as long as it's located on the same drive.
-print("test")
+import serial
+ser = serial.Serial(r"\\.\COM15")
+ser1 = serial.Serial(r"\\.\COM13")
+print("sending data continiously to bluetooth devices press ctrl + c to stop")
+while True:
+    ser.write(0x00)
+    ser1.write(0x01)
