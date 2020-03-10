@@ -7,6 +7,7 @@ void setup()
   SerialBT.begin("ESP32_alpha0.0.1");
   Serial.begin(9600);
   delay(1000);
+  SerialBT.println("test");
 }
     
 void loop()
@@ -18,4 +19,6 @@ void loop()
     SerialBT.println(inputFromOtherSide);
     Serial.println(inputFromOtherSide);
   }
+
+  //SerialBT.println("test");
 }
