@@ -23,7 +23,11 @@ flexFinger8 = 0
 flexFinger9= 0
 flexFinger10 = 0
 
-wijsVinger = False
+thumb = False
+indexFinger = False
+middleFinger = False
+ringFinger = False
+littleFinger = False
 
 #Variables for touch sensors
 touchFinger1 = 0
@@ -45,12 +49,31 @@ accelerationXaxis = 0
 accelerationYaxis = 0
 accelerationZaxis = 0
 
-#the indexfinger is bend when the value of the flex resistor (2 flex sensors on each finger) is larger than 230 for each
-#the indexfinger is not bend when the value is smaller than 20
-if(flexFinger3<=20 and flexFinger4<=20):
-    wijsVinger=False
-elif(flexFinger3>=230 and flexFinger4>=230):
-    wijsVinger=True
+#the indexfinger is bend when the value of the flex resistor (2 flex sensors on each finger) is larger than 200 for each
+if(flexFinger1>=200 and flexFinger2>=200):
+    thumb=True
+else:
+    thumb=False
+
+if(flexFinger3>= 200 and flexFinger4>=200):
+    indexFinger=True
+else:
+    indexFinger=False
+
+if(flexFinger5>=200 and flexFinger6>=200):
+    middleFinger=True
+else:
+    middleFinger=False
+
+if(flexFinger7>=200 and flexFinger8>=200):
+    ringFinger=True
+else:
+    ringFinger=False
+
+if(flexFinger9>=200 and flexFinger10>=200):
+    littleFinger=True
+else:
+    littleFinger=False
 
 #the CallMacro function gets the value of each finger
 #in the MacroClass the corresponding macro gets activated
