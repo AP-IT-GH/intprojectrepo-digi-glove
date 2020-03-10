@@ -77,7 +77,7 @@ else:
 
 #the CallMacro function gets the value of each finger
 #in the MacroClass the corresponding macro gets activated
-if(wijsVinger): PrintScreen();
+if(indexFinger): PrintScreen();
 
 def RightMouseClick():
     pt = POINT()

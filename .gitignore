@@ -3,3 +3,15 @@ esp32/glove-mcu/build
 test/
 
 esp32/esp-idf
+
+software/.vs/slnx.sqlite
+
+software/.vs/software/v16/.suo
+
+software/.vs/software/v16/Browse.VC.db
+
+.vs/slnx.sqlite
+
+.vs/intprojectrepo-digi-glove/v16/.suo
+
+.vs/intprojectrepo-digi-glove/v16/Browse.VC.db
