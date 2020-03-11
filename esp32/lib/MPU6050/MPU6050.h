@@ -40,6 +40,10 @@ THE SOFTWARE.
 #include "helper_3dmath.h"
 #include "I2Cdev.h"
 
+#ifndef BUFFER_LENGTH
+// band-aid fix for platforms without Wire-defined BUFFER_LENGTH (removed from some official implementations)
+#define BUFFER_LENGTH 32
+#endif
 // supporting link:  http://forum.arduino.cc/index.php?&topic=143444.msg1079517#msg1079517
 // also: http://forum.arduino.cc/index.php?&topic=141571.msg1062899#msg1062899s
 
@@ -717,6 +721,7 @@ class MPU6050 {
 
         // FIFO_R_W register
         uint8_t getFIFOByte();
+        int8_t GetCurrentFIFOPacket(uint8_t *data, uint8_t length);
         void setFIFOByte(uint8_t data);
         void getFIFOBytes(uint8_t *data, uint8_t length);
 
@@ -922,6 +927,7 @@ class MPU6050 {
             uint32_t dmpGetAccelSumOfSquare();
             void dmpOverrideQuaternion(long *q);
             uint16_t dmpGetFIFOPacketSize();
+            uint8_t dmpGetCurrentFIFOPacket(uint8_t *data); // overflow proof
         #endif
 
         // special methods for MotionApps 4.1 implementation
@@ -1024,6 +1030,7 @@ class MPU6050 {
             uint32_t dmpGetAccelSumOfSquare();
             void dmpOverrideQuaternion(long *q);
             uint16_t dmpGetFIFOPacketSize();
+            uint8_t dmpGetCurrentFIFOPacket(uint8_t *data); // overflow proof
         #endif
 
     void CalibrateGyro(uint8_t Loops = 15); // Fine tune after setting offsets with less Loops.

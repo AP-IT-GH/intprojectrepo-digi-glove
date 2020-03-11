@@ -2770,6 +2770,39 @@ void MPU6050::getFIFOBytes(uint8_t *data, uint8_t length) {
     	*data = 0;
     }
 }
+int min(int a, int b) { return ((a)<(b) ? (a) : (b)); }
+
+int8_t MPU6050::GetCurrentFIFOPacket(uint8_t *data, uint8_t length) { // overflow proof
+     int16_t fifoC;
+     // This section of code is for when we allowed more than 1 packet to be acquired
+     int64_t BreakTimer = esp_timer_get_time();
+     do {
+         if ((fifoC = getFIFOCount())  > length) {
+
+             if (fifoC > 200) { // if you waited to get the FIFO buffer to > 200 bytes it will take longer to get the last packet in the FIFO Buffer than it will take to  reset the buffer and wait for the next to arrive
+                 resetFIFO(); // Fixes any overflow corruption
+                 fifoC = 0;
+                 while (!(fifoC = getFIFOCount()) && ((esp_timer_get_time() - BreakTimer) <= (11000))); // Get Next New Packet
+                 } else { //We have more than 1 packet but less than 200 bytes of data in the FIFO Buffer
+                 uint8_t Trash[BUFFER_LENGTH];
+                 while ((fifoC = getFIFOCount()) > length) {  // Test each time just in case the MPU is writing to the FIFO Buffer
+                     fifoC = fifoC - length; // Save the last packet
+                     uint16_t  RemoveBytes;
+                     while (fifoC) { // fifo count will reach zero so this is safe
+                         RemoveBytes = min((int)fifoC, BUFFER_LENGTH); // Buffer Length is different than the packet length this will efficiently clear the buffer
+                         getFIFOBytes(Trash, (uint8_t)RemoveBytes);
+                         fifoC -= RemoveBytes;
+                     }
+                 }
+             }
+         }
+         if (!fifoC) return 0; // Called too early no data or we timed out after FIFO Reset
+         // We have 1 packet
+         if ((esp_timer_get_time() - BreakTimer) > (11000)) return 0;
+     } while (fifoC != length);
+     getFIFOBytes(data, length); //Get 1 packet
+     return 1;
+}
 /** Write byte to FIFO buffer.
  * @see getFIFOByte()
  * @see MPU6050_RA_FIFO_R_W
@@ -3296,7 +3329,7 @@ void MPU6050::CalibrateAccel(uint8_t Loops ) {
  * @param Loops
  */
 void MPU6050::PID(uint8_t ReadAddress, float kP,float kI, uint8_t Loops){
-    uint8_t SaveAddress = (ReadAddress == 0x3B)?((getDeviceID() < 0x38 )? 0x06:0x77):0x13;
+    uint8_t SaveAddress = (ReadAddress == 0x3B)?0x06:0x13;
 
     int16_t  Data;
     float Reading;
@@ -3338,7 +3371,6 @@ void MPU6050::PID(uint8_t ReadAddress, float kP,float kI, uint8_t Loops){
             }
             if((eSum * ((ReadAddress == 0x3B)?.05: 1)) < 5) eSample++;	// Successfully found offsets prepare to  advance
             if((eSum < 100) && (c > 10) && (eSample >= 10)) break;		// Advance to next Loop
-//            delay(1);
         }
         kP *= .75;
         kI *= .75;

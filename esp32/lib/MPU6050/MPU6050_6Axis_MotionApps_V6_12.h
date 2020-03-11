@@ -11,7 +11,7 @@
 // MotionApps 2.0 DMP implementation, built using the MPU-6050EVB evaluation board
 #define MPU6050_INCLUDE_DMP_MOTIONAPPS20 // same definitions Should work with V6.12
 
-#include "MPU6050 - Copy.h" //HERE
+#include "MPU6050.h"
 
 // Tom Carpenter's conditional PROGMEM code
 // http://forum.arduino.cc/index.php?topic=129407.0
@@ -334,7 +334,7 @@ uint8_t MPU6050::dmpInitialize() { // Lets get it over with fast Write everythin
 	I2Cdev::writeBytes(devAddr,0x19, 1, &(val = 0x04)); // 0000 0100 SMPLRT_DIV: Divides the internal sample rate 400Hz ( Sample Rate = Gyroscope Output Rate / (1 + SMPLRT_DIV))
 	I2Cdev::writeBytes(devAddr,0x1A, 1, &(val = 0x01)); // 0000 0001 CONFIG: Digital Low Pass Filter (DLPF) Configuration 188HZ  //Im betting this will be the beat
 	if (!writeProgMemoryBlock(dmpMemory, MPU6050_DMP_CODE_SIZE)) return 1; // Loads the DMP image into the MPU6050 Memory // Should Never Fail
-	I2Cdev::writeWords(devAddr, 0x70, 1, &(ival = 0x0400)); // DMP Program Start Address
+	I2Cdev::writeWord(devAddr, 0x70,    (ival = 0x0400)); // DMP Program Start Address
 	I2Cdev::writeBytes(devAddr,0x1B, 1, &(val = 0x18)); // 0001 1000 GYRO_CONFIG: 3 = +2000 Deg/sec
 	I2Cdev::writeBytes(devAddr,0x6A, 1, &(val = 0xC0)); // 1100 1100 USER_CTRL: Enable Fifo and Reset Fifo
 	I2Cdev::writeBytes(devAddr,0x38, 1, &(val = 0x02)); // 0000 0010 INT_ENABLE: RAW_DMP_INT_EN on

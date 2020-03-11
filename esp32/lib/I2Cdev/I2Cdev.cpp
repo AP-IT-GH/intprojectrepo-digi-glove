@@ -44,6 +44,10 @@ THE SOFTWARE.
 #undef ESP_ERROR_CHECK
 #define ESP_ERROR_CHECK(x)   do { esp_err_t rc = (x); if (rc != ESP_OK) { ESP_LOGE("err", "esp_err_t = %d", rc); /*assert(0 && #x);*/} } while(0);
 
+#ifndef BUFFER_LENGTH
+// band-aid fix for platforms without Wire-defined BUFFER_LENGTH (removed from some official implementations)
+#define BUFFER_LENGTH 32
+#endif
 /** Default constructor.
  */
 I2Cdev::I2Cdev() {
