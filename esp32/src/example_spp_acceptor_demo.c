@@ -53,12 +53,10 @@ static const esp_spp_role_t role_slave = ESP_SPP_ROLE_SLAVE;
 uint32_t device_handle;
 uint8_t spp_data[SPP_DATA_LEN];
 
-int8_t flex_data[10];
+uint8_t flex_data[10];
+
 
 int cur_time = 0;
-
-float message = 123.1234;
-char message2[6] = "hello";
 
 bool bt_congested = false;
 
@@ -76,29 +74,49 @@ bool bt_congested = false;
 
 void generate_data()
 {
-    // Test function to generate dummy data
+    /*
+        Test function to generate dummy data
+
+        Currently the fingers do a "wave" motion. Each finger will go one by one 
+          from 0 to 255 and when all are at 255, they will go to 0 in reverse direction,
+          one by one.
+    */
+
     while (1)
     {
-
-        // Get current (run)time:
-        cur_time = esp_log_timestamp();
         
         //Generate flex sensor data:
-        if (flex_data[0] < 255)
+        if (flex_data[0] == 0)
         {
+            
             for (int i = 0; i < FLEX_DATA_LEN; i++)
             {
-                flex_data[i] = flex_data[i] + 1;
+                for(int j = 0; j <= 255; j++)
+                {
+                    // Get current (run)time:
+                    cur_time = esp_log_timestamp();
+                    flex_data[i] = j;
+                    vTaskDelay(10/portTICK_PERIOD_MS);
+                }
+            
             }
         }
         else
         {
-            for (int i = (FLEX_DATA_LEN - 1); i > 0; i--)
+            
+            for (int i = (FLEX_DATA_LEN - 1); i >= 0; i--)
             {
-                flex_data[i] = flex_data[i] - 1;
+                for (int j = 255; j >= 0; j--)
+                {
+                    // Get current (run)time:
+                    cur_time = esp_log_timestamp();
+                    flex_data[i] = j;
+                    vTaskDelay(10/portTICK_PERIOD_MS);
+                }   
+                
             }
         }
-        vTaskDelay(20/portTICK_PERIOD_MS);
+        vTaskDelay(10/portTICK_PERIOD_MS);
     }
 }
 
@@ -120,12 +138,8 @@ void send_BT()
         //copy timestamp to message array start:
         memcpy(spp_data, &cur_time, sizeof(int));
 
-        // copy flex data array to message array starting from the end of timestamp...
-        memcpy(spp_data + sizeof(int), flex_data, sizeof(int8_t) * FLEX_DATA_LEN);
-
-        // TEMPORARY: Add stop bits to end of message:
-        spp_data[62] = 255;
-        spp_data[63] = 255;
+        // copy flex data array to message array starting from the end of planned timestamp...
+        memcpy(spp_data + sizeof(int64_t), flex_data, sizeof(int8_t) * FLEX_DATA_LEN);
 
         while ((bt_congested == true))
         {
@@ -134,9 +148,9 @@ void send_BT()
                 timeout = true;
                 ESP_LOGE(BT_SEND_NAME, "Waiting for BT congestion status timed out.");
             }
-            vTaskDelay(10);
+            vTaskDelay(5);
         }
-        //esp_err_t ret = esp_spp_write(param->data_ind.handle, param->data_ind.len, param->data_ind.data);
+
         esp_err_t ret = esp_spp_write(device_handle, SPP_DATA_LEN, spp_data);
         
         if (ret != ESP_OK)
@@ -202,7 +216,7 @@ static void esp_spp_cb(esp_spp_cb_event_t event, esp_spp_cb_param_t *param)
         // ESP_LOGI(SPP_TAG, device_handle);
         printf("\n");
 
-        memcpy(spp_data + 20, message2, 5);
+        // memcpy(spp_data + 20, message2, 5);
 
         //esp_err_t ret = esp_spp_write(param->data_ind.handle, param->data_ind.len, param->data_ind.data);
         esp_err_t ret = esp_spp_write(device_handle, SPP_DATA_LEN, spp_data);
@@ -228,7 +242,7 @@ static void esp_spp_cb(esp_spp_cb_event_t event, esp_spp_cb_param_t *param)
         gettimeofday(&time_old, NULL);
         device_handle = param->srv_open.handle;
         xTaskCreate(send_BT, BT_SEND_NAME, 2048, NULL, 10, &btSendHandle);
-        configASSERT(genDataHandle);
+        configASSERT(btSendHandle);
         break;
     default:
         break;
