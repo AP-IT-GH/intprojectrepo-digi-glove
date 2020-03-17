@@ -20,7 +20,6 @@
 #include "esp_gap_bt_api.h"
 #include "esp_bt_device.h"
 #include "esp_spp_api.h"
-//#include "sdkconfig.h"
 
 #include "time.h"
 #include "sys/time.h"
@@ -33,15 +32,31 @@
 #define SPP_REPLY 1
 #define SPP_SHOW_MODE SPP_SHOW_DATA /*Choose show mode: show data or speed*/
 
+// Choose which dummy data to generate
+#define EN_GEN_FLEX_DATA 1
+#define EN_GEN_GYRO_DATA 1
+#define EN_GEN_ACC_DATA 1
+#define EN_GEN_PRESS_DATA 1
+
 #define SPP_DATA_LEN 64 // msg data Array length 64 bytes
 
 #define FLEX_DATA_LEN 10
+#define PRESS_DATA_LEN 5
+#define GYRO_DATA_LEN 3
+#define ACC_DATA_LEN 3
 
 #define GEN_DATA_NAME "GEN_DUMMY_DATA"
 #define BT_SEND_NAME "BT_SPP_SEND"
+#define GEN_GYRO_DATA_NAME "GEN_GYRO_DATA"
+#define GEN_ACC_DATA_NAME "GEN_ACC_DATA"
+#define GEN_PRESS_DATA_NAME "GEN_PRESS_DATA"
 
 TaskHandle_t genDataHandle = "GEN_DUMMY_DATA";
 TaskHandle_t btSendHandle = "BT_SPP_SEND";
+TaskHandle_t genAccDataHandle = "GEN_ACC_DATA";
+TaskHandle_t genGyroDataHandle = "GEN_GYRO_DATA";
+TaskHandle_t genPressDataHandle = "GEN_PRESS_DATA";
+
 static const esp_spp_mode_t esp_spp_mode = ESP_SPP_MODE_CB;
 
 static struct timeval time_new, time_old;
@@ -53,10 +68,21 @@ static const esp_spp_role_t role_slave = ESP_SPP_ROLE_SLAVE;
 uint32_t device_handle;
 uint8_t spp_data[SPP_DATA_LEN];
 
-uint8_t flex_data[10];
+uint8_t flex_data[FLEX_DATA_LEN];
 
+uint8_t press_data[PRESS_DATA_LEN];
+static uint8_t press_limit_max = 255;
+static uint8_t press_limit_min = 0;
 
-int cur_time = 0;
+float gyro_data[GYRO_DATA_LEN];
+static float gyro_limit_max = 359.00;
+static float gyro_limit_min = 0.00;
+
+int16_t acc_data[ACC_DATA_LEN];
+static int16_t acc_limit_max = 50;
+static int16_t acc_limit_min = -50;
+
+int64_t cur_time = 0;
 
 bool bt_congested = false;
 
@@ -94,7 +120,8 @@ void generate_data()
                 for(int j = 0; j <= 255; j++)
                 {
                     // Get current (run)time:
-                    cur_time = esp_log_timestamp();
+                    cur_time = esp_timer_get_time();
+                    
                     flex_data[i] = j;
                     vTaskDelay(10/portTICK_PERIOD_MS);
                 }
@@ -109,7 +136,7 @@ void generate_data()
                 for (int j = 255; j >= 0; j--)
                 {
                     // Get current (run)time:
-                    cur_time = esp_log_timestamp();
+                    cur_time = esp_timer_get_time();
                     flex_data[i] = j;
                     vTaskDelay(10/portTICK_PERIOD_MS);
                 }   
@@ -118,6 +145,107 @@ void generate_data()
         }
         vTaskDelay(10/portTICK_PERIOD_MS);
     }
+}
+
+void generate_gyro_data()
+{
+    while (1)
+    {
+        
+        //Generate gyro data:
+        if (gyro_data[0] == 0)
+        {
+            
+            for (int i = 0; i < GYRO_DATA_LEN; i++)
+            {
+                for(float j = gyro_limit_min; j <= gyro_limit_max; j = j + 1.00)
+                {   
+                    gyro_data[i] = j;
+                    vTaskDelay(10/portTICK_PERIOD_MS);
+                }
+            
+            }
+        }
+        else
+        {
+            for (int i = (GYRO_DATA_LEN - 1); i >= 0; i--)
+            {
+                for (float j = gyro_limit_max; j >= gyro_limit_min; j = j - 1.00)
+                {
+                    gyro_data[i] = j;
+                    vTaskDelay(10/portTICK_PERIOD_MS);
+                }   
+                
+            }
+        }
+        vTaskDelay(10/portTICK_PERIOD_MS);
+    }
+
+}
+
+void generate_pressure_data()
+{
+    while (1) {
+        //Generate pressure sensor data:
+        if (press_data[0] == press_limit_min) {
+            for (int x = 0; x < PRESS_DATA_LEN;x++) {
+                for(int y = press_limit_min; y < press_limit_max; y++) {
+                    press_data[x] = y;
+                    vTaskDelay(10/portTICK_PERIOD_MS);
+                    
+                }
+            }
+        }
+        else {
+            for (int x = (PRESS_DATA_LEN - 1); x >= 0; x--) {
+                for (int y = press_limit_max; y >= press_limit_min; y--) {
+                    press_data[x] = y;
+                    vTaskDelay(10/portTICK_PERIOD_MS);
+                }
+            }
+        }
+        vTaskDelay(10/portTICK_PERIOD_MS);
+    }
+}
+
+
+void generate_acc_data()
+{
+    
+     while (1)
+    {
+        
+        //Generate gyro data:
+        if (acc_data[0] == -50)
+        {
+            
+            for (int i = 0; i < ACC_DATA_LEN; i++)
+            {
+                for(int16_t j = acc_limit_min; j <= acc_limit_max; j = j + 1.00)
+                {   
+                    acc_data[i] = j;
+                    vTaskDelay(10/portTICK_PERIOD_MS);
+                    //printf("i = %i, j = %i\r\n", i, j);
+                }
+            
+            }
+        }
+        else
+        {
+            for (int i = (ACC_DATA_LEN - 1); i >= 0; i--)
+            {
+                for (int16_t j = acc_limit_max; j >= acc_limit_min; j = j - 1.00)
+                {
+                    acc_data[i] = j;
+                    vTaskDelay(10/portTICK_PERIOD_MS);
+                    //printf("i = %i, j = %i\r\n", i, j);
+                }   
+                
+            }
+        }
+        vTaskDelay(10/portTICK_PERIOD_MS);
+    }
+    
 }
 
 void send_BT()
@@ -136,10 +264,25 @@ void send_BT()
     while(true)
     {
         //copy timestamp to message array start:
-        memcpy(spp_data, &cur_time, sizeof(int));
+        memcpy(spp_data, &cur_time, sizeof(int64_t));
 
         // copy flex data array to message array starting from the end of planned timestamp...
         memcpy(spp_data + sizeof(int64_t), flex_data, sizeof(int8_t) * FLEX_DATA_LEN);
+
+        if(EN_GEN_GYRO_DATA)
+        {
+            memcpy(spp_data + 38, gyro_data, sizeof(float) * GYRO_DATA_LEN);
+        }
+
+        if(EN_GEN_ACC_DATA)
+        {
+            memcpy(spp_data + 58, acc_data, sizeof(int16_t) * ACC_DATA_LEN);
+        }
+
+        if(EN_GEN_PRESS_DATA)
+        {
+            memcpy(spp_data + 26, press_data, sizeof(uint8_t) * PRESS_DATA_LEN);
+        }
 
         while ((bt_congested == true))
         {
@@ -161,7 +304,9 @@ void send_BT()
         {
             ESP_LOGI(BT_SEND_NAME,"Sent data to %i, ", device_handle);
         }
-        vTaskDelay(20/portTICK_PERIOD_MS);
+        vTaskDelay(20/portTICK_PERIOD_MS); // was 20 lol
+
+        ESP_LOG_BUFFER_HEXDUMP("SPP_DATA", spp_data, SPP_DATA_LEN, ESP_LOG_ERROR);
 
     }
 }
@@ -235,7 +380,7 @@ static void esp_spp_cb(esp_spp_cb_event_t event, esp_spp_cb_param_t *param)
         ESP_LOGI(SPP_TAG, "ESP_SPP_CONG_EVT");
         break;
     case ESP_SPP_WRITE_EVT:
-        ESP_LOGI(SPP_TAG, "ESP_SPP_WRITE_EVT");
+        //ESP_LOGI(SPP_TAG, "ESP_SPP_WRITE_EVT");
         break;
     case ESP_SPP_SRV_OPEN_EVT:
         ESP_LOGI(SPP_TAG, "ESP_SPP_SRV_OPEN_EVT");
@@ -314,9 +459,13 @@ void app_main(void)
 {
 
     // Fill the spp_data array:
-    for (int i = 0; i < SPP_DATA_LEN; ++i)
+    for (int i = 0; i < SPP_DATA_LEN; i++)
     {
         spp_data[i] = 0;
+    }
+
+    for(int i = 0; i < PRESS_DATA_LEN; i++){
+        press_data[i] = 0;
     }
 
     esp_err_t ret = nvs_flash_init();
@@ -374,6 +523,21 @@ void app_main(void)
 
     // Start generating flex data:
     xTaskCreate(generate_data, GEN_DATA_NAME, 2048, NULL, configMAX_PRIORITIES, &genDataHandle);
+
+    // Start generating gyro data:
+    if (EN_GEN_GYRO_DATA)
+    {
+        xTaskCreate(generate_gyro_data, GEN_GYRO_DATA_NAME, 2048, NULL, configMAX_PRIORITIES, &genGyroDataHandle);
+    }
+
+    if (EN_GEN_PRESS_DATA)
+    {
+        xTaskCreate(generate_pressure_data, GEN_PRESS_DATA_NAME, 2048, NULL, configMAX_PRIORITIES, &genPressDataHandle);
+    }
+
+    if (EN_GEN_ACC_DATA){
+        xTaskCreate(generate_acc_data, GEN_ACC_DATA_NAME, 2048, NULL, configMAX_PRIORITIES, &genAccDataHandle);
+    }
 
 #if (CONFIG_BT_SSP_ENABLED == true)
     /* Set default parameters for Secure Simple Pairing */
