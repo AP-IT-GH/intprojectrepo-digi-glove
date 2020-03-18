@@ -23,10 +23,7 @@ flexFinger7 = 0
 flexFinger8 = 0
 flexFinger9= 0
 flexFinger10 = 0
-while True:
-    python101.update()
-    flexFinger1 = python101.data['value1']
-    print(flexFinger1)
+
 
 thumb = False
 indexFinger = False
