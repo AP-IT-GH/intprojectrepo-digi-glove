@@ -38,6 +38,17 @@
 #define EN_GEN_ACC_DATA 1
 #define EN_GEN_PRESS_DATA 1
 
+// Define the delays between value changes:
+#define FLEX_DELAY 10
+#define PRESS_DELAY 10
+#define GYRO_DELAY 10
+#define ACC_DELAY 10
+
+#define BT_DELAY 5
+
+// CPU Core the generate functions are pinned to (-1 for no pin):
+#define GEN_DATA_CORE 1
+
 #define SPP_DATA_LEN 64 // msg data Array length 64 bytes
 
 #define FLEX_DATA_LEN 10
@@ -85,18 +96,7 @@ static int16_t acc_limit_min = -50;
 int64_t cur_time = 0;
 
 bool bt_congested = false;
-
-// static void print_speed(void)
-// {
-//     float time_old_s = time_old.tv_sec + time_old.tv_usec / 1000000.0;
-//     float time_new_s = time_new.tv_sec + time_new.tv_usec / 1000000.0;
-//     float time_interval = time_new_s - time_old_s;
-//     float speed = data_num * 8 / time_interval / 1000.0;
-//     ESP_LOGI(SPP_TAG, "speed(%fs ~ %fs): %f kbit/s" , time_old_s, time_new_s, speed);
-//     data_num = spp_data 0;
-//     time_old.tv_sec = time_new.tv_sec;
-//     time_old.tv_usec = time_new.tv_usec;
-// }
+bool bt_available = false;
 
 void generate_data()
 {
@@ -121,9 +121,8 @@ void generate_data()
                 {
                     // Get current (run)time:
                     cur_time = esp_timer_get_time();
-                    
                     flex_data[i] = j;
-                    vTaskDelay(10/portTICK_PERIOD_MS);
+                    vTaskDelay(FLEX_DELAY/portTICK_PERIOD_MS);
                 }
             
             }
@@ -138,12 +137,12 @@ void generate_data()
                     // Get current (run)time:
                     cur_time = esp_timer_get_time();
                     flex_data[i] = j;
-                    vTaskDelay(10/portTICK_PERIOD_MS);
+                    vTaskDelay(FLEX_DELAY/portTICK_PERIOD_MS);
                 }   
                 
             }
         }
-        vTaskDelay(10/portTICK_PERIOD_MS);
+        vTaskDelay(FLEX_DELAY/portTICK_PERIOD_MS);
     }
 }
 
@@ -161,7 +160,7 @@ void generate_gyro_data()
                 for(float j = gyro_limit_min; j <= gyro_limit_max; j = j + 1.00)
                 {   
                     gyro_data[i] = j;
-                    vTaskDelay(10/portTICK_PERIOD_MS);
+                    vTaskDelay(GYRO_DELAY/portTICK_PERIOD_MS);
                 }
             
             }
@@ -173,12 +172,12 @@ void generate_gyro_data()
                 for (float j = gyro_limit_max; j >= gyro_limit_min; j = j - 1.00)
                 {
                     gyro_data[i] = j;
-                    vTaskDelay(10/portTICK_PERIOD_MS);
+                    vTaskDelay(GYRO_DELAY/portTICK_PERIOD_MS);
                 }   
                 
             }
         }
-        vTaskDelay(10/portTICK_PERIOD_MS);
+        vTaskDelay(GYRO_DELAY/portTICK_PERIOD_MS);
     }
 
 }
@@ -191,7 +190,7 @@ void generate_pressure_data()
             for (int x = 0; x < PRESS_DATA_LEN;x++) {
                 for(int y = press_limit_min; y < press_limit_max; y++) {
                     press_data[x] = y;
-                    vTaskDelay(10/portTICK_PERIOD_MS);
+                    vTaskDelay(PRESS_DELAY/portTICK_PERIOD_MS);
                     
                 }
             }
@@ -200,11 +199,11 @@ void generate_pressure_data()
             for (int x = (PRESS_DATA_LEN - 1); x >= 0; x--) {
                 for (int y = press_limit_max; y >= press_limit_min; y--) {
                     press_data[x] = y;
-                    vTaskDelay(10/portTICK_PERIOD_MS);
+                    vTaskDelay(PRESS_DELAY/portTICK_PERIOD_MS);
                 }
             }
         }
-        vTaskDelay(10/portTICK_PERIOD_MS);
+        vTaskDelay(PRESS_DELAY/portTICK_PERIOD_MS);
     }
 }
 
@@ -215,7 +214,7 @@ void generate_acc_data()
      while (1)
     {
         
-        //Generate gyro data:
+        //Generate acceleration data:
         if (acc_data[0] == -50)
         {
             
@@ -224,7 +223,7 @@ void generate_acc_data()
                 for(int16_t j = acc_limit_min; j <= acc_limit_max; j = j + 1.00)
                 {   
                     acc_data[i] = j;
-                    vTaskDelay(10/portTICK_PERIOD_MS);
+                    vTaskDelay(ACC_DELAY/portTICK_PERIOD_MS);
                     //printf("i = %i, j = %i\r\n", i, j);
                 }
             
@@ -237,13 +236,13 @@ void generate_acc_data()
                 for (int16_t j = acc_limit_max; j >= acc_limit_min; j = j - 1.00)
                 {
                     acc_data[i] = j;
-                    vTaskDelay(10/portTICK_PERIOD_MS);
+                    vTaskDelay(ACC_DELAY/portTICK_PERIOD_MS);
                     //printf("i = %i, j = %i\r\n", i, j);
                 }   
                 
             }
         }
-        vTaskDelay(10/portTICK_PERIOD_MS);
+        vTaskDelay(ACC_DELAY/portTICK_PERIOD_MS);
     }
     
 }
@@ -255,8 +254,8 @@ void send_BT()
         * send it.
         * 
     */
-
     ESP_LOGI(BT_SEND_NAME, "Started Send_BT");
+    //vTaskSuspend(NULL);
     int last_time;
     bool timeout = false;
 
@@ -284,16 +283,12 @@ void send_BT()
             memcpy(spp_data + 26, press_data, sizeof(uint8_t) * PRESS_DATA_LEN);
         }
 
-        while ((bt_congested == true))
+        while ((bt_congested == true) || bt_available == false)
         {
-            if ((esp_log_timestamp() - last_time) > 30000)
-            {
-                timeout = true;
-                ESP_LOGE(BT_SEND_NAME, "Waiting for BT congestion status timed out.");
-            }
-            vTaskDelay(5);
+            // ESP_LOGE(BT_SEND_NAME,"BT Congested or not available.");
+            vTaskDelay(10/portTICK_PERIOD_MS);
         }
-
+        
         esp_err_t ret = esp_spp_write(device_handle, SPP_DATA_LEN, spp_data);
         
         if (ret != ESP_OK)
@@ -304,9 +299,10 @@ void send_BT()
         {
             ESP_LOGI(BT_SEND_NAME,"Sent data to %i, ", device_handle);
         }
-        vTaskDelay(20/portTICK_PERIOD_MS); // was 20 lol
+        
+        vTaskDelay(BT_DELAY/portTICK_PERIOD_MS);
 
-        ESP_LOG_BUFFER_HEXDUMP("SPP_DATA", spp_data, SPP_DATA_LEN, ESP_LOG_ERROR);
+        ESP_LOG_BUFFER_HEXDUMP("SPP_DATA", spp_data, SPP_DATA_LEN, ESP_LOG_INFO);
 
     }
 }
@@ -330,10 +326,8 @@ static void esp_spp_cb(esp_spp_cb_event_t event, esp_spp_cb_param_t *param)
         ESP_LOGI(SPP_TAG, "ESP_SPP_OPEN_EVT");
         break;
     case ESP_SPP_CLOSE_EVT:
-        vTaskSuspend(btSendHandle);
-        vTaskDelete(btSendHandle);
         ESP_LOGI(SPP_TAG, "ESP_SPP_CLOSE_EVT");
-        
+        bt_available = false;
         break;
     case ESP_SPP_START_EVT:
         ESP_LOGI(SPP_TAG, "ESP_SPP_START_EVT");
@@ -342,52 +336,49 @@ static void esp_spp_cb(esp_spp_cb_event_t event, esp_spp_cb_param_t *param)
         ESP_LOGI(SPP_TAG, "ESP_SPP_CL_INIT_EVT");
         break;
     case ESP_SPP_DATA_IND_EVT:
-        device_handle = param->data_ind.handle;
-#if (SPP_SHOW_MODE == SPP_SHOW_DATA)
-        ESP_LOGI(SPP_TAG, "ESP_SPP_DATA_IND_EVT len=%d handle=%d",
-                param->data_ind.len, param->data_ind.handle);
-        esp_log_buffer_hex("", param->data_ind.data, param->data_ind.len);
-#else
-        gettimeofday(&time_new, NULL);
-        data_num += param->data_ind.len;
-        if (time_new.tv_sec - time_old.tv_sec >= 3)
-        {
-            print_speed();
-        }
-#endif
+        ESP_LOGI(SPP_TAG, "ESP_SPP_DATA_IND_EVT");
+//         device_handle = param->data_ind.handle;
+// #if (SPP_SHOW_MODE == SPP_SHOW_DATA)
+//         ESP_LOGI(SPP_TAG, "ESP_SPP_DATA_IND_EVT len=%d handle=%d",
+//                 param->data_ind.len, param->data_ind.handle);
+//         esp_log_buffer_hex("", param->data_ind.data, param->data_ind.len);
+// #else
+//         gettimeofday(&time_new, NULL);
+//         data_num += param->data_ind.len;
+//         if (time_new.tv_sec - time_old.tv_sec >= 3)
+//         {
+//             print_speed();
+//         }
+// #endif
 
-        // Reply since we got the message:
-        printf("Sending reply to device handle: %d", device_handle);
-        // ESP_LOGI(SPP_TAG, device_handle);
-        printf("\n");
+        // // Reply since we got the message:
+        // printf("Sending reply to device handle: %d", device_handle);
+        // // ESP_LOGI(SPP_TAG, device_handle);
+        // printf("\n");
 
-        // memcpy(spp_data + 20, message2, 5);
-
-        //esp_err_t ret = esp_spp_write(param->data_ind.handle, param->data_ind.len, param->data_ind.data);
-        esp_err_t ret = esp_spp_write(device_handle, SPP_DATA_LEN, spp_data);
+        // esp_err_t ret = esp_spp_write(device_handle, SPP_DATA_LEN, spp_data);
         
-        if (ret != ESP_OK)
-        {
-            ESP_LOGE(SPP_TAG, "%s Sending data failed: %s\n", __func__, esp_err_to_name(ret));
-        }
-        else
-        {
-            //printf("Ack error was fine???");
-        }
+        // if (ret != ESP_OK)
+        // {
+        //     ESP_LOGE(SPP_TAG, "%s Sending data failed: %s\n", __func__, esp_err_to_name(ret));
+        // }
+        // else
+        // {
+        //     //printf("Ack error was fine???");
+        // }
         break;
 
     case ESP_SPP_CONG_EVT:
         ESP_LOGI(SPP_TAG, "ESP_SPP_CONG_EVT");
+        //bt_congested = param->cong.status;
         break;
     case ESP_SPP_WRITE_EVT:
         //ESP_LOGI(SPP_TAG, "ESP_SPP_WRITE_EVT");
         break;
     case ESP_SPP_SRV_OPEN_EVT:
         ESP_LOGI(SPP_TAG, "ESP_SPP_SRV_OPEN_EVT");
-        gettimeofday(&time_old, NULL);
         device_handle = param->srv_open.handle;
-        xTaskCreate(send_BT, BT_SEND_NAME, 2048, NULL, 10, &btSendHandle);
-        configASSERT(btSendHandle);
+        bt_available = true;
         break;
     default:
         break;
@@ -522,22 +513,24 @@ void app_main(void)
     }
 
     // Start generating flex data:
-    xTaskCreate(generate_data, GEN_DATA_NAME, 2048, NULL, configMAX_PRIORITIES, &genDataHandle);
+    xTaskCreatePinnedToCore(generate_data, GEN_DATA_NAME, 2048, NULL, configMAX_PRIORITIES, &genDataHandle, GEN_DATA_CORE);
 
     // Start generating gyro data:
     if (EN_GEN_GYRO_DATA)
     {
-        xTaskCreate(generate_gyro_data, GEN_GYRO_DATA_NAME, 2048, NULL, configMAX_PRIORITIES, &genGyroDataHandle);
+        xTaskCreatePinnedToCore(generate_gyro_data, GEN_GYRO_DATA_NAME, 2048, NULL, configMAX_PRIORITIES, &genGyroDataHandle, GEN_DATA_CORE);
     }
 
     if (EN_GEN_PRESS_DATA)
     {
-        xTaskCreate(generate_pressure_data, GEN_PRESS_DATA_NAME, 2048, NULL, configMAX_PRIORITIES, &genPressDataHandle);
+        xTaskCreatePinnedToCore(generate_pressure_data, GEN_PRESS_DATA_NAME, 2048, NULL, configMAX_PRIORITIES, &genPressDataHandle, GEN_DATA_CORE);
     }
 
     if (EN_GEN_ACC_DATA){
-        xTaskCreate(generate_acc_data, GEN_ACC_DATA_NAME, 2048, NULL, configMAX_PRIORITIES, &genAccDataHandle);
+        xTaskCreatePinnedToCore(generate_acc_data, GEN_ACC_DATA_NAME, 2048, NULL, configMAX_PRIORITIES, &genAccDataHandle, GEN_DATA_CORE);
     }
+    xTaskCreate(send_BT, BT_SEND_NAME, 2048, NULL, 10, &btSendHandle);
+    configASSERT(btSendHandle);
 
 #if (CONFIG_BT_SSP_ENABLED == true)
     /* Set default parameters for Secure Simple Pairing */
