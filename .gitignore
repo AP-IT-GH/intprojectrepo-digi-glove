@@ -375,10 +375,28 @@ Temporary Items
 esp32/glove-mcu/build
 test/
 
-esp32/esp-idf
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
 
-software/.vs/slnx.sqlite
+# User-specific files (MonoDevelop/Xamarin Studio)
+*.userprefs
 
-software/.vs/software/v16/.suo
+# Tools pulled down during build
+.tools/
+.dotnet/
+.packages/
 
-software/.vs/software/v16/Browse.VC.db
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/

@@ -99,5 +99,34 @@ namespace Digi_Glove_Application
             info_usercontrol.BringToFront();
             label_title.Text = "Info";
         }
+
+        private void buttonclose_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        private void button_maximize_Click(object sender, EventArgs e)
+        {
+            MaximizeBox = true;
+        }
+
+        private void button_minimize_Click(object sender, EventArgs e)
+        {
+            MinimizeBox = true;
+        }
+        protected override void OnResize(EventArgs e)
+        {
+            base.OnResize(e);
+
+            //Determines whether the cursor is in the taskbar
+            bool cursorNotInBar = Screen.GetWorkingArea(this).Contains(Cursor.Position);
+
+            if (this.WindowState == FormWindowState.Minimized && cursorNotInBar)
+            {
+                this.ShowInTaskbar = false;
+
+                this.Hide();
+            }
+        }
     }
 }

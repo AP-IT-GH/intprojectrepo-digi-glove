@@ -117,9 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="textBox1.Text" xml:space="preserve">
-    <value>Quisque tristique suscipit sem, at condimentum neque consequat ac. Suspendisse potenti. Proin auctor odio ut tortor efficitur, eget tempor eros molestie. Donec malesuada risus vel est lacinia, ut consectetur purus aliquam. Proin metus augue, gravida at arcu id, luctus accumsan quam. Mauris vitae mattis dui. Donec id urna eu ex tincidunt placerat quis vel ex. Praesent ornare sodales ullamcorper. Nullam id elit eros. Proin commodo massa ipsum, quis vehicula dolor molestie vel.</value>
-  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="button_title_calibration.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -128,18 +125,12 @@
         TkSuQmCC
 </value>
   </data>
-  <data name="textBox2.Text" xml:space="preserve">
-    <value>Curabitur eleifend ultrices mattis. Sed ac elit eget sem accumsan bibendum sit amet ut dolor. Curabitur tempus ex sed mi ornare finibus. Maecenas vel urna mi. Duis odio magna, efficitur nec vestibulum vel, laoreet vel felis. Nam nec efficitur urna. Phasellus nec nunc id velit porttitor maximus. Donec non imperdiet est, et tincidunt velit. Duis id imperdiet justo. Pellentesque ac porta arcu, eget viverra massa.</value>
-  </data>
   <data name="button1.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAA+gAAAABCAIAAADCYhNkAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
         wwAADsMBx2+oZAAAACBJREFUSEvtwkERAAAIAyDz2nYJVsUaPuCYTVVV1dfTAwcKNglC8UVoAAAAAElF
         TkSuQmCC
 </value>
-  </data>
-  <data name="textBox3.Text" xml:space="preserve">
-    <value>Duis sed elit lectus. Nullam vel vehicula leo. Quisque libero metus, ullamcorper in mauris id, gravida tincidunt tellus. Praesent tincidunt mi eu velit iaculis semper. Morbi sollicitudin imperdiet luctus. Fusce non suscipit tortor. Sed risus elit, dapibus sed leo ut, euismod ultrices mi. Nulla maximus ipsum eu neque luctus bibendum.</value>
   </data>
   <data name="button2.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -148,4 +139,7 @@
         TkSuQmCC
 </value>
   </data>
+  <metadata name="backgroundWorker1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
 </root>
