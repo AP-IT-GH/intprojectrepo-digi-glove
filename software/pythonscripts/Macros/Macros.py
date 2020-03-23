@@ -64,45 +64,6 @@ s=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 s.bind((socket.gethostname(),1234))
 s.listen(5)
 
-while True:
-    clientsocket,address=s.accept()
-    print(f"Connection from {address} has been established!")
-    msg=s.recv(1024)
-    print(msg.decode("utf-8"))
-
-    #the indexfinger is bend when the value of the flex resistor (2 flex sensors on each finger) is larger than 200 for each
-    if(flexFinger1>=200 and flexFinger2>=200):
-        thumb=True
-    else:
-        thumb=False
-
-    if(flexFinger3>= 200 and flexFinger4>=200):
-        indexFinger=True
-    else:
-        indexFinger=False
-#the CallMacro function gets the value of each finger
-#in the MacroClass the corresponding macro gets activated
-if(indexFinger): PrintScreen();
-if(middleFinger): RightMouseClick();
-
-    if(flexFinger5>=200 and flexFinger6>=200):
-        middleFinger=True
-    else:
-        middleFinger=False
-
-    if(flexFinger7>=200 and flexFinger8>=200):
-        ringFinger=True
-    else:
-        ringFinger=False
-
-    if(flexFinger9>=200 and flexFinger10>=200):
-        littleFinger=True
-    else:
-       littleFinger=False
-
-    #the CallMacro function gets the value of each finger
-    #in the MacroClass the corresponding macro gets activated
-    if(indexFinger): PrintScreen();
 
 def RightMouseClick():
     pt = POINT()
@@ -146,3 +107,37 @@ def Cut():
 
 def Bold():
     pyautogui.hotkey('ctrl','b')
+
+while True:
+    clientsocket,address=s.accept()
+    print(f"Connection from {address} has been established!")
+    msg=s.recv(1024)
+    print(msg.decode("utf-8"))
+
+    #convert string to the 5 macro's that have to be executed
+
+    #the indexfinger is bend when the value of the flex resistor (2 flex sensors on each finger) is larger than 200 for each
+    if(flexFinger1>=200 and flexFinger2>=200):
+        thumb=True
+    else:
+        thumb=False
+    if(flexFinger3>= 200 and flexFinger4>=200):
+        indexFinger=True
+    else:
+        indexFinger=False
+    if(flexFinger5>=200 and flexFinger6>=200):
+        middleFinger=True
+    else:
+        middleFinger=False
+
+    if(flexFinger7>=200 and flexFinger8>=200):
+        ringFinger=True
+    else:
+        ringFinger=False
+
+    if(flexFinger9>=200 and flexFinger10>=200):
+        littleFinger=True
+    else:
+       littleFinger=False
+
+    if(indexfinger): PrinScreen();
