@@ -31,6 +31,12 @@ middleFinger = False
 ringFinger = False
 littleFinger = False
 
+thumbHalf = False
+indexHalf = False
+middleHalf = False
+ringHalf = False
+littleHalf = False
+
 #Variables for touch sensors
 touchFinger1 = 0
 touchFinger2 = 0
@@ -61,7 +67,8 @@ s.listen(5)
 while True:
     clientsocket,address=s.accept()
     print(f"Connection from {address} has been established!")
-    clientsocket.send(bytes("Welcome to the server!", "utf-8"))
+    msg=s.recv(1024)
+    print(msg.decode("utf-8"))
 
     #the indexfinger is bend when the value of the flex resistor (2 flex sensors on each finger) is larger than 200 for each
     if(flexFinger1>=200 and flexFinger2>=200):
@@ -73,6 +80,10 @@ while True:
         indexFinger=True
     else:
         indexFinger=False
+#the CallMacro function gets the value of each finger
+#in the MacroClass the corresponding macro gets activated
+if(indexFinger): PrintScreen();
+if(middleFinger): RightMouseClick();
 
     if(flexFinger5>=200 and flexFinger6>=200):
         middleFinger=True

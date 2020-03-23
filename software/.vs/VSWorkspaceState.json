@@ -1,9 +1,10 @@
 {
   "ExpandedNodes": [
     "",
+    "\\Digi-Glove-Application",
     "\\pythonscripts",
     "\\pythonscripts\\Macros"
   ],
-  "SelectedNode": "\\pythonscripts\\Macros\\Macros.py",
+  "SelectedNode": "\\Digi-Glove-Application\\Form1.cs",
   "PreviewInSolutionExplorer": false
 }
