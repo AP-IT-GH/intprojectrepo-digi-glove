@@ -60,9 +60,16 @@ accelerationZaxis = 0
 
 
 #socket
-s=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-s.bind((socket.gethostname(),1234))
-s.listen(5)
+listensocket=socket.socket()
+Port=8000
+maxConnections=999
+IP=socket.gethostname()
+
+listensocket.bind(('',Port))
+print("server started at "+IP+" on port "+str(Port))
+
+(clientsocket, address)=listensocket.accept()
+print("New connection made!")
 
 
 def RightMouseClick():
@@ -109,10 +116,8 @@ def Bold():
     pyautogui.hotkey('ctrl','b')
 
 while True:
-    clientsocket,address=s.accept()
-    print(f"Connection from {address} has been established!")
-    msg=s.recv(1024)
-    print(msg.decode("utf-8"))
+    message=clientsocket.recv(1024).decode()
+    print(message)
 
     #convert string to the 5 macro's that have to be executed
 

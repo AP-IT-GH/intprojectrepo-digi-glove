@@ -16,11 +16,11 @@ namespace Digi_Glove_Application
 {
     public partial class Configurations : UserControl
     {
-        IPAddress ip = null;
-        TcpListener server = null;
-        TcpClient client = null;
-        string serverIP = "localhost";
-        int port = 8087;
+        int port=8000;
+        int byteCount;
+        NetworkStream stream;
+        byte[] sendData;
+        string configurations;
 
         public Configurations()
         {
