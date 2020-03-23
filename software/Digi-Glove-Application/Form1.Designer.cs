@@ -43,8 +43,11 @@
             this.info_usercontrol = new Digi_Glove_Application.Info();
             this.configurations_usercontrol = new Digi_Glove_Application.Configurations();
             this.panel_header = new System.Windows.Forms.Panel();
+            this.button_close = new System.Windows.Forms.Button();
             this.label_title = new System.Windows.Forms.Label();
             this.timer_drop_panel = new System.Windows.Forms.Timer(this.components);
+            this.button_minimize = new System.Windows.Forms.Button();
+            this.button_maximize = new System.Windows.Forms.Button();
             this.panel_menu.SuspendLayout();
             this.panel_button_main.SuspendLayout();
             this.panel_logo.SuspendLayout();
@@ -219,12 +222,27 @@
             // 
             // panel_header
             // 
+            this.panel_header.Controls.Add(this.button_maximize);
+            this.panel_header.Controls.Add(this.button_minimize);
+            this.panel_header.Controls.Add(this.button_close);
             this.panel_header.Controls.Add(this.label_title);
             this.panel_header.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel_header.Location = new System.Drawing.Point(156, 0);
             this.panel_header.Name = "panel_header";
             this.panel_header.Size = new System.Drawing.Size(727, 47);
             this.panel_header.TabIndex = 2;
+            // 
+            // button_close
+            // 
+            this.button_close.FlatAppearance.BorderSize = 0;
+            this.button_close.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_close.Image = ((System.Drawing.Image)(resources.GetObject("button_close.Image")));
+            this.button_close.Location = new System.Drawing.Point(670, 12);
+            this.button_close.Name = "button_close";
+            this.button_close.Size = new System.Drawing.Size(45, 23);
+            this.button_close.TabIndex = 2;
+            this.button_close.UseVisualStyleBackColor = true;
+            this.button_close.Click += new System.EventHandler(this.buttonclose_Click);
             // 
             // label_title
             // 
@@ -239,6 +257,31 @@
             // 
             this.timer_drop_panel.Interval = 1;
             this.timer_drop_panel.Tick += new System.EventHandler(this.timer_drop_panel_Tick);
+            // 
+            // button_minimize
+            // 
+            this.button_minimize.FlatAppearance.BorderSize = 0;
+            this.button_minimize.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_minimize.Image = ((System.Drawing.Image)(resources.GetObject("button_minimize.Image")));
+            this.button_minimize.Location = new System.Drawing.Point(568, 12);
+            this.button_minimize.Margin = new System.Windows.Forms.Padding(0);
+            this.button_minimize.Name = "button_minimize";
+            this.button_minimize.Size = new System.Drawing.Size(45, 23);
+            this.button_minimize.TabIndex = 3;
+            this.button_minimize.UseVisualStyleBackColor = true;
+            this.button_minimize.Click += new System.EventHandler(this.button_minimize_Click);
+            // 
+            // button_maximize
+            // 
+            this.button_maximize.FlatAppearance.BorderSize = 0;
+            this.button_maximize.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_maximize.Image = ((System.Drawing.Image)(resources.GetObject("button_maximize.Image")));
+            this.button_maximize.Location = new System.Drawing.Point(619, 12);
+            this.button_maximize.Name = "button_maximize";
+            this.button_maximize.Size = new System.Drawing.Size(45, 23);
+            this.button_maximize.TabIndex = 4;
+            this.button_maximize.UseVisualStyleBackColor = true;
+            this.button_maximize.Click += new System.EventHandler(this.button_maximize_Click);
             // 
             // Form1
             // 
@@ -280,6 +323,9 @@
         private Home home_usercontrol;
         private Info info_usercontrol;
         private Configurations configurations_usercontrol;
+        private System.Windows.Forms.Button button_close;
+        private System.Windows.Forms.Button button_maximize;
+        private System.Windows.Forms.Button button_minimize;
     }
 }
 

@@ -154,6 +154,36 @@
         ANKsBpOoNIB0gw34HfDQbKg0gJwX8t56f6l/oigeE9t0xehDnKgAAAAASUVORK5CYII=
 </value>
   </data>
+  <data name="button_maximize.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
+        wwAADsMBx2+oZAAAATRJREFUSEvdlLFKw1AUhu+gXQTRN+smQgfBXVxcXJRScSmIg45aFFx9BB9BcHEQ
+        5wpFxcFFB/2/JCc0x16S1LvoBx89XHrOn+QmN/wLVuSZfJVfzmdZx630fXghl2UYSYYfyT3nhqxjW/q+
+        fUnIlQwTyfDUMPONgiRSU8NMZv8IYE/OJY/to4U86o40ogE2nFs8aOhQMocQIxrwIufZk2PJnRhlwIPc
+        oijgT1xVW+jJBhasyXFeVkkVAAvFb4WUATP5ewF3spuXGakCNuUTBYvTr+m7PMzLVpxKLs6IfgccUKwN
+        5G5DTyQf57U0ogF2VLDeVIbfyFVpRAOmWWyhpwz4lH2KxHB0ZAEcUBQcWDvOdVlHT/o+XpJyT3jml5IQ
+        76Os4176PtsTZldYmmET5u37LSF8A5otlH7Y1FWWAAAAAElFTkSuQmCC
+</value>
+  </data>
+  <data name="button_minimize.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
+        wwAADsMBx2+oZAAAALVJREFUSEvtlbsNgzAURV+RDilihIzCKNmETZJ0GSMjMAI1VUpSREruQXEVPrb8
+        JBpf6RTPwvcAQtiUWlzFU3wcofMg7PJbQNA7MQo6b8IGQTlP4pVK0AmTCat36KS7CBZTBJspgs3sIziJ
+        cybhnzYraARzDnSQVUEn2kTYEy3gsEgNe6IFzGxIIRRGCXJYFRAuyOHvK+L8nI42xyBB8GLg/WF6CxY9
+        4IbpvAs7iiDxAsHDzOov6pzjpjUeChcAAAAASUVORK5CYII=
+</value>
+  </data>
+  <data name="button_close.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
+        wwAADsMBx2+oZAAAAPdJREFUSEu1VjEOAjEMu42Vmf9/gA0xMQASSHATfAfsk4KiKIGmKZYsaGntxHet
+        mIAteALXHAwCtfbgnYMZfIEPcMWJIih+Bal5kAkx4WelE+69gKK1AReMMOGeIxhqaJMnmImLe93KLbRJ
+        ayfN4oKMCX/7GksEbRLFxTW68mZxgTaxAlb8ZywRPBOyK5YI2oRxlWKJoE1EvDsWDzqWv1QvdwuFpZPs
+        YXRhxTkmxaTUCTdGb0vZhBt05d4D1SapuFrEBelOuCB7iKxJ2AkX2gfaCm3ixmXFew6R7eRTIL+Multc
+        k7OdKEKbMK7lr8UNHHm30ASRT7s3pu56gkPhM0oAAAAASUVORK5CYII=
+</value>
+  </data>
   <metadata name="timer_drop_panel.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
