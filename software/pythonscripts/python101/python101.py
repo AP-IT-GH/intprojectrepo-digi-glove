@@ -1,7 +1,20 @@
+import Macros
 import serial
-ser = serial.Serial(r"\\.\COM15")
-ser1 = serial.Serial(r"\\.\COM13")
+import time
+
+port = "COM13"
+
+ser1 = serial.Serial(port, 9600, 8)
 print("sending data continiously to bluetooth devices press ctrl + c to stop")
+data = {"value1" : 101 , "value2" : 101}
+
+def update(): #to edit in release
+       #ser1.write(0x01)
+       if(ser1.inWaiting() >= 64):
+            print(ser1.read(64))
+       print("/")
+       #data["value1"] = ser1.read()
+       #time.sleep(0.005) #decide the frequency of pulls esp data is presumed live
+#endupdate
 while True:
-    ser.write(0x00)
-    ser1.write(0x01)
+    update()
