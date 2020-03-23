@@ -67,7 +67,8 @@ s.listen(5)
 while True:
     clientsocket,address=s.accept()
     print(f"Connection from {address} has been established!")
-    clientsocket.send(bytes("Welcome to the server!", "utf-8"))
+    msg=s.recv(1024)
+    print(msg.decode("utf-8"))
 
     #the indexfinger is bend when the value of the flex resistor (2 flex sensors on each finger) is larger than 200 for each
     if(flexFinger1>=200 and flexFinger2>=200):
