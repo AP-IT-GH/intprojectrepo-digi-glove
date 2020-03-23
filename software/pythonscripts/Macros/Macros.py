@@ -31,6 +31,12 @@ middleFinger = False
 ringFinger = False
 littleFinger = False
 
+thumbHalf = False
+indexHalf = False
+middleHalf = False
+ringHalf = False
+littleHalf = False
+
 #Variables for touch sensors
 touchFinger1 = 0
 touchFinger2 = 0
@@ -73,6 +79,10 @@ while True:
         indexFinger=True
     else:
         indexFinger=False
+#the CallMacro function gets the value of each finger
+#in the MacroClass the corresponding macro gets activated
+if(indexFinger): PrintScreen();
+if(middleFinger): RightMouseClick();
 
     if(flexFinger5>=200 and flexFinger6>=200):
         middleFinger=True
