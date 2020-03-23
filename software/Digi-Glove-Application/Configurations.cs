@@ -20,7 +20,7 @@ namespace Digi_Glove_Application
         int byteCount;
         NetworkStream stream;
         byte[] sendData;
-        string configurations;
+        TcpClient client;
 
         public Configurations()
         {
@@ -164,23 +164,21 @@ namespace Digi_Glove_Application
         private void button_config_save_Click(object sender, EventArgs e)
         {
             string configurations = (string)comboBox_Thumb.SelectedItem + "-" + (string)comboBox_IndexFinger.SelectedItem + "-" + (string)comboBox_MiddleFinger.SelectedItem + "-" + (string)comboBox_RingFinger.SelectedItem + "-" + (string)comboBox_Pinky.SelectedItem;
-
             Debug.WriteLine(configurations);
 
-            if (client != null)
+            try
             {
-                int byteCount = Encoding.ASCII.GetByteCount(configurations);
+                byteCount=Encoding.ASCII.GetByteCount(configurations);
+                sendData=new byte[byteCount];
+                sendData=Encoding.ASCII.GetBytes(configurations);
+                stream=client.GetStream();
+                stream.Write(sendData,0,sendData.Length);
+                Debug.WriteLine(sendData);
 
-                byte[] sendData = new byte[byteCount];
-
-                sendData = Encoding.ASCII.GetBytes(configurations);
-
-                NetworkStream stream = client.GetStream();
-
-                stream.Write(sendData, 0, sendData.Length);
-
-                stream.Close();
-
+            }
+            catch (System.NullReferenceException)
+            {
+                Debug.WriteLine("No connection");
             }
 
         }
@@ -189,13 +187,12 @@ namespace Digi_Glove_Application
         {
             try
             {
-                client = new TcpClient(serverIP, port);
-                button_config_connect.Text = "Connected!";
+                client=new TcpClient("DESKTOP-NEIH7KA",port);
+                Debug.WriteLine("connection made");
             }
-            catch (Exception)
+            catch(System.Net.Sockets.SocketException)
             {
-                Debug.WriteLine("Couldn't connect to the server:");
-                Debug.WriteLine(e.ToString());
+                Debug.WriteLine("Connection failed");
             }
         }
     }

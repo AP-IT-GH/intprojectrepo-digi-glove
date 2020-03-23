@@ -66,6 +66,8 @@ maxConnections=999
 IP=socket.gethostname()
 
 listensocket.bind(('',Port))
+
+listensocket.listen(maxConnections);
 print("server started at "+IP+" on port "+str(Port))
 
 (clientsocket, address)=listensocket.accept()
@@ -117,7 +119,8 @@ def Bold():
 
 while True:
     message=clientsocket.recv(1024).decode()
-    print(message)
+    if(message!=""): print(message)
+
 
     #convert string to the 5 macro's that have to be executed
 
@@ -145,4 +148,4 @@ while True:
     else:
        littleFinger=False
 
-    if(indexfinger): PrinScreen();
+    #if(indexfinger): PrintScreen();
