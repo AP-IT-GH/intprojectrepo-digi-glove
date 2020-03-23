@@ -37,6 +37,12 @@ middleHalf = False
 ringHalf = False
 littleHalf = False
 
+thumbMaco="";
+indexMacro="";
+middleMacro="";
+ringMacro="";
+littleMacro="";
+
 #Variables for touch sensors
 touchFinger1 = 0
 touchFinger2 = 0
@@ -119,10 +125,8 @@ def Bold():
 
 while True:
     message=clientsocket.recv(1024).decode()
-    if(message!=""): print(message)
-
-
-    #convert string to the 5 macro's that have to be executed
+    if(message!=""):
+        SplitMessage=message.split("-")
 
     #the indexfinger is bend when the value of the flex resistor (2 flex sensors on each finger) is larger than 200 for each
     if(flexFinger1>=200 and flexFinger2>=200):
@@ -148,4 +152,10 @@ while True:
     else:
        littleFinger=False
 
-    #if(indexfinger): PrintScreen();
+    #thumb=True
+    if(thumb & SplitMessage[0]!=""): eval(SplitMessage[0]+'()')
+    if(indexFinger & SplitMessage[1]!=""): eval(SplitMessage[1]+'()')
+    if(middleFinger & SplitMessage[2]!=""): eval(SplitMessage[2]+'()')
+    if(ringFinger & SplitMessage[3]!=""): eval(SplitMessage[3]+'()')
+    if(littleFinger & SplitMessage[4]!=""): eval(SplitMessage[4]+'()')
+
