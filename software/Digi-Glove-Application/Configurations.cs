@@ -46,7 +46,7 @@ namespace Digi_Glove_Application
         }
 
         //Server Background task
-        
+
         //private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         //{
         //    //BackgroundWorker worker = sender as BackgroundWorker;
@@ -159,23 +159,44 @@ namespace Digi_Glove_Application
         {
             Debug.WriteLine("Selected Value was changed");
 
-            ComboBox comboBox = (ComboBox)sender;
-            string configurations = (string)comboBox_Thumb.SelectedItem + (string)comboBox_IndexFinger.SelectedItem + (string)comboBox_MiddleFinger.SelectedItem + (string)comboBox_RingFinger.SelectedItem + (string)comboBox_Pinky.SelectedItem;
+            ComboBox comboBox = (ComboBox)sender;        }
 
-            TcpClient client = new TcpClient(serverIP, port);
+        private void button_config_save_Click(object sender, EventArgs e)
+        {
+            string configurations = (string)comboBox_Thumb.SelectedItem + "-" + (string)comboBox_IndexFinger.SelectedItem + "-" + (string)comboBox_MiddleFinger.SelectedItem + "-" + (string)comboBox_RingFinger.SelectedItem + "-" + (string)comboBox_Pinky.SelectedItem;
 
-            int byteCount = Encoding.ASCII.GetByteCount(configurations);
+            Debug.WriteLine(configurations);
 
-            byte[] sendData = new byte[byteCount];
+            if (client != null)
+            {
+                int byteCount = Encoding.ASCII.GetByteCount(configurations);
 
-            sendData = Encoding.ASCII.GetBytes(configurations);
+                byte[] sendData = new byte[byteCount];
 
-            NetworkStream stream = client.GetStream();
+                sendData = Encoding.ASCII.GetBytes(configurations);
 
-            stream.Write(sendData, 0, sendData.Length);
+                NetworkStream stream = client.GetStream();
 
-            stream.Close();
-            client.Close();
+                stream.Write(sendData, 0, sendData.Length);
+
+                stream.Close();
+
+            }
+
+        }
+
+        private void button_config_connect_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                client = new TcpClient(serverIP, port);
+                button_config_connect.Text = "Connected!";
+            }
+            catch (Exception)
+            {
+                Debug.WriteLine("Couldn't connect to the server:");
+                Debug.WriteLine(e.ToString());
+            }
         }
     }
 }
