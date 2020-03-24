@@ -34,6 +34,9 @@
 
 // Choose which dummy data to generate
 #define EN_GEN_FLEX_DATA 1
+// Flex sensor mode, 1 for sweep or 0 for simulate quick flick of index finger:
+#define FLEX_MODE_SWEEP 0
+
 #define EN_GEN_GYRO_DATA 1
 #define EN_GEN_ACC_DATA 1
 #define EN_GEN_PRESS_DATA 1
@@ -52,7 +55,7 @@
 
 #define SPP_DATA_LEN 74 // msg data Array length 64 bytes
 
-#define FLEX_DATA_LEN 2
+#define FLEX_DATA_LEN 10
 #define FLEX_LIMIT_MAX 255
 #define FLEX_LIMIT_MIN 0
 #define FLEX_STEP 1
@@ -123,60 +126,70 @@ void generate_data()
 
     while (1)
     {
-        
-        //Generate flex sensor data:
-        if (flex_data[0] == FLEX_LIMIT_MIN)
-        {
+
+        //If mode is bend test or sweep:
+        if (FLEX_MODE_SWEEP){
             
-            for (int i = 0; i < FLEX_DATA_LEN; i++)
+            //Generate flex sensor data:
+            if (flex_data[0] == FLEX_LIMIT_MIN)
             {
-                for(int j = FLEX_LIMIT_MIN; j <= FLEX_LIMIT_MAX; j = j + FLEX_STEP)
-                {
-                    // Get current (run)time:
-                    //cur_time = esp_timer_get_time();
-                    //xLastWakeTime = xTaskGetTickCount ();
-                    
-                    //Bend two joints:
-                    flex_data[i] = j;
-                    if (i < FLEX_DATA_LEN - 1){
-                        flex_data[i + 1] = j;
-                    }
-
-                    //vTaskDelayUntil(&xLastWakeTime, FLEX_DELAY/portTICK_PERIOD_MS);
-                    vTaskDelay(FLEX_DELAY/portTICK_PERIOD_MS);
-                }
-                if (i < FLEX_DATA_LEN -1){
-                    i++;
-                }
-            }
-        }
-        else
-        {
-            
-            for (int i = (FLEX_DATA_LEN - 1); i >= 0; i--)
-            {
-                for (int j = FLEX_LIMIT_MAX; j >= FLEX_LIMIT_MIN; j = j - FLEX_STEP)
-                {
-                    // Get current (run)time:
-                    //cur_time = esp_timer_get_time();
-                    //xLastWakeTime = xTaskGetTickCount ();
-                    flex_data[i] = j;
-
-                    if (i > 0){
-                        flex_data[i - 1] = j;
-                    }
-
-                    // vTaskDelayUntil(&xLastWakeTime, FLEX_DELAY/portTICK_PERIOD_MS);
-                    vTaskDelay(FLEX_DELAY/portTICK_PERIOD_MS);
-                }   
-                if (i > 0){
-                    i--;
-                }
                 
+                for (int i = 0; i < FLEX_DATA_LEN; i++)
+                {
+                    for(int j = FLEX_LIMIT_MIN; j <= FLEX_LIMIT_MAX; j = j + FLEX_STEP)
+                    {
+                        // Get current (run)time:
+                        //cur_time = esp_timer_get_time();
+                        //xLastWakeTime = xTaskGetTickCount ();
+                        
+                        //Bend two joints:
+                        flex_data[i] = j;
+
+                        //vTaskDelayUntil(&xLastWakeTime, FLEX_DELAY/portTICK_PERIOD_MS);
+                        vTaskDelay(FLEX_DELAY/portTICK_PERIOD_MS);
+                    }
+                }
             }
-            vTaskDelay(FLEX_DELAY_AFTER_BEND/portTICK_PERIOD_MS);
+            else
+            {
+                
+                for (int i = (FLEX_DATA_LEN - 1); i >= 0; i--)
+                {
+                    for (int j = FLEX_LIMIT_MAX; j >= FLEX_LIMIT_MIN; j = j - FLEX_STEP)
+                    {
+                        // Get current (run)time:
+                        //cur_time = esp_timer_get_time();
+                        //xLastWakeTime = xTaskGetTickCount ();
+                        flex_data[i] = j;
+
+                        // vTaskDelayUntil(&xLastWakeTime, FLEX_DELAY/portTICK_PERIOD_MS);
+                        vTaskDelay(FLEX_DELAY/portTICK_PERIOD_MS);
+                    }   
+                    
+                }
+                vTaskDelay(FLEX_DELAY_AFTER_BEND/portTICK_PERIOD_MS);
+            }
+            vTaskDelay(FLEX_DELAY/portTICK_PERIOD_MS);
         }
-        vTaskDelay(FLEX_DELAY/portTICK_PERIOD_MS);
+        // If mode is simulate gesture then
+        else{
+            if (flex_data[0] == FLEX_LIMIT_MIN){
+                for (int j = FLEX_LIMIT_MIN; j <= FLEX_LIMIT_MAX; j = j + FLEX_STEP){
+                    flex_data[0] = j;
+                    flex_data[4] = j;
+                    vTaskDelay(FLEX_DELAY/portTICK_PERIOD_MS);
+                }
+            }
+            else{
+                for (int j = FLEX_LIMIT_MAX; j >= FLEX_LIMIT_MIN; j = j - FLEX_STEP){
+                    flex_data[0] = j;
+                    flex_data[4] = j;
+                    vTaskDelay(FLEX_DELAY/portTICK_PERIOD_MS);
+                }
+                vTaskDelay(FLEX_DELAY_AFTER_BEND/portTICK_PERIOD_MS);
+            }
+            vTaskDelay(FLEX_DELAY/portTICK_PERIOD_MS);
+        }
     }
 }
 
