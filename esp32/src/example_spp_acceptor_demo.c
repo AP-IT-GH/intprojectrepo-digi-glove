@@ -39,22 +39,35 @@
 #define EN_GEN_PRESS_DATA 1
 
 // Define the delays between value changes:
-#define FLEX_DELAY 10
-#define PRESS_DELAY 10
+#define FLEX_DELAY portTICK_PERIOD_MS
+#define FLEX_DELAY_AFTER_BEND 1000
+#define PRESS_DELAY portTICK_PERIOD_MS
 #define GYRO_DELAY 10
-#define ACC_DELAY 10
+#define ACC_DELAY 5
 
 #define BT_DELAY 5
 
 // CPU Core the generate functions are pinned to (-1 for no pin):
 #define GEN_DATA_CORE 1
 
-#define SPP_DATA_LEN 64 // msg data Array length 64 bytes
+#define SPP_DATA_LEN 74 // msg data Array length 64 bytes
 
-#define FLEX_DATA_LEN 10
+#define FLEX_DATA_LEN 2
+#define FLEX_LIMIT_MAX 255
+#define FLEX_LIMIT_MIN 0
+#define FLEX_STEP 1
+
 #define PRESS_DATA_LEN 5
-#define GYRO_DATA_LEN 3
+#define GYRO_DATA_LEN 4
 #define ACC_DATA_LEN 3
+
+// Position of data in packet:
+#define PKG_OFFSET_IMU_TIME 8
+#define PKG_OFFSET_SENSOR_TIME 16
+#define PKG_OFFSET_FLEX 52
+#define PKG_OFFSET_PRESS 62
+#define PKG_OFFSET_GYRO 24
+#define PKG_OFFSET_ACC 40
 
 #define GEN_DATA_NAME "GEN_DUMMY_DATA"
 #define BT_SEND_NAME "BT_SPP_SEND"
@@ -70,9 +83,6 @@ TaskHandle_t genPressDataHandle = "GEN_PRESS_DATA";
 
 static const esp_spp_mode_t esp_spp_mode = ESP_SPP_MODE_CB;
 
-static struct timeval time_new, time_old;
-static long data_num = 0;
-
 static const esp_spp_sec_t sec_mask = ESP_SPP_SEC_AUTHENTICATE;
 static const esp_spp_role_t role_slave = ESP_SPP_ROLE_SLAVE;
 
@@ -86,8 +96,9 @@ static uint8_t press_limit_max = 255;
 static uint8_t press_limit_min = 0;
 
 float gyro_data[GYRO_DATA_LEN];
-static float gyro_limit_max = 359.00;
+static float gyro_limit_max = 1.00;
 static float gyro_limit_min = 0.00;
+static float gyro_step = 0.01;
 
 int16_t acc_data[ACC_DATA_LEN];
 static int16_t acc_limit_max = 50;
@@ -108,23 +119,35 @@ void generate_data()
           one by one.
     */
 
+   //TickType_t xLastWakeTime;
+
     while (1)
     {
         
         //Generate flex sensor data:
-        if (flex_data[0] == 0)
+        if (flex_data[0] == FLEX_LIMIT_MIN)
         {
             
             for (int i = 0; i < FLEX_DATA_LEN; i++)
             {
-                for(int j = 0; j <= 255; j++)
+                for(int j = FLEX_LIMIT_MIN; j <= FLEX_LIMIT_MAX; j = j + FLEX_STEP)
                 {
                     // Get current (run)time:
-                    cur_time = esp_timer_get_time();
+                    //cur_time = esp_timer_get_time();
+                    //xLastWakeTime = xTaskGetTickCount ();
+                    
+                    //Bend two joints:
                     flex_data[i] = j;
+                    if (i < FLEX_DATA_LEN - 1){
+                        flex_data[i + 1] = j;
+                    }
+
+                    //vTaskDelayUntil(&xLastWakeTime, FLEX_DELAY/portTICK_PERIOD_MS);
                     vTaskDelay(FLEX_DELAY/portTICK_PERIOD_MS);
                 }
-            
+                if (i < FLEX_DATA_LEN -1){
+                    i++;
+                }
             }
         }
         else
@@ -132,15 +155,26 @@ void generate_data()
             
             for (int i = (FLEX_DATA_LEN - 1); i >= 0; i--)
             {
-                for (int j = 255; j >= 0; j--)
+                for (int j = FLEX_LIMIT_MAX; j >= FLEX_LIMIT_MIN; j = j - FLEX_STEP)
                 {
                     // Get current (run)time:
-                    cur_time = esp_timer_get_time();
+                    //cur_time = esp_timer_get_time();
+                    //xLastWakeTime = xTaskGetTickCount ();
                     flex_data[i] = j;
+
+                    if (i > 0){
+                        flex_data[i - 1] = j;
+                    }
+
+                    // vTaskDelayUntil(&xLastWakeTime, FLEX_DELAY/portTICK_PERIOD_MS);
                     vTaskDelay(FLEX_DELAY/portTICK_PERIOD_MS);
                 }   
+                if (i > 0){
+                    i--;
+                }
                 
             }
+            vTaskDelay(FLEX_DELAY_AFTER_BEND/portTICK_PERIOD_MS);
         }
         vTaskDelay(FLEX_DELAY/portTICK_PERIOD_MS);
     }
@@ -150,14 +184,13 @@ void generate_gyro_data()
 {
     while (1)
     {
-        
         //Generate gyro data:
         if (gyro_data[0] == 0)
         {
             
             for (int i = 0; i < GYRO_DATA_LEN; i++)
             {
-                for(float j = gyro_limit_min; j <= gyro_limit_max; j = j + 1.00)
+                for(float j = gyro_limit_min; j <= gyro_limit_max; j = j + gyro_step)
                 {   
                     gyro_data[i] = j;
                     vTaskDelay(GYRO_DELAY/portTICK_PERIOD_MS);
@@ -169,17 +202,16 @@ void generate_gyro_data()
         {
             for (int i = (GYRO_DATA_LEN - 1); i >= 0; i--)
             {
-                for (float j = gyro_limit_max; j >= gyro_limit_min; j = j - 1.00)
+                for (float j = gyro_limit_max; j >= gyro_limit_min; j = j - gyro_step)
                 {
                     gyro_data[i] = j;
                     vTaskDelay(GYRO_DELAY/portTICK_PERIOD_MS);
                 }   
-                
+                gyro_data[i] = 0.00;
             }
         }
         vTaskDelay(GYRO_DELAY/portTICK_PERIOD_MS);
     }
-
 }
 
 void generate_pressure_data()
@@ -254,41 +286,47 @@ void send_BT()
         * send it.
         * 
     */
+
     ESP_LOGI(BT_SEND_NAME, "Started Send_BT");
     //vTaskSuspend(NULL);
     int last_time;
     bool timeout = false;
 
+    TickType_t xLastWTime;
+    TickType_t xDelay = BT_DELAY/portTICK_PERIOD_MS;
+
     last_time = esp_log_timestamp();
     while(true)
     {
+        cur_time = esp_timer_get_time();
         //copy timestamp to message array start:
-        memcpy(spp_data, &cur_time, sizeof(int64_t));
+        memcpy(spp_data + PKG_OFFSET_IMU_TIME, &cur_time, sizeof(int64_t));
 
         // copy flex data array to message array starting from the end of planned timestamp...
-        memcpy(spp_data + sizeof(int64_t), flex_data, sizeof(int8_t) * FLEX_DATA_LEN);
+        memcpy(spp_data + PKG_OFFSET_FLEX, flex_data, sizeof(int8_t) * FLEX_DATA_LEN);
 
         if(EN_GEN_GYRO_DATA)
         {
-            memcpy(spp_data + 38, gyro_data, sizeof(float) * GYRO_DATA_LEN);
+            memcpy(spp_data + PKG_OFFSET_GYRO, gyro_data, sizeof(float) * GYRO_DATA_LEN);
         }
 
         if(EN_GEN_ACC_DATA)
         {
-            memcpy(spp_data + 58, acc_data, sizeof(int16_t) * ACC_DATA_LEN);
+            memcpy(spp_data + PKG_OFFSET_ACC, acc_data, sizeof(int16_t) * ACC_DATA_LEN);
         }
 
         if(EN_GEN_PRESS_DATA)
         {
-            memcpy(spp_data + 26, press_data, sizeof(uint8_t) * PRESS_DATA_LEN);
+            memcpy(spp_data + PKG_OFFSET_PRESS, press_data, sizeof(uint8_t) * PRESS_DATA_LEN);
         }
 
-        while ((bt_congested == true) || bt_available == false)
+        // while ((bt_congested == true) || bt_available == false)
+        while(bt_available == false)
         {
             // ESP_LOGE(BT_SEND_NAME,"BT Congested or not available.");
-            vTaskDelay(10/portTICK_PERIOD_MS);
+            vTaskDelay(BT_DELAY/portTICK_PERIOD_MS);
         }
-        
+
         esp_err_t ret = esp_spp_write(device_handle, SPP_DATA_LEN, spp_data);
         
         if (ret != ESP_OK)
@@ -297,12 +335,14 @@ void send_BT()
         }
         else
         {
-            ESP_LOGI(BT_SEND_NAME,"Sent data to %i, ", device_handle);
+            //ESP_LOGI(BT_SEND_NAME,"Sent data to %i, ", device_handle);
         }
-        
-        vTaskDelay(BT_DELAY/portTICK_PERIOD_MS);
 
-        ESP_LOG_BUFFER_HEXDUMP("SPP_DATA", spp_data, SPP_DATA_LEN, ESP_LOG_INFO);
+        //xLastWTime = xTaskGetTickCount();
+        vTaskDelay(BT_DELAY/portTICK_PERIOD_MS);
+        //vTaskDelayUntil(&xLastWTime, xDelay);
+
+        //ESP_LOG_BUFFER_HEXDUMP("SPP_DATA", spp_data, SPP_DATA_LEN, ESP_LOG_INFO);
 
     }
 }
