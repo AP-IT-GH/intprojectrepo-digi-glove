@@ -2,6 +2,10 @@
 esp32/glove-mcu/build
 test/
 
+software/*
+
+*.suo
+
 esp32/esp-idf
 
 software/.vs/slnx.sqlite
