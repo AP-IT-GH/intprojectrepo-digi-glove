@@ -375,6 +375,9 @@ Temporary Items
 esp32/glove-mcu/build
 test/
 
+env/
+env1/
+v16/*
 # User-specific files
 *.suo
 *.user
