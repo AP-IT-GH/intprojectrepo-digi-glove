@@ -2,7 +2,9 @@
 esp32/glove-mcu/build
 test/
 
-software/*
+env/
+env1/
+v16/*
 
 *.suo
 
