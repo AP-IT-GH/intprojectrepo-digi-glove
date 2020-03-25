@@ -375,11 +375,22 @@ Temporary Items
 esp32/glove-mcu/build
 test/
 
-esp32/esp-idf
+env/
+env1/
+v16/*
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
 
-software/.vs/slnx.sqlite
+# User-specific files (MonoDevelop/Xamarin Studio)
+*.userprefs
 
-software/.vs/software/v16/.suo
+# Tools pulled down during build
+.tools/
+.dotnet/
+.packages/
 
 software/.vs/software/v16/Browse.VC.db
 
@@ -417,12 +428,15 @@ software/pythonscripts/python101/env1/*
 [Rr]eleases/
 x64/
 x86/
+
 [Aa][Rr][Mm]/
 [Aa][Rr][Mm]64/
+
 bld/
 [Bb]in/
 [Oo]bj/
 [Ll]og/
+
 
 # Visual Studio 2015/2017 cache/options directory
 .vs/
