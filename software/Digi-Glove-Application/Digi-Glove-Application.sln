@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29820.132
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Digi-Glove-Application", "Digi-Glove-Application.csproj", "{6ED5AB53-6026-45F6-9E70-1AE99F71ABEA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6ED5AB53-6026-45F6-9E70-1AE99F71ABEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6ED5AB53-6026-45F6-9E70-1AE99F71ABEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6ED5AB53-6026-45F6-9E70-1AE99F71ABEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6ED5AB53-6026-45F6-9E70-1AE99F71ABEA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {384F26AC-533C-4668-97B3-DE5DC32BBBF0}
+	EndGlobalSection
+EndGlobal
