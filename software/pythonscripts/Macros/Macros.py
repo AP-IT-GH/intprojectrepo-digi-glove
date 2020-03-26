@@ -1,9 +1,7 @@
 #!/usr/bin/python3.8
 from ctypes import windll, Structure, c_long, byref
 import pyautogui
-import socket
-
-
+import python101
 
 class POINT(Structure):
     _fields_ = [("x", c_long), ("y", c_long)]
@@ -25,23 +23,12 @@ flexFinger8 = 0
 flexFinger9= 0
 flexFinger10 = 0
 
+
 thumb = False
 indexFinger = False
 middleFinger = False
 ringFinger = False
 littleFinger = False
-
-thumbHalf = False
-indexHalf = False
-middleHalf = False
-ringHalf = False
-littleHalf = False
-
-thumbMaco="";
-indexMacro="";
-middleMacro="";
-ringMacro="";
-littleMacro="";
 
 #Variables for touch sensors
 touchFinger1 = 0
@@ -63,22 +50,35 @@ accelerationXaxis = 0
 accelerationYaxis = 0
 accelerationZaxis = 0
 
+#the indexfinger is bend when the value of the flex resistor (2 flex sensors on each finger) is larger than 200 for each
+if(flexFinger1>=200 and flexFinger2>=200):
+    thumb=True
+else:
+    thumb=False
 
+if(flexFinger3>= 200 and flexFinger4>=200):
+    indexFinger=True
+else:
+    indexFinger=False
 
-#socket
-listensocket=socket.socket()
-Port=8000
-maxConnections=999
-IP=socket.gethostname()
+if(flexFinger5>=200 and flexFinger6>=200):
+    middleFinger=True
+else:
+    middleFinger=False
 
-listensocket.bind(('',Port))
+if(flexFinger7>=200 and flexFinger8>=200):
+    ringFinger=True
+else:
+    ringFinger=False
 
-listensocket.listen(maxConnections);
-print("server started at "+IP+" on port "+str(Port))
+if(flexFinger9>=200 and flexFinger10>=200):
+    littleFinger=True
+else:
+    littleFinger=False
 
-(clientsocket, address)=listensocket.accept()
-print("New connection made!")
-
+#the CallMacro function gets the value of each finger
+#in the MacroClass the corresponding macro gets activated
+if(indexFinger): PrintScreen();
 
 def RightMouseClick():
     pt = POINT()
@@ -123,39 +123,4 @@ def Cut():
 def Bold():
     pyautogui.hotkey('ctrl','b')
 
-while True:
-    message=clientsocket.recv(1024).decode()
-    if(message!=""):
-        SplitMessage=message.split("-")
-
-    #the indexfinger is bend when the value of the flex resistor (2 flex sensors on each finger) is larger than 200 for each
-    if(flexFinger1>=200 and flexFinger2>=200):
-        thumb=True
-    else:
-        thumb=False
-    if(flexFinger3>= 200 and flexFinger4>=200):
-        indexFinger=True
-    else:
-        indexFinger=False
-    if(flexFinger5>=200 and flexFinger6>=200):
-        middleFinger=True
-    else:
-        middleFinger=False
-
-    if(flexFinger7>=200 and flexFinger8>=200):
-        ringFinger=True
-    else:
-        ringFinger=False
-
-    if(flexFinger9>=200 and flexFinger10>=200):
-        littleFinger=True
-    else:
-       littleFinger=False
-
-    #thumb=True
-    if(thumb & SplitMessage[0]!=""): eval(SplitMessage[0]+'()')
-    if(indexFinger & SplitMessage[1]!=""): eval(SplitMessage[1]+'()')
-    if(middleFinger & SplitMessage[2]!=""): eval(SplitMessage[2]+'()')
-    if(ringFinger & SplitMessage[3]!=""): eval(SplitMessage[3]+'()')
-    if(littleFinger & SplitMessage[4]!=""): eval(SplitMessage[4]+'()')
-
+CloseCommandPrompt()
