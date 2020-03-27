@@ -167,8 +167,8 @@ while True:
 
     #thumb=True
     if(gloveActivated):
-        if(thumb & SplitMessage[0]!=""): eval(SplitMessage[0]+'()')
-        if(indexFinger & SplitMessage[1]!=""): eval(SplitMessage[1]+'()')
-        if(middleFinger & SplitMessage[2]!=""): eval(SplitMessage[2]+'()')
-        if(ringFinger & SplitMessage[3]!=""): eval(SplitMessage[3]+'()')
-        if(littleFinger & SplitMessage[4]!=""): eval(SplitMessage[4]+'()')
+        if(thumb): eval(SplitMessage[0]+'()')
+        if(indexFinger): eval(SplitMessage[1]+'()')
+        if(middleFinger): eval(SplitMessage[2]+'()')
+        if(ringFinger): eval(SplitMessage[3]+'()')
+        if(littleFinger): eval(SplitMessage[4]+'()')
