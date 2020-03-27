@@ -3,8 +3,10 @@ import serial
 import time
 
 port = "COM15"
-
-ser1 = serial.Serial(port, 9600, 8)
+try:
+    ser1 = serial.Serial(port, 9600, 8)
+except:
+    print("error either bluetooth is off or the device in not connected")
 print("sending data continiously to bluetooth devices press ctrl + c to stop")
 data = {"reserved_0" : 0 , "reserved_1" : 0 , "reserved_2" : 0 , "reserved_3" : 0 , "reserved_4" : 0 , "reserved_5" : 0 , "reserved_6" : 0 , "reserved_7" : 0 ,  #reserved0
         "timestamp_0" : 0 , "timestamp_1" : 0 , "timestamp_2" : 0, "timestamp_3" : 0, "timestamp_4" : 0, "timestamp_5" : 0, "timestamp_6" : 0, "timestamp_7" : 0, #timestamp
@@ -111,22 +113,14 @@ def update(): #to edit in release
 
             print(data["timestamp_0"])
             print(data["reserved_17"])
-            #print(data["timestamp_1"])
-            #print(data["timestamp_2"])
-            #print(data["timestamp_3"])
-            #print(data["timestamp_4"])
 
-            #print(data["reserved_0"])
-            #print(data["reserv#ed_1"])
-            #print(data["reserv#ed_2"])
-            #print(data["reserv#ed_3"])
-            #print(data["reserv#ed_4"])
-#
             #buffer reset
 #
-#            ser1.reset_input_buffer() #clear the buffer of any data so the next line can come through properly
+#           ser1.reset_input_buffer() #clear the buffer of any data so the next line can come through properly
 #       #data["value1"] = ser1.read()
 #       #time.sleep(0.005) #decide the frequency of pulls esp data is presumed live
 ##endupdate
-while True:
+try:
     update()
+except:
+    print("update failed in python101, is the device connected?")
