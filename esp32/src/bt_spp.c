@@ -53,8 +53,7 @@ static const esp_spp_mode_t esp_spp_mode = ESP_SPP_MODE_CB;
 static const esp_spp_sec_t sec_mask = ESP_SPP_SEC_AUTHENTICATE;
 static const esp_spp_role_t role_slave = ESP_SPP_ROLE_SLAVE;
 
-// For storing pin code and device name:
-esp_bt_pin_code_t pin_num;
+// For storing the device name:
 char device_name[64];
 
 uint8_t bt_data[BT_DATA_SIZE] = {0};
@@ -132,7 +131,7 @@ static void esp_spp_cb(esp_spp_cb_event_t event, esp_spp_cb_param_t *param)
     case ESP_SPP_CLOSE_EVT:
         ESP_LOGI(SPP_TAG, "ESP_SPP_CLOSE_EVT");
         bt_spp_conn_properties.bt_available = false;
-        bt_spp_conn_properties.device_handle = NULL;
+        bt_spp_conn_properties.device_handle = 0;
         break;
     case ESP_SPP_START_EVT:
         ESP_LOGI(SPP_TAG, "ESP_SPP_START_EVT");
@@ -180,22 +179,6 @@ void esp_bt_gap_cb(esp_bt_gap_cb_event_t event, esp_bt_gap_cb_param_t *param)
         }
         break;
     }
-    case ESP_BT_GAP_PIN_REQ_EVT: // This event will not occur if pin_type is ESP_BT_PIN_TYPE_FIXED
-    {
-        ESP_LOGI(SPP_TAG, "ESP_BT_GAP_PIN_REQ_EVT min_16_digit:%d", param->pin_req.min_16_digit);
-        if (param->pin_req.min_16_digit)
-        {
-            ESP_LOGI(SPP_TAG, "Input pin code (16-digit)");
-            esp_bt_gap_pin_reply(param->pin_req.bda, true, 16, pin_num);
-        }
-        else
-        {
-            ESP_LOGI(SPP_TAG, "Input pin code (4-digit)");
-            
-            esp_bt_gap_pin_reply(param->pin_req.bda, true, 4, pin_num);
-        }
-        break;
-    }
 
 #if (CONFIG_BT_SSP_ENABLED == true)
     case ESP_BT_GAP_CFM_REQ_EVT:
@@ -224,7 +207,6 @@ esp_err_t bt_init(char *dev_name, esp_bt_pin_code_t pin_number)
 {
     // Copy parameters that were passed to the global variables:
     memcpy(device_name, dev_name, sizeof(char) * 64);
-    memcpy(pin_num, pin_number, sizeof(uint8_t)*16);
     
     esp_err_t ret = nvs_flash_init();
     if (ret == ESP_ERR_NVS_NO_FREE_PAGES || ret == ESP_ERR_NVS_NEW_VERSION_FOUND)
@@ -290,7 +272,7 @@ esp_err_t bt_init(char *dev_name, esp_bt_pin_code_t pin_number)
      * Set default parameters for Legacy Pairing
      * Use fixed PIN, don't ask again.
      */
-    esp_bt_pin_type_t pin_type = ESP_BT_PIN_TYPE_VARIABLE;
+    esp_bt_pin_type_t pin_type = ESP_BT_PIN_TYPE_FIXED;
     esp_bt_gap_set_pin(pin_type, 4, pin_number);
 
     return ret;
