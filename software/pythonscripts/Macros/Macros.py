@@ -124,3 +124,35 @@ def Bold():
     pyautogui.hotkey('ctrl','b')
 
 CloseCommandPrompt()
+
+    #the indexfinger is bend when the value of the flex resistor (2 flex sensors on each finger) is larger than 200 for each
+    if(flexFinger1>=200 and flexFinger2>=200):
+        thumb=True
+    else:
+        thumb=False
+    if(flexFinger3>= 200 and flexFinger4>=200):
+        indexFinger=True
+    else:
+        indexFinger=False
+    if(flexFinger5>=200 and flexFinger6>=200):
+        middleFinger=True
+    else:
+        middleFinger=False
+
+    if(flexFinger7>=200 and flexFinger8>=200):
+        ringFinger=True
+    else:
+        ringFinger=False
+
+    if(flexFinger9>=200 and flexFinger10>=200):
+        littleFinger=True
+    else:
+       littleFinger=False
+
+    thumb=True
+    if(thumb ): eval(SplitMessage[0]+'()')
+    if(indexFinger ): eval(SplitMessage[1]+'()')
+    if(middleFinger): eval(SplitMessage[2]+'()')
+    if(ringFinger): eval(SplitMessage[3]+'()')
+    if(littleFinger): eval(SplitMessage[4]+'()')
+
