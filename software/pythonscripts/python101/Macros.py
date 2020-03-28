@@ -2,23 +2,23 @@
 from ctypes import windll, Structure, c_long, byref
 import pyautogui
 import socket
+import datetime
+import python101
 
 class POINT(Structure):
     _fields_ = [("x", c_long), ("y", c_long)]
 
-import datetime
-
 #Variables for fingers - 10 sensors, each finger has 2
-flexFinger1 = 0
-flexFinger2 = 0
-flexFinger3 = 0
-flexFinger4 = 0
-flexFinger5 = 0
-flexFinger6 = 0
-flexFinger7 = 0
-flexFinger8 = 0
-flexFinger9= 0
-flexFinger10 = 0
+flexFinger1 = python101.data["Thumb0"]
+flexFinger2 = python101.data["thumb1"]
+flexFinger3 = python101.data["IndexF_tip"]
+flexFinger4 = python101.data["IndexF_0"]
+flexFinger5 = python101.data["MiddleF_tip"]
+flexFinger6 = python101.data["MiddleF_0"]
+flexFinger7 = python101.data["RingF_tip"]
+flexFinger8 = python101.data["RingF_0"]
+flexFinger9= python101.data["LittleF_tip"]
+flexFinger10 = python101.data["LittleF_0"]
 
 gloveActivated = True
 indexSplitMessage=0
@@ -129,6 +129,11 @@ def PauseGlove():
         gloveActivated=True
 
 while True:
+
+    #update values from the Bluetooth
+    python101.update()
+
+    #socket-message
     message=clientsocket.recv(1024).decode()
     if(message!=""):
         SplitMessage=message.split("-")
