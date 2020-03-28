@@ -128,16 +128,7 @@ def PauseGlove():
         print("Glove ON")
         gloveActivated=True
 
-while True:
-
-    #update values from the Bluetooth
-    python101.update()
-
-    #socket-message
-    message=clientsocket.recv(1024).decode()
-    if(message!=""):
-        SplitMessage=message.split("-")
-
+def CheckFingers():
     #the indexfinger is bend when the value of the flex resistor (2 flex sensors on each finger) is larger than 200 for each
     if(flexFinger1>=200 and flexFinger2>=200):
         thumb=True
@@ -161,6 +152,18 @@ while True:
         littleFinger=True
     else:
        littleFinger=False
+
+while True:
+
+    #update values from the Bluetooth
+    python101.update()
+
+    #socket-message
+    message=clientsocket.recv(1024).decode()
+    if(message!=""):
+        SplitMessage=message.split("-")
+
+    CheckFingers()
 
     for item in SplitMessage:
         if(item == "PauseGlove"):
