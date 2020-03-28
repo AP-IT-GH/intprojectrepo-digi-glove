@@ -9,8 +9,8 @@ class POINT(Structure):
     _fields_ = [("x", c_long), ("y", c_long)]
 
 #Variables for fingers - 10 sensors, each finger has 2
-flexFinger1 = python101.data["Thumb0"]
-flexFinger2 = python101.data["thumb1"]
+flexFinger1 = python101.data["Thumb_0"]
+flexFinger2 = python101.data["Thumb_1"]
 flexFinger3 = python101.data["IndexF_tip"]
 flexFinger4 = python101.data["IndexF_0"]
 flexFinger5 = python101.data["MiddleF_tip"]
