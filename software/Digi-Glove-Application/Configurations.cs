@@ -151,7 +151,8 @@ namespace Digi_Glove_Application
                 "Refresh",
                 "SelectAll",
                 "Cut",
-                "Bold"
+                "Bold",
+                "PauseGlove"
             };
         }
 
