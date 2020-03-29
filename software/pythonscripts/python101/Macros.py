@@ -36,7 +36,7 @@ middleHalf = False
 ringHalf = False
 littleHalf = False
 
-thumbMaco="";
+thumbMacro="";
 indexMacro="";
 middleMacro="";
 ringMacro="";
@@ -158,20 +158,32 @@ while True:
     #update values from the Bluetooth
     python101.update()
 
+    CheckFingers()
+
     #socket-message
     message=clientsocket.recv(1024).decode()
     if(message!=""):
         SplitMessage=message.split("-")
 
-    CheckFingers()
 
-    for item in SplitMessage:
-        if(item == "PauseGlove"):
+    for macro in SplitMessage:
+        if(macro == "PauseGlove"):
             gloveActivatedFinger = indexSplitMessage
-        indexSplitMessage = indexSplitMessage + 1    
+        indexSplitMessage = indexSplitMessage + 1
+
 
     #when you bend the thumb the glove is paused, if you bend it again, the glove is back on.
-    if(gloveActivatedFinger):PauseGlove();
+    if(gloveActivatedFinger==0):
+        if(thumb):PauseGlove();
+    elif(gloveActivatedFinger==1):
+        if(indexFinger):PauseGlove();
+    elif(gloveActivatedFinger==2):
+        if(middleFinger):PauseGlove();
+    elif(gloveActivatedFinger==3):
+        if(ringFinger):PauseGlove();
+    elif(gloveActivatedFinger==4):
+        if(littleFinger):PauseGlove();
+
 
     #thumb=True
     if(gloveActivated):
