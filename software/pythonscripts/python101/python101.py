@@ -1,4 +1,4 @@
-import Macros
+#import Macros
 import serial
 import time
 
@@ -105,7 +105,7 @@ def update(): #to edit in release
             data["reserved_16"] = int(data_seq[72])
             data["reserved_17"] = int(data_seq[73])
             #print(str(data_seq["reserved_ALL"]))
-            time.sleep(1) # set frequency of fetches
+            #time.sleep(1) # set frequency of fetches
             #forging the library
 
 
@@ -122,5 +122,6 @@ def update(): #to edit in release
 ##endupdate
 try:
     update()
+    print("updated")
 except:
     print("update failed in python101, is the device connected?")
