@@ -1,4 +1,4 @@
-import Macros
+#import Macros
 import serial
 import time
 
@@ -105,7 +105,7 @@ def update(): #to edit in release
             data["reserved_16"] = int(data_seq[72])
             data["reserved_17"] = int(data_seq[73])
             #print(str(data_seq["reserved_ALL"]))
-            time.sleep(1) # set frequency of fetches
+            #time.sleep(1) # set frequency of fetches
             #forging the library
 
 
@@ -113,6 +113,7 @@ def update(): #to edit in release
 
             print(data["timestamp_0"])
             print(data["reserved_17"])
+            print("updated")
 
             #buffer reset
 #
@@ -120,7 +121,8 @@ def update(): #to edit in release
 #       #data["value1"] = ser1.read()
 #       #time.sleep(0.005) #decide the frequency of pulls esp data is presumed live
 ##endupdate
-try:
-    update()
-except:
-    print("update failed in python101, is the device connected?")
+while True:
+    try:
+        update()
+    except:
+        print("update failed in python101, is the device connected?")
