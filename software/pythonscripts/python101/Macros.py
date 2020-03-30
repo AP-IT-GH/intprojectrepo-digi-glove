@@ -4,6 +4,7 @@ import pyautogui
 import socket
 import datetime
 import python101
+import threading
 
 class POINT(Structure):
     _fields_ = [("x", c_long), ("y", c_long)]
@@ -128,6 +129,11 @@ def PauseGlove():
         print("Glove ON")
         gloveActivated=True
 
+
+
+
+
+
 def CheckFingers():
     #the indexfinger is bend when the value of the flex resistor (2 flex sensors on each finger) is larger than 200 for each
     if(flexFinger1>=200 and flexFinger2>=200):
@@ -153,12 +159,24 @@ def CheckFingers():
     else:
        littleFinger=False
 
-while True:
-
+#callable function for the thread
+def CallUpdate():
     #update values from the Bluetooth
     python101.update()
 
-    CheckFingers()
+#start threading update from BluetoothData concurrently with the rest of the code
+updateThread = threading.Thread(target=CallUpdate)
+
+
+#start checking values if or if not bend concurrently with the rest of the code
+checkFingerThread = threading.Thread(target=CheckFingers)
+
+
+while True:
+
+    #start the threading
+    updateThread.start();
+    checkFingerThread.start();
 
     #socket-message
     message=clientsocket.recv(1024).decode()
@@ -172,7 +190,7 @@ while True:
         indexSplitMessage = indexSplitMessage + 1
 
 
-    #when you bend the thumb the glove is paused, if you bend it again, the glove is back on.
+    #when you bend the finger that is assigned to let the glove be paused and used: if you bend the glove it's inactive, if you bend that finger again, the glove is back active.
     if(gloveActivatedFinger==0):
         if(thumb):PauseGlove();
     elif(gloveActivatedFinger==1):
