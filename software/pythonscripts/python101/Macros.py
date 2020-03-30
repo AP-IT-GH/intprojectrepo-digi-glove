@@ -6,6 +6,8 @@ import datetime
 import python101
 import threading
 
+
+
 class POINT(Structure):
     _fields_ = [("x", c_long), ("y", c_long)]
 
@@ -124,15 +126,10 @@ def Bold():
 def PauseGlove():
     if(gloveActivated==True): 
         print("Glove OFF")
-        gloveActivated=False
+        gloveActivated=True
     elif(gloveActivated==False): 
         print("Glove ON")
         gloveActivated=True
-
-
-
-
-
 
 def CheckFingers():
     #the indexfinger is bend when the value of the flex resistor (2 flex sensors on each finger) is larger than 200 for each
@@ -192,15 +189,20 @@ while True:
 
     #when you bend the finger that is assigned to let the glove be paused and used: if you bend the glove it's inactive, if you bend that finger again, the glove is back active.
     if(gloveActivatedFinger==0):
-        if(thumb):PauseGlove();
+        if(thumb):
+            PauseGlove()
     elif(gloveActivatedFinger==1):
-        if(indexFinger):PauseGlove();
+        if(indexFinger):
+            PauseGlove()
     elif(gloveActivatedFinger==2):
-        if(middleFinger):PauseGlove();
+        if(middleFinger):
+            PauseGlove()
     elif(gloveActivatedFinger==3):
-        if(ringFinger):PauseGlove();
+        if(ringFinger):
+            PauseGlove()
     elif(gloveActivatedFinger==4):
-        if(littleFinger):PauseGlove();
+        if(littleFinger):
+            PauseGlove()
 
 
     #thumb=True
