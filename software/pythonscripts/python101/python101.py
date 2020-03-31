@@ -2,6 +2,7 @@ import Macros
 import serial
 import time
 
+
 port = "COM15"
 try:
     ser1 = serial.Serial(port, 9600, 8) #attempts to make a connection to a device
@@ -108,7 +109,7 @@ def update(): #to edit in release
                 data["reserved_17"] = int(data_seq[73])
                 #debug purposes
                 #
-                print(data["IndexF_1"])
+                #print(data["IndexF_1"])
                 #print(data["reserved_17"])
                 #print("updated")
                 #
@@ -125,3 +126,4 @@ try:
     update()
 except:
    print("update failed in python101, is the device connected?, only 0's will be returned")
+#lets the update method run infinitely in the background without locking any threads

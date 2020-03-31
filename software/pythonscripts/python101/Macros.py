@@ -5,6 +5,8 @@ import socket
 import datetime
 import python101
 import threading
+from threading import Thread
+import time
 
 print("loaded libraries")
 
@@ -144,24 +146,46 @@ def CheckFingers():
     else:
        littleFinger=False
 
-#callable function for the thread
+       #callable function for the thread
 def CallUpdate():
     #update values from the Bluetooth
-    while True:
         python101.update()
+        print(python101.data["IndexF_1"]) #for demo purposes
     #endloop
 #endcallupdate
 
+class updateThread(Thread):
+    def __init__(self):
+        Thread.__init__(self)
+        self.daemon = True
+        self.start()
+    def run(self):
+        while True:
+            CallUpdate() #this is nonblocking it is a background thread
+            #make it run at aprox 120Hz
+            time.sleep(0.008)
+updateThread()
+
+class updateFingers(Thread):
+    def __init__(self):
+        Thread.__init__(self)
+        self.daemon = True
+        self.start()
+    def run(self):
+        while True:
+           CheckFingers()
+           #run this at aprox 120H = t = 1 / 120
+           time.sleep(0.008)
+updateFingers()
+
+
 #start threading update from BluetoothData concurrently with the rest of the code
-updateThread = threading.Thread(target=CallUpdate(), args=())
+#updateThread = threading.Thread(target=CallUpdate(), args=()) #this thread is created in the class above
 
 #start checking values if or if not bend concurrently with the rest of the code
-checkFingerThread = threading.Thread(target=CheckFingers(), args=())
+#checkFingerThread = threading.Thread(target=CheckFingers(), args=())
 
-#start the threading
-print("now running")
-updateThread.start();
-checkFingerThread.start();
+
 
 
 print("initiating sockets")
@@ -178,6 +202,12 @@ print("server started at "+IP+" on port "+str(Port))
 
 (clientsocket, address)=listensocket.accept()
 print("New connection made!")
+
+#start the threading
+print("now running")
+updateThread.start(); #thread is started autmatically by importing
+#checkFingerThread.start();
+
 
 while True:
 
@@ -218,3 +248,4 @@ while True:
         if(middleFinger): eval(SplitMessage[2]+'()')
         if(ringFinger): eval(SplitMessage[3]+'()')
         if(littleFinger): eval(SplitMessage[4]+'()')
+
