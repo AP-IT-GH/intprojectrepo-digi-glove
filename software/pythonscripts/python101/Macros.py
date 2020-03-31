@@ -203,7 +203,7 @@ print("New connection made!")
 
 #start the threading
 print("now running")
-updateThread.start(); #thread is started autmatically by importing
+#updateThread.start(); #thread is started autmatically by importing
 #checkFingerThread.start();
 
 
