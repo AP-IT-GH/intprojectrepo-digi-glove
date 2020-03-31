@@ -11,8 +11,8 @@ extern "C" {
 
     void dummydata_task(void);
 }
-extern void imu_init(void);
-extern void imu_task(void);
+// extern void imu_init(void);
+// extern void imu_task(void);
 
     
 void app_main(void)

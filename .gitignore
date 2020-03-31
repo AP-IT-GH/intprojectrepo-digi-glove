@@ -735,3 +735,6 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+
+# Dolphin file manager folders
+*.directory
