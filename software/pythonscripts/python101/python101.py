@@ -109,7 +109,8 @@ def update(): #to edit in release
                 data["reserved_17"] = int(data_seq[73])
                 #debug purposes
                 #
-                #print(data["IndexF_1"])
+                #hardcode debug
+                #data["IndexF_1"] = 201
                 #print(data["reserved_17"])
                 #print("updated")
                 #

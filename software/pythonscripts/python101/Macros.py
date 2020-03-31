@@ -179,6 +179,8 @@ class updateFingers(Thread):
 updateFingers()
 
 
+
+
 #start threading update from BluetoothData concurrently with the rest of the code
 #updateThread = threading.Thread(target=CallUpdate(), args=()) #this thread is created in the class above
 
@@ -208,17 +210,17 @@ print("now running")
 
 
 while True:
-
+    print("message received")
     #socket-message
     message=clientsocket.recv(1024).decode()
     if(message!=""):
         SplitMessage=message.split("-")
 
 
-    for macro in SplitMessage:
-        if(macro == "PauseGlove"):
-            gloveActivatedFinger = indexSplitMessage
-        indexSplitMessage = indexSplitMessage + 1
+    #for macro in SplitMessage:
+    #    if(macro == "PauseGlove"):
+    #        gloveActivatedFinger = indexSplitMessage
+    #    indexSplitMessage = indexSplitMessage + 1
 
 
     #when you bend the finger that is assigned to let the glove be paused and used: if you bend the glove it's inactive, if you bend that finger again, the glove is back active.
@@ -246,4 +248,4 @@ while True:
         if(middleFinger): eval(SplitMessage[2]+'()')
         if(ringFinger): eval(SplitMessage[3]+'()')
         if(littleFinger): eval(SplitMessage[4]+'()')
-
+        print(SplitMessage[1])

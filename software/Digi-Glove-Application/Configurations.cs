@@ -188,7 +188,7 @@ namespace Digi_Glove_Application
         {
             try
             {
-                client=new TcpClient("DESKTOP-NEIH7KA",port);
+                client=new TcpClient("LAPTOP-UVPKI186",port);
                 Debug.WriteLine("connection made");
             }
             catch(System.Net.Sockets.SocketException)
