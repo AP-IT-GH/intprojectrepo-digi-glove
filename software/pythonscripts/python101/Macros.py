@@ -162,8 +162,8 @@ class updateThread(Thread):
     def run(self):
         while True:
             CallUpdate() #this is nonblocking it is a background thread
-            #make it run at aprox 120Hz
-            time.sleep(0.008)
+            #make it run at aprox 200Hz
+            time.sleep(0.005)
 updateThread()
 
 class updateFingers(Thread):
@@ -184,8 +184,6 @@ updateFingers()
 
 #start checking values if or if not bend concurrently with the rest of the code
 #checkFingerThread = threading.Thread(target=CheckFingers(), args=())
-
-
 
 
 print("initiating sockets")
