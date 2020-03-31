@@ -4,9 +4,9 @@ import time
 
 port = "COM15"
 try:
-    ser1 = serial.Serial(port, 9600, 8)
+    ser1 = serial.Serial(port, 9600, 8) #attempts to ma*./ke a connection to a device
 except:
-    print("error either bluetooth is off or the device in not connected")
+    print("error either bluetooth is off or the device in not connected only 0's will be returned")
 print("sending data continiously to bluetooth devices press ctrl + c to stop")
 data = {"reserved_0" : 0 , "reserved_1" : 0 , "reserved_2" : 0 , "reserved_3" : 0 , "reserved_4" : 0 , "reserved_5" : 0 , "reserved_6" : 0 , "reserved_7" : 0 ,  #reserved0
         "timestamp_0" : 0 , "timestamp_1" : 0 , "timestamp_2" : 0, "timestamp_3" : 0, "timestamp_4" : 0, "timestamp_5" : 0, "timestamp_6" : 0, "timestamp_7" : 0, #timestamp
@@ -19,6 +19,7 @@ data = {"reserved_0" : 0 , "reserved_1" : 0 , "reserved_2" : 0 , "reserved_3" : 
 def update(): #to edit in release
        #ser1.write(0x01)
        if(ser1.inWaiting() >= 72):
+            global data
             data_seq = ser1.read(74) #read the buffer as soon as it reached 64 bytes aka a full sequence has entered1
             #print(data_seq[0])
             data["reserved_0"] = int(data_seq[0])
@@ -121,8 +122,7 @@ def update(): #to edit in release
 #       #data["value1"] = ser1.read()
 #       #time.sleep(0.005) #decide the frequency of pulls esp data is presumed live
 ##endupdate
-while True:
-    try:
-        update()
-    except:
-        print("update failed in python101, is the device connected?")
+try:
+   update()
+except:
+   print("update failed in python101, is the device connected?, only 0's will be returned")

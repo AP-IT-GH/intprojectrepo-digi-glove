@@ -159,7 +159,11 @@ def CheckFingers():
 #callable function for the thread
 def CallUpdate():
     #update values from the Bluetooth
-      python101.update()
+    print("test")
+    while True:
+        python101.update()
+    #endloop
+#endcallupdate
 
 #start threading update from BluetoothData concurrently with the rest of the code
 updateThread = threading.Thread(target=CallUpdate)
