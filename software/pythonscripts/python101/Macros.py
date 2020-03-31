@@ -6,7 +6,7 @@ import datetime
 import python101
 import threading
 
-
+print("loaded libraries")
 
 class POINT(Structure):
     _fields_ = [("x", c_long), ("y", c_long)]
@@ -65,19 +65,7 @@ accelerationXaxis = 0
 accelerationYaxis = 0
 accelerationZaxis = 0
 
-#socket
-listensocket=socket.socket()
-Port=8000
-maxConnections=999
-IP=socket.gethostname()
 
-listensocket.bind(('',Port))
-
-listensocket.listen(maxConnections);
-print("server started at "+IP+" on port "+str(Port))
-
-(clientsocket, address)=listensocket.accept()
-print("New connection made!")
 
 
 def RightMouseClick():
@@ -159,25 +147,39 @@ def CheckFingers():
 #callable function for the thread
 def CallUpdate():
     #update values from the Bluetooth
-    print("test")
     while True:
         python101.update()
     #endloop
 #endcallupdate
 
 #start threading update from BluetoothData concurrently with the rest of the code
-updateThread = threading.Thread(target=CallUpdate)
-
+updateThread = threading.Thread(target=CallUpdate(), args=())
 
 #start checking values if or if not bend concurrently with the rest of the code
-checkFingerThread = threading.Thread(target=CheckFingers)
+checkFingerThread = threading.Thread(target=CheckFingers(), args=())
 
+#start the threading
+print("now running")
+updateThread.start();
+checkFingerThread.start();
+
+
+print("initiating sockets")
+socket
+listensocket=socket.socket()
+Port=8000
+maxConnections=999
+IP=socket.gethostname()
+
+listensocket.bind(('',Port))
+
+listensocket.listen(maxConnections);
+print("server started at "+IP+" on port "+str(Port))
+
+(clientsocket, address)=listensocket.accept()
+print("New connection made!")
 
 while True:
-
-    #start the threading
-    updateThread.start();
-    checkFingerThread.start();
 
     #socket-message
     message=clientsocket.recv(1024).decode()
