@@ -22,7 +22,7 @@ def update(): #to edit in release
        try:
             if(ser1.inWaiting() >= 72):
                 data_seq = ser1.read(74) #read the buffer as soon as it reached 64 bytes aka a full sequence has entered1
-                #print(data_seq[0])
+                #print(data_seq)
                 data["reserved_0"] = int(data_seq[0])
                 data["reserved_1"] = int(data_seq[1])
                 data["reserved_2"] = int(data_seq[2])
@@ -108,13 +108,14 @@ def update(): #to edit in release
                 data["reserved_17"] = int(data_seq[73])
                 #debug purposes
                 #
-                #print(data["timestamp_0"])
+                print(data["IndexF_1"])
                 #print(data["reserved_17"])
                 #print("updated")
                 #
                 #buffer reset
                 ser1.reset_input_buffer() #clear the buffer of any data so the next line can come through properly
                 #endif
+
        except:
         print("no connection all data is 0")
 

@@ -24,9 +24,6 @@
   <ItemGroup>
     <Compile Include="Macros.py" />
     <Compile Include="python101.py" />
-    <Compile Include="test.py">
-      <SubType>Code</SubType>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Interpreter Include="env1\">
