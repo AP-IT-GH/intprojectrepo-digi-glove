@@ -1,0 +1,15 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"bt.h": "c",
+			"time.h": "c",
+			"bt_spp.h": "c",
+			"esp_gap_bt_api.h": "c"
+		}
+	}
+}
