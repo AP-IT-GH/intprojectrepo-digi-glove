@@ -23,6 +23,7 @@ flexFinger8 = 0
 flexFinger9= 0
 flexFinger10 = 0
 
+
 thumb = False
 indexFinger = False
 middleFinger = False
