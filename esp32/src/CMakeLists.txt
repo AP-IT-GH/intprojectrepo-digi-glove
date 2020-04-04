@@ -1,0 +1,13 @@
+# Warning! This code was automatically generated for projects
+# without default 'CMakeLists.txt' file.
+
+set(app_sources
+	"bt_spp.c"
+	"calibration.c"
+	"dummydata.c"
+	"imu.cpp"
+	"main.cpp"
+	"sensors.c"
+)
+
+idf_component_register(SRCS ${app_sources})

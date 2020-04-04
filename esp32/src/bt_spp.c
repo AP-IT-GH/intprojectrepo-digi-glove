@@ -203,8 +203,9 @@ void esp_bt_gap_cb(esp_bt_gap_cb_event_t event, esp_bt_gap_cb_param_t *param)
 }
 
 
-esp_err_t bt_init(char *dev_name, esp_bt_pin_code_t pin_number)
+esp_err_t bt_init(char *dev_name)
 {
+    esp_bt_pin_code_t pin_number;
     pin_number[0] = '1';
     pin_number[1] = '3';
     pin_number[2] = '3';
