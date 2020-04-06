@@ -14,7 +14,8 @@
 			"string": "c",
 			"string_view": "c",
 			"stdio.h": "c",
-			"stdlib.h": "c"
+			"stdlib.h": "c",
+			"cmath": "c"
 		}
 	}
 }

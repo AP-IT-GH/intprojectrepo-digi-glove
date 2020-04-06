@@ -1,3 +1,9 @@
+/*
+    * Copyright (c) 2020 All rights reserved.
+    * 
+    * This work is licensed under the terms of the MIT license.  
+    * For a copy, see <https://opensource.org/licenses/MIT>
+*/
 #include <stdio.h>
 #include <stdlib.h>
 #include "freertos/FreeRTOS.h"
