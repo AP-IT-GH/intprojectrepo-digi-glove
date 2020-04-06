@@ -190,10 +190,12 @@ namespace Digi_Glove_Application
             {
                 client=new TcpClient("DESKTOP-NEIH7KA",port);
                 Debug.WriteLine("connection made");
+                button_config_connect.Enabled = false;
             }
             catch(System.Net.Sockets.SocketException)
             {
                 Debug.WriteLine("Connection failed");
+                button_config_connect.Enabled = true;
             }
         }
     }

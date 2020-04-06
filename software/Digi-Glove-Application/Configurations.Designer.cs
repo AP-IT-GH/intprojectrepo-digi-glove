@@ -36,6 +36,8 @@
             this.panel3 = new System.Windows.Forms.Panel();
             this.button1 = new System.Windows.Forms.Button();
             this.panel_macro = new System.Windows.Forms.Panel();
+            this.button_config_connect = new System.Windows.Forms.Button();
+            this.button_config_save = new System.Windows.Forms.Button();
             this.panel4 = new System.Windows.Forms.Panel();
             this.panel8 = new System.Windows.Forms.Panel();
             this.textBox3 = new System.Windows.Forms.TextBox();
@@ -57,8 +59,6 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.button2 = new System.Windows.Forms.Button();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.button_config_save = new System.Windows.Forms.Button();
-            this.button_config_connect = new System.Windows.Forms.Button();
             this.panel_calibration.SuspendLayout();
             this.panel_control.SuspendLayout();
             this.panel_macro.SuspendLayout();
@@ -161,6 +161,27 @@
             this.panel_macro.Name = "panel_macro";
             this.panel_macro.Size = new System.Drawing.Size(727, 246);
             this.panel_macro.TabIndex = 2;
+            // 
+            // button_config_connect
+            // 
+            this.button_config_connect.Location = new System.Drawing.Point(404, 4);
+            this.button_config_connect.Name = "button_config_connect";
+            this.button_config_connect.Size = new System.Drawing.Size(134, 23);
+            this.button_config_connect.TabIndex = 5;
+            this.button_config_connect.Text = "Connect";
+            this.button_config_connect.UseVisualStyleBackColor = true;
+            this.button_config_connect.Click += new System.EventHandler(this.button_config_connect_Click);
+            // 
+            // button_config_save
+            // 
+            this.button_config_save.Location = new System.Drawing.Point(541, 4);
+            this.button_config_save.Margin = new System.Windows.Forms.Padding(0);
+            this.button_config_save.Name = "button_config_save";
+            this.button_config_save.Size = new System.Drawing.Size(163, 23);
+            this.button_config_save.TabIndex = 4;
+            this.button_config_save.Text = "Save";
+            this.button_config_save.UseVisualStyleBackColor = true;
+            this.button_config_save.Click += new System.EventHandler(this.button_config_save_Click);
             // 
             // panel4
             // 
@@ -419,27 +440,6 @@
             this.button2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.button2.TextImageRelation = System.Windows.Forms.TextImageRelation.TextAboveImage;
             this.button2.UseVisualStyleBackColor = true;
-            // 
-            // button_config_save
-            // 
-            this.button_config_save.Location = new System.Drawing.Point(541, 4);
-            this.button_config_save.Margin = new System.Windows.Forms.Padding(0);
-            this.button_config_save.Name = "button_config_save";
-            this.button_config_save.Size = new System.Drawing.Size(163, 23);
-            this.button_config_save.TabIndex = 4;
-            this.button_config_save.Text = "Save";
-            this.button_config_save.UseVisualStyleBackColor = true;
-            this.button_config_save.Click += new System.EventHandler(this.button_config_save_Click);
-            // 
-            // button_config_connect
-            // 
-            this.button_config_connect.Location = new System.Drawing.Point(404, 4);
-            this.button_config_connect.Name = "button_config_connect";
-            this.button_config_connect.Size = new System.Drawing.Size(134, 23);
-            this.button_config_connect.TabIndex = 5;
-            this.button_config_connect.Text = "Connect";
-            this.button_config_connect.UseVisualStyleBackColor = true;
-            this.button_config_connect.Click += new System.EventHandler(this.button_config_connect_Click);
             // 
             // Configurations
             // 
