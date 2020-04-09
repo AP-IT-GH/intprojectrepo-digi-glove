@@ -67,14 +67,14 @@ void bt_create_packet(sensor_data_t *sensor_d,imu_data_t *imu_d)
 
     // If sensor data was supplied, copy it to our global struct:
     if (sensor_d != NULL){
-        memcpy(sensor_data.data, sensor_d->data, sizeof(uint8_t) * SENSOR_DATA_SIZE);
+        memcpy(sensor_data.data, sensor_d->data, sizeof(uint8_t) * SENSOR_VAR_COUNT);
         sensor_data.capture_time = sensor_d->capture_time;
         //printf("Got sensor data\n");
     }
 
     // If IMU data was supplied, copy it to our global struct:
     if (imu_d != NULL){
-        memcpy(imu_data.data, imu_d->data, sizeof(float) * IMU_DATA_SIZE);
+        memcpy(imu_data.data, imu_d->data, sizeof(int16_t) * IMU_VAR_COUNT);
         imu_data.capture_time = imu_d->capture_time;
         //printf("Got imu data\n");
     }
@@ -84,11 +84,11 @@ void bt_create_packet(sensor_data_t *sensor_d,imu_data_t *imu_d)
         
         // Copy sensor data to BT data array:
         memcpy(bt_data + PKT_OFFSET_SEN_TIME, &sensor_data.capture_time, sizeof(int64_t));
-        memcpy(bt_data + PKT_OFFSET_SEN_DATA, sensor_data.data, sizeof(uint8_t) * SENSOR_DATA_SIZE);
+        memcpy(bt_data + PKT_OFFSET_SEN_DATA, sensor_data.data, sizeof(uint8_t) * SENSOR_VAR_COUNT);
         
         // Copy IMU data to BT array:
         memcpy(bt_data + PKT_OFFSET_IMU_TIME, &imu_data.capture_time, sizeof(int64_t));
-        memcpy(bt_data + PKT_OFFSET_IMU_DATA, imu_data.data, sizeof(float) * IMU_DATA_SIZE);
+        memcpy(bt_data + PKT_OFFSET_IMU_DATA, imu_data.data, sizeof(float) * IMU_VAR_COUNT);
 
         // If BT is available, send the packet:
         if (bt_spp_conn_properties.bt_available == true && bt_spp_conn_properties.bt_congested == false){
@@ -96,12 +96,12 @@ void bt_create_packet(sensor_data_t *sensor_d,imu_data_t *imu_d)
         }
 
         // Clear the data we have in global structs:
-        for (int s = 0; s < SENSOR_DATA_SIZE; s++){
+        for (int s = 0; s < SENSOR_VAR_COUNT; s++){
             sensor_data.data[s] = 0.00;
         }
         sensor_data.capture_time = 0;
 
-        for (int s = 0; s < IMU_DATA_SIZE; s++){
+        for (int s = 0; s < IMU_VAR_COUNT; s++){
             imu_data.data[s] = 0.00;
         }
         imu_data.capture_time = 0;

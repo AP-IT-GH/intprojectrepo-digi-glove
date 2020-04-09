@@ -1,11 +1,11 @@
-#define SENSOR_DATA_SIZE 13
-#define IMU_DATA_SIZE 7
+#define SENSOR_VAR_COUNT 13
+#define IMU_VAR_COUNT 7
 /**
  * @brief Sensor data struct.
 */
 typedef struct{
     int64_t capture_time;           // Time of capture
-    uint8_t data[SENSOR_DATA_SIZE]; // Sensor data itself in pre-defined order
+    uint8_t data[SENSOR_VAR_COUNT]; // Sensor data itself in pre-defined order
 }sensor_data_t;
 
 /**
@@ -13,5 +13,5 @@ typedef struct{
 */
 typedef struct{
     int64_t capture_time;       // Time of capture
-    float data[IMU_DATA_SIZE];  // IMU data itself in pre-defined order
+    int16_t data[IMU_VAR_COUNT];  // IMU data itself in pre-defined order
 }imu_data_t;
