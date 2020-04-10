@@ -80,7 +80,6 @@ void sensors_task(void* ignore)
     const TickType_t xFrequency = FREQUENCY;
     sensor_data_t packet;
     //uint32_t curTime = 0; uint32_t prevTime = 0;
-    TickType_t xLastWakeTime;
     uint16_t adc_reading[NUM_OF_ELEMENTS];
     uint16_t voltage[NUM_OF_ELEMENTS];
     uint16_t fcontainer[NUM_OF_ELEMENTS][FILTER_SIZE] = {0};
@@ -94,7 +93,7 @@ void sensors_task(void* ignore)
         minValue[i] = 5000;
     }
 
-    xLastWakeTime = xTaskGetTickCount();
+    TickType_t xLastWakeTime = xTaskGetTickCount();
     while (1) {
         //curTime = esp_timer_get_time();
 
