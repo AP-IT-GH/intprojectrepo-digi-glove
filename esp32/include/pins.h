@@ -10,8 +10,8 @@
 #define MUX_2_C 26
 
 /* IMU */
-#define IMU_SDA 22
-#define IMU_CLK 21
+#define IMU_SCL 22
+#define IMU_SDA 21
 #define IMU_INT 4
 
 /* LED */

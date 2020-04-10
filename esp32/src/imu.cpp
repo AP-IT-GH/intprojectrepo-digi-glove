@@ -25,7 +25,7 @@ void task_initI2C(void *ignore) {
 	i2c_config_t conf;
 	conf.mode = I2C_MODE_MASTER;
 	conf.sda_io_num = (gpio_num_t)IMU_SDA;
-	conf.scl_io_num = (gpio_num_t)IMU_CLK;
+	conf.scl_io_num = (gpio_num_t)IMU_SCL;
 	conf.sda_pullup_en = GPIO_PULLUP_ENABLE;
 	conf.scl_pullup_en = GPIO_PULLUP_ENABLE;
 	conf.master.clk_speed = 400000;
@@ -35,8 +35,9 @@ void task_initI2C(void *ignore) {
 }
 	
 void imu_init(MPU6050 imu) {
+	vTaskDelay(1000);
 	uint8_t devId = imu.getDeviceID();
-	if (devId <= 57)
+	if (devId <= 57 && devId != 0)
 		printf("MPU6050 connected succesfully, device ID = %d \r\n", devId);
 	else
 		printf("ERROR: MPU6050 might be connected succesfully but, device ID = %d \r\n", devId);
