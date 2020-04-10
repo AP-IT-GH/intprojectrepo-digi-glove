@@ -16,7 +16,7 @@ class POINT(Structure):
 #Variables for fingers - 10 sensors, each finger has 2
 flexFinger1 = python101.data["Thumb_0"]
 #flexFinger2 = python101.data["Thumb_1"] # missing as of 10/04/2020 because of hardware and software changes
-flexFinger2 = pyton101.data["Thumb0"] #copied from thumb 0 to not create a null reference
+flexFinger2 = python101.data["Thumb0"] #copied from thumb 0 to not create a null reference
 flexFinger3 = python101.data["IndexF_tip"]
 flexFinger4 = python101.data["IndexF_0"]
 flexFinger5 = python101.data["MiddleF_tip"]
