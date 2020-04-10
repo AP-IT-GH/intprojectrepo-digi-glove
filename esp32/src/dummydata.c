@@ -25,7 +25,7 @@ void dummydata_task(void* ignore)
      #if GENERATE_IMU
         imu_data_t imuPacket;
         imuPacket.capture_time = esp_timer_get_time();
-        for (int j = 0; j < IMU_DATA_SIZE; j++)
+        for (int j = 0; j < IMU_VAR_COUNT; j++)
             imuPacket.data[j] = 0;
         bt_create_packet(NULL,&imuPacket);
      #endif
