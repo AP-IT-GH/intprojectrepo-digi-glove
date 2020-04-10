@@ -64,11 +64,13 @@ void imu_task(void* ignore) {
 	imu_data_t packet;
 	uint8_t fifoBuffer[64];
 	const TickType_t xFrequency = FREQUENCY;
-
+	int test = 0; 	// just for testing and troubleshoothing
 	TickType_t xLastWakeTime = xTaskGetTickCount();
 	while(1) {
+		test = 0;
 		if (imu.dmpGetCurrentFIFOPacket(fifoBuffer)) { 	// Get the Latest packet 
 		#if OUTPUT_PACKET
+			test = 1;
 			packet.capture_time = esp_timer_get_time();
 			packet.data[0] = fifoBuffer[0] << 8 | fifoBuffer[1];	// quaternion W component
 			packet.data[1] = fifoBuffer[4] << 8 | fifoBuffer[5];	// quaternion X component
@@ -79,10 +81,11 @@ void imu_task(void* ignore) {
 			packet.data[6] = fifoBuffer[26] << 8 | fifoBuffer[27];	// acceleration Z component
 
 			bt_create_packet(NULL,&packet);
-		#endif
-			
+		
+			vTaskDelayUntil(&xLastWakeTime, xFrequency);
 		}
-
-		vTaskDelayUntil(&xLastWakeTime, xFrequency);
+		#endif
+		if (!test)
+			vTaskDelay(1);
 	}
 }
