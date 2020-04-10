@@ -55,31 +55,31 @@ def update(): #to edit in release
                 #
                 data["Quat_W_0"] = int(data_seq[24]) # higher order
                 data["Quat_W_1"] = int(data_seq[25]) # lower order
-                data["Quat_W"] = int((data["Quat_W_0"] << 8) + data["Quat_W_1"]) # create the full number in int needs to be devided by 16383 and multiplied with 9.80665
+                data["Quat_W"] = int((data["Quat_W_1"] << 8) + data["Quat_W_0"]) # create the full number in int needs to be devided by 16383 and multiplied with 9.80665
                 #
                 data["Quat_X_0"] = int(data_seq[26])
                 data["Quat_X_1"] = int(data_seq[27])
-                data["Quat_X"] = int((data["Quat_X_0"] << 8) + data["Quat_X_1"]) # create the full number in int needs to be devided by 16383 and multiplied with 9.80665
+                data["Quat_X"] = int((data["Quat_X_1"] << 8) + data["Quat_X_0"]) # create the full number in int needs to be devided by 16383 and multiplied with 9.80665
                 #
                 data["Quat_Y_0"] = int(data_seq[28])
                 data["Quat_Y_1"] = int(data_seq[29])
-                data["Quat_Y"] = int((data["Quat_Y_0"] << 8) + data["Quat_Y_1"]) # create the full number in int needs to be devided by 16383 and multiplied with 9.80665
+                data["Quat_Y"] = int((data["Quat_Y_1"] << 8) + data["Quat_Y_0"]) # create the full number in int needs to be devided by 16383 and multiplied with 9.80665
                 #
                 data["Quat_Z_0"] = int(data_seq[30])
                 data["Quat_Z_1"] = int(data_seq[31])
-                data["Quat_Z"] = int((data["Quat_Z_0"] << 8) + data["Quat_Z_1"]) # create the full number in int needs to be devided by 16383 and multiplied with 9.80665
+                data["Quat_Z"] = int((data["Quat_Z_1"] << 8) + data["Quat_Z_0"]) # create the full number in int needs to be devided by 16383 and multiplied with 9.80665
                 #
                 data["Accel_X_0"] = int(data_seq[32])
                 data["Accel_X_1"] = int(data_seq[33])
-                data["Accel_X"] = int((data["Quat_X_0"] << 8) + data["Quat_X_1"]) # create the full number in int needs to be devided by 16383 and multiplied with 9.80665
+                data["Accel_X"] = int((data["Accel_X_1"] << 8) + data["Accel_X_0"]) # create the full number in int needs to be devided by 16383 and multiplied with 9.80665
                 #
                 data["Accel_Y_0"] = int(data_seq[34])
                 data["Accel_Y_1"] = int(data_seq[35])
-                data["Accel_Y"] = int((data["Quat_Y_0"] << 8) + data["Quat_Y_1"]) # create the full number in int needs to be devided by 16383 and multiplied with 9.80665
+                data["Accel_Y"] = int((data["Accel_Y_1"] << 8) + data["Accel_Y_0"]) # create the full number in int needs to be devided by 16383 and multiplied with 9.80665
                 #
                 data["Accel_Z_0"] = int(data_seq[36])
                 data["Accel_Z_1"] = int(data_seq[37])
-                data["Accel_Z"] = int((data["Quat_Z_0"] << 8) + data["Quat_Z_1"]) # create the full number in int needs to be devided by 16383 and multiplied with 9.80665
+                data["Accel_Z"] = int((data["Accel_Z_1"] << 8) + data["Accel_Z_0"]) # create the full number in int needs to be devided by 16383 and multiplied with 9.80665
                 #
                 data["IndexF_0"] = int(data_seq[38])
                 data["MiddleF_0"] = int(data_seq[39])
@@ -114,6 +114,7 @@ def update(): #to edit in release
                 #data["IndexF_1"] = 201
                 #print(data["reserved_17"])
                 #print("updated")
+                #print(str(data["Quat_X"]))
                 #
                 #buffer reset
                 ser1.reset_input_buffer() #clear the buffer of any data so the next line can come through properly
