@@ -6,12 +6,10 @@
 #include "MPU6050.h"
 #include "MPU6050_6Axis_MotionApps_V6_12.h"
 #include "sdkconfig.h"
-#include "packet.h"
 #include "pins.h"
 #include "bt_spp.h"
 
 #define FREQUENCY 10 // 5 = 200Hz, 10 = 100Hz
-
 
 #define ACCEL_X_OFFSET -6989
 #define ACCEL_Y_OFFSET -7580
@@ -22,10 +20,6 @@
 
 #define OUTPUT_READABLE 1
 #define OUTPUT_PACKET 1
-
-
-
-
 
 void task_initI2C(void *ignore) {
 	i2c_config_t conf;
@@ -67,8 +61,8 @@ void imu_task(void* ignore) {
 
 	TickType_t xLastWakeTime = xTaskGetTickCount();
 	while(1) {
+		if (imu.dmpGetCurrentFIFOPacket(fifoBuffer)) { 	// Get the Latest packet 
 		#if OUTPUT_PACKET
-			if (imu.dmpGetCurrentFIFOPacket(fifoBuffer)) { 	// Get the Latest packet 
 			packet.capture_time = esp_timer_get_time();
 			packet.data[0] = fifoBuffer[0] << 8 | fifoBuffer[1];	// quaternion W component
 			packet.data[1] = fifoBuffer[4] << 8 | fifoBuffer[5];	// quaternion X component
@@ -79,8 +73,9 @@ void imu_task(void* ignore) {
 			packet.data[6] = fifoBuffer[26] << 8 | fifoBuffer[27];	// acceleration Z component
 
 			bt_create_packet(NULL,&packet);
-
 		#endif
+			
+		}
 
 		vTaskDelayUntil(&xLastWakeTime, xFrequency);
 	}
