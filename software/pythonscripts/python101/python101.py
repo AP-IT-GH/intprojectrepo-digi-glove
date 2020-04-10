@@ -12,17 +12,19 @@ print("if the device is connected, comms will now start")
 data = {"reserved_0" : 0 , "reserved_1" : 0 , "reserved_2" : 0 , "reserved_3" : 0 , "reserved_4" : 0 , "reserved_5" : 0 , "reserved_6" : 0 , "reserved_7" : 0 ,  #reserved0
         "timestamp_0" : 0 , "timestamp_1" : 0 , "timestamp_2" : 0, "timestamp_3" : 0, "timestamp_4" : 0, "timestamp_5" : 0, "timestamp_6" : 0, "timestamp_7" : 0, #timestamp
         "Sensortime_0" : 0 , "Sensortime_1" : 0 , "Sensortime_2" : 0 , "Sensortime_3" : 0 , "Sensortime_4" : 0 , "Sensortime_5" : 0 , "Sensortime_6" : 0 , "Sensortime_7" : 0, #sensortime
-        "W" : 0 , "X" : 0 , "Y" : 0 , "Z" : 0 , "accel_X" : 0 , "accel_Y" : 0 , "accel_Z" : 0 , #gyroscope
-       "IndexF_0" : 0 , "MiddleF_0" : 0 , "RingF_0" : 0 , "LittleF_0" : 0 , "IndexF_1" : 0 , "MiddleF_1" : 0 , "RingF_1" : 0 , "LittleF_1" : 0 , "Thumb_0" : 0 , "Thumb_1" : 0 , #flexstrips
-      "IndexF_tip" : 0 , "MiddleF_tip" : 0 , "RingF_tip" : 0 , "LittleF_tip" : 0 , #tips
-        "reserved_10" : 0 , "reserved_11" : 0 , "reserved_12" : 0 , "reserved_13" : 0 , "reserved_14" : 0 , "reserved_15" : 0 , "reserved_16" : 0 , "reserved_17" : 0 #reserved1
+        "Quat_W_0" : 0 , "Quat_W_1" : 0  , "Quat_W" : 0 , "Quat_X_0" : 0 , "Quat_X_1" : 0 , "Quat_X" : 0 , "Quat_Y_0" : 0 , "Quat_Y_1" : 0 , "Quat_Y" : 0 , "Quat_Z_0" : 0 , "Quat_Z_1" : 0 , "Quat_Z" : 0, #quats
+        "Accel_X_0" : 0 , "Accel_X_1" : 0 , "Accel_X" : 0 , "Accel_Y_0" : 0 , "Accel_Y_1" : 0 , "Accel_Y" : 0 , "Accel_Z_0" : 0 , "Accel_Z_1" : 0 , "Accel_Z" : 0 , # accels
+        "IndexF_0" : 0 , "MiddleF_0" : 0 , "RingF_0" : 0 , "LittleF_0" : 0 , "IndexF_1" : 0 , "MidddleF_1" : 0 , "RingF_1" : 0 , "LittleF_1" : 0 , "Thumb0_" : 0 , "IndexF_tip" : 0 , "MiddleF_tip" : 0, "RingF_tip": 0 , "LittleF_tip" : 0, # fingers
+        "reserved1_0" : 0 , "reserved1_1" : 0 , "reserved1_2" : 0 , "reserved1_3" : 0 , "reserved1_4" : 0 , "reserved1_5" : 0 ,"reserved1_6" : 0 , "reserved1_7" : 0 , "reserved1_8" : 0 , "reserved1_9" : 0 , "reserved1_10" : 0 , "reserved1_11" : 0 , "reserved1_12" : 0
         }
+        #all quats still have to be divided and multiplied for communication speed boost this will not be done here
+        # create the full number in int needs to be devided by 16383 and multiplied with 9.80665
 def update(): #to edit in release
        global data
        #ser1.write(0x01)
        try:
-            if(ser1.inWaiting() >= 72):
-                data_seq = ser1.read(74) #read the buffer as soon as it reached 64 bytes aka a full sequence has entered1
+            if(ser1.inWaiting() >= 64):
+                data_seq = ser1.read(64) #read the buffer as soon as it reached 64 bytes aka a full sequence has entered1
                 #print(data_seq)
                 data["reserved_0"] = int(data_seq[0])
                 data["reserved_1"] = int(data_seq[1])
@@ -51,62 +53,61 @@ def update(): #to edit in release
                 data["Sensortime_6"] = int(data_seq[22])
                 data["Sensortime_7"] = int(data_seq[23])
                 #
-                data["W0"] = int(data_seq[24])
-                data["W1"] = int(data_seq[25])
-                data["W2"] = int(data_seq[26])
-                data["W3"] = int(data_seq[27])
+                data["Quat_W_0"] = int(data_seq[24]) # higher order
+                data["Quat_W_1"] = int(data_seq[25]) # lower order
+                data["Quat_W"] = int((data["Quat_W_0"] << 8) + data["Quat_W_1"]) # create the full number in int needs to be devided by 16383 and multiplied with 9.80665
                 #
-                data["X0"] = int(data_seq[28])
-                data["X1"] = int(data_seq[29])
-                data["X2"] = int(data_seq[30])
-                data["X3"] = int(data_seq[31])
+                data["Quat_X_0"] = int(data_seq[26])
+                data["Quat_X_1"] = int(data_seq[27])
+                data["Quat_X"] = int((data["Quat_X_0"] << 8) + data["Quat_X_1"]) # create the full number in int needs to be devided by 16383 and multiplied with 9.80665
                 #
-                data["Y0"] = int(data_seq[32])
-                data["Y1"] = int(data_seq[33])
-                data["Y2"] = int(data_seq[34])
-                data["Y3"] = int(data_seq[35])
+                data["Quat_Y_0"] = int(data_seq[28])
+                data["Quat_Y_1"] = int(data_seq[29])
+                data["Quat_Y"] = int((data["Quat_Y_0"] << 8) + data["Quat_Y_1"]) # create the full number in int needs to be devided by 16383 and multiplied with 9.80665
                 #
-                data["Z0"] = int(data_seq[36])
-                data["Z1"] = int(data_seq[37])
-                data["Z2"] = int(data_seq[38])
-                data["Z3"] = int(data_seq[39])
+                data["Quat_Z_0"] = int(data_seq[30])
+                data["Quat_Z_1"] = int(data_seq[31])
+                data["Quat_Z"] = int((data["Quat_Z_0"] << 8) + data["Quat_Z_1"]) # create the full number in int needs to be devided by 16383 and multiplied with 9.80665
                 #
-                data["accel_X0"] = int(data_seq[40])
-                data["accel_X1"] = int(data_seq[41])
-                data["accel_X2"] = int(data_seq[42])
-                data["accel_X3"] = int(data_seq[43])
-                data["accel_Y0"] = int(data_seq[44])
-                data["accel_Y1"] = int(data_seq[45])
-                data["accel_Y2"] = int(data_seq[46])
-                data["accel_Y3"] = int(data_seq[47])
-                data["accel_Z0"] = int(data_seq[48])
-                data["accel_Z1"] = int(data_seq[49])
-                data["accel_Z2"] = int(data_seq[50])
-                data["accel_Z3"] = int(data_seq[51])
+                data["Accel_X_0"] = int(data_seq[32])
+                data["Accel_X_1"] = int(data_seq[33])
+                data["Accel_X"] = int((data["Quat_X_0"] << 8) + data["Quat_X_1"]) # create the full number in int needs to be devided by 16383 and multiplied with 9.80665
                 #
-                data["IndexF_0"] = int(data_seq[52])
-                data["MiddleF_0"] = int(data_seq[53])
-                data["RingF_0"] = int(data_seq[54])
-                data["LittleF_0"] = int(data_seq[55])
-                data["IndexF_1"] = int(data_seq[56])
-                data["MiddleF_1"] = int(data_seq[57])
-                data["RingF_1"] = int(data_seq[58])
-                data["LittleF_1"] = int(data_seq[59])
-                data["Thumb_0"] = int(data_seq[60])
-                data["Thumb_1"] = int(data_seq[61])
-                data["IndexF_tip"] = int(data_seq[62])
-                data["MiddleF_tip"] = int(data_seq[63])
-                data["RingF_tip"] = int(data_seq[64])
-                data["LittleF_tip"] = int(data_seq[65])
+                data["Accel_Y_0"] = int(data_seq[34])
+                data["Accel_Y_1"] = int(data_seq[35])
+                data["Accel_Y"] = int((data["Quat_Y_0"] << 8) + data["Quat_Y_1"]) # create the full number in int needs to be devided by 16383 and multiplied with 9.80665
                 #
-                data["reserved_10"] = int(data_seq[66])
-                data["reserved_11"] = int(data_seq[67])
-                data["reserved_12"] = int(data_seq[68])
-                data["reserved_13"] = int(data_seq[69])
-                data["reserved_14"] = int(data_seq[70])
-                data["reserved_15"] = int(data_seq[71])
-                data["reserved_16"] = int(data_seq[72])
-                data["reserved_17"] = int(data_seq[73])
+                data["Accel_Z_0"] = int(data_seq[36])
+                data["Accel_Z_1"] = int(data_seq[37])
+                data["Accel_Z"] = int((data["Quat_Z_0"] << 8) + data["Quat_Z_1"]) # create the full number in int needs to be devided by 16383 and multiplied with 9.80665
+                #
+                data["IndexF_0"] = int(data_seq[38])
+                data["MiddleF_0"] = int(data_seq[39])
+                data["RingF_0"] = int(data_seq[40])
+                data["LittleF_0"] = int(data_seq[41])
+                data["IndexF_1"] = int(data_seq[42])
+                data["MiddleF_1"] = int(data_seq[43])
+                data["RingF_1"] = int(data_seq[44])
+                data["LittleF_1"] = int(data_seq[45])
+                data["Thumb_0"] = int(data_seq[46])
+                data["IndexF_tip"] = int(data_seq[47])
+                data["MiddleF_tip"] = int(data_seq[48])
+                data["RingF_tip"] = int(data_seq[49])
+                data["LittleF_tip"] = int(data_seq[50])
+                #
+                data["reserved1_0"] = int(data_seq[51])
+                data["reserved1_1"] = int(data_seq[52])
+                data["reserved1_2"] = int(data_seq[53])
+                data["reserved1_3"] = int(data_seq[54])
+                data["reserved1_4"] = int(data_seq[55])
+                data["reserved1_5"] = int(data_seq[56])
+                data["reserved1_6"] = int(data_seq[57])
+                data["reserved1_7"] = int(data_seq[58])
+                data["reserved1_8"] = int(data_seq[59])
+                data["reserved1_9"] = int(data_seq[60])
+                data["reserved1_10"] = int(data_seq[61])
+                data["reserved1_11"] = int(data_seq[62])
+                data["reserved1_12"] = int(data_seq[63])
                 #debug purposes
                 #
                 #hardcode debug
