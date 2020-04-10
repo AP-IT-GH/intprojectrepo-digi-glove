@@ -3121,7 +3121,11 @@ bool MPU6050::writeMemoryBlock(const uint8_t *data, uint16_t dataSize, uint8_t b
 
         // verify data if needed
         if (verify && verifyBuffer) {
-        	printf("VERIFY\n");
+            if (i == 1)
+        	    printf("Verifying");
+            else
+                printf(".");
+            
             setMemoryBank(bank);
             setMemoryStartAddress(address);
             I2Cdev::readBytes(devAddr, MPU6050_RA_MEM_R_W, chunkSize, verifyBuffer);
@@ -3161,6 +3165,7 @@ bool MPU6050::writeMemoryBlock(const uint8_t *data, uint16_t dataSize, uint8_t b
     }
     if (verify) free(verifyBuffer);
     if (useProgMem) free(progBuffer);
+    printf("\r\n");
     return true;
 }
 bool MPU6050::writeProgMemoryBlock(const uint8_t *data, uint16_t dataSize, uint8_t bank, uint8_t address, bool verify) {

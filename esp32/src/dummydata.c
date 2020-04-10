@@ -12,7 +12,7 @@
 
 #include "bt_spp.h"
 
-#define GENERATE_IMU 1
+#define GENERATE_IMU 0
 #define GENERATE_SENSOR 0
 
 #define FREQUENCY 5 // 5 = 200Hz, 10 = 100Hz  
