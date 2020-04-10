@@ -14,7 +14,7 @@ data = {"reserved_0" : 0 , "reserved_1" : 0 , "reserved_2" : 0 , "reserved_3" : 
         "Sensortime_0" : 0 , "Sensortime_1" : 0 , "Sensortime_2" : 0 , "Sensortime_3" : 0 , "Sensortime_4" : 0 , "Sensortime_5" : 0 , "Sensortime_6" : 0 , "Sensortime_7" : 0, #sensortime
         "Quat_W_0" : 0 , "Quat_W_1" : 0  , "Quat_W" : 0 , "Quat_X_0" : 0 , "Quat_X_1" : 0 , "Quat_X" : 0 , "Quat_Y_0" : 0 , "Quat_Y_1" : 0 , "Quat_Y" : 0 , "Quat_Z_0" : 0 , "Quat_Z_1" : 0 , "Quat_Z" : 0, #quats
         "Accel_X_0" : 0 , "Accel_X_1" : 0 , "Accel_X" : 0 , "Accel_Y_0" : 0 , "Accel_Y_1" : 0 , "Accel_Y" : 0 , "Accel_Z_0" : 0 , "Accel_Z_1" : 0 , "Accel_Z" : 0 , # accels
-        "IndexF_0" : 0 , "MiddleF_0" : 0 , "RingF_0" : 0 , "LittleF_0" : 0 , "IndexF_1" : 0 , "MidddleF_1" : 0 , "RingF_1" : 0 , "LittleF_1" : 0 , "Thumb0_" : 0 , "IndexF_tip" : 0 , "MiddleF_tip" : 0, "RingF_tip": 0 , "LittleF_tip" : 0, # fingers
+        "IndexF_0" : 0 , "MiddleF_0" : 0 , "RingF_0" : 0 , "LittleF_0" : 0 , "IndexF_1" : 0 , "MidddleF_1" : 0 , "RingF_1" : 0 , "LittleF_1" : 0 , "Thumb_0" : 0 , "IndexF_tip" : 0 , "MiddleF_tip" : 0, "RingF_tip": 0 , "LittleF_tip" : 0, # fingers
         "reserved1_0" : 0 , "reserved1_1" : 0 , "reserved1_2" : 0 , "reserved1_3" : 0 , "reserved1_4" : 0 , "reserved1_5" : 0 ,"reserved1_6" : 0 , "reserved1_7" : 0 , "reserved1_8" : 0 , "reserved1_9" : 0 , "reserved1_10" : 0 , "reserved1_11" : 0 , "reserved1_12" : 0
         }
         #all quats still have to be divided and multiplied for communication speed boost this will not be done here
