@@ -35,11 +35,7 @@ void bt_create_packet(sensor_data_t *sensor_d,imu_data_t *imu_d);
 /**
     * @brief Stores bluetooth connection status and properties 
 */
-struct bluetooth_spp_property{
-    uint32_t device_handle;     /* Handle of the device connected */
-    bool bt_congested;          /* Congestion status of SPP bluetooth FALSE = Not congested */
-    bool bt_available;          /* Indicates if the bluetooth is setup and a device is connected. TRUE = Connected*/
-}bt_spp_conn_properties;
+
 
 /**
  * @brief This function initiates all the necessary protocols in the BT stack for

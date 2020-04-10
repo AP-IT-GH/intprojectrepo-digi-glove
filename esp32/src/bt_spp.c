@@ -62,6 +62,12 @@ uint8_t bt_data[BT_DATA_SIZE] = {0};
 sensor_data_t sensor_data = {.capture_time = 0, .data = {0}};
 imu_data_t imu_data = {.capture_time = 0, .data = {0}};
 
+struct bluetooth_spp_property{
+    uint32_t device_handle;     /* Handle of the device connected */
+    bool bt_congested;          /* Congestion status of SPP bluetooth FALSE = Not congested */
+    bool bt_available;          /* Indicates if the bluetooth is setup and a device is connected. TRUE = Connected*/
+}bt_spp_conn_properties;
+
 void bt_create_packet(sensor_data_t *sensor_d,imu_data_t *imu_d)
 {
 
@@ -92,7 +98,7 @@ void bt_create_packet(sensor_data_t *sensor_d,imu_data_t *imu_d)
 
         // If BT is available, send the packet:
         if (bt_spp_conn_properties.bt_available == true && bt_spp_conn_properties.bt_congested == false){
-            esp_err_t ret = esp_spp_write(bt_spp_conn_properties.device_handle, BT_DATA_SIZE, bt_data);
+            esp_spp_write(bt_spp_conn_properties.device_handle, BT_DATA_SIZE, bt_data);
         }
 
         // Clear the data we have in global structs:

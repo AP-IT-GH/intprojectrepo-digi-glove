@@ -18,13 +18,15 @@ extern "C" {
     void dummydata_task(void* ignore);
 }
 
- //extern void imu_init(void);
- //extern void imu_task(void);
+
+ extern void imu_task(void* ignore);
 
     
 void app_main(void)
 {
     bt_init(BT_SERVER_NAME);    // Not a legit way of doing things
     xTaskCreate(sensors_task, "sensors_task", 6144, NULL, configMAX_PRIORITIES, NULL);
+    xTaskCreate(imu_task, "imu_task", 6144, NULL, configMAX_PRIORITIES, NULL);
     xTaskCreate(dummydata_task, "sensors_task", 2048, NULL, configMAX_PRIORITIES-1, NULL);
+
 }
