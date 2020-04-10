@@ -33,11 +33,15 @@ void task_initI2C(void *ignore) {
 	ESP_ERROR_CHECK(i2c_driver_install(I2C_NUM_0, I2C_MODE_MASTER, 0, 0, 0));
 	vTaskDelete(NULL);
 }
-
+	
 void imu_init(MPU6050 imu) {
+	uint8_t devId = imu.getDeviceID();
+	if (devId <= 57)
+		printf("MPU6050 connected succesfully, device ID = %d \r\n", devId);
+	else
+		printf("ERROR: MPU6050 might be connected succesfully but, device ID = %d \r\n", devId);
 	imu.initialize();
 	imu.dmpInitialize();
-
 	imu.setXAccelOffset(ACCEL_X_OFFSET);
     imu.setYAccelOffset(ACCEL_Y_OFFSET);
     imu.setZAccelOffset(ACCEL_Z_OFFSET);
@@ -47,6 +51,7 @@ void imu_init(MPU6050 imu) {
 
 	imu.CalibrateAccel(6);
     imu.CalibrateGyro(6);
+	
 	//imu.PrintActiveOffsets();
 
 	imu.setDMPEnabled(true);
