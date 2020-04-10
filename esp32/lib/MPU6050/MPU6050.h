@@ -441,7 +441,7 @@ class MPU6050 {
     public:
         MPU6050();
         MPU6050(uint8_t address);
-
+        void PrintActiveOffsets();
         void ReadRegister(uint8_t reg, uint8_t *data, uint8_t len);
 
         void initialize();

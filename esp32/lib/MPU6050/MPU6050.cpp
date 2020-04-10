@@ -3302,8 +3302,9 @@ void MPU6050::CalibrateGyro(uint8_t Loops ) {
     x = (100 - map(Loops, 1, 5, 20, 0)) * .01;
     kP *= x;
     kI *= x;
-
+    printf(">");
     PID( 0x43,  kP, kI,  Loops);
+    printf("\r\n");
 }
 
 /**
@@ -3317,7 +3318,9 @@ void MPU6050::CalibrateAccel(uint8_t Loops ) {
     x = (100 - map(Loops, 1, 5, 20, 0)) * .01;
     kP *= x;
     kI *= x;
+    printf(">");
     PID( 0x3B, kP, kI,  Loops);
+    printf("\r\n");
 }
 
 
@@ -3352,6 +3355,7 @@ void MPU6050::PID(uint8_t ReadAddress, float kP,float kI, uint8_t Loops){
         eSample = 0;
         for (int c = 0; c < 100; c++) {// 100 PI Calculations
             eSum = 0;
+            
             for (int i = 0; i < 3; i++) {
                 I2Cdev::readWord(devAddr, ReadAddress + (i * 2), (uint16_t *)&Data); // reads 1 or more 16 bit integers (Word)
                 Reading = Data;
@@ -3368,10 +3372,12 @@ void MPU6050::PID(uint8_t ReadAddress, float kP,float kI, uint8_t Loops){
             }
             if((c == 99) && eSum > 1000){						// Error is still to great to continue
                 c = 0;
+                printf("*");
             }
             if((eSum * ((ReadAddress == 0x3B)?.05: 1)) < 5) eSample++;	// Successfully found offsets prepare to  advance
             if((eSum < 100) && (c > 10) && (eSample >= 10)) break;		// Advance to next Loop
         }
+        printf(".");
         kP *= .75;
         kI *= .75;
         for (int i = 0; i < 3; i++){
@@ -3382,6 +3388,14 @@ void MPU6050::PID(uint8_t ReadAddress, float kP,float kI, uint8_t Loops){
             I2Cdev::writeWord(devAddr, SaveAddress + (i * shift), Data);
         }
     }
+    
     resetFIFO();
     resetDMP();
+}
+
+void MPU6050::PrintActiveOffsets() {
+	uint8_t AOffsetRegister = MPU6050_RA_XA_OFFS_H;
+	int16_t Data[3];
+    printf("Ax=%d \t Ay=%d \t Az=%d \t Gx=%d \tGy=%d \tGz=%d \r\n",getXAccelOffset(),
+        getYAccelOffset(),getZAccelOffset(),getXGyroOffset(),getYGyroOffset(),getZGyroOffset());
 }
