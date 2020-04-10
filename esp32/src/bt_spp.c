@@ -38,12 +38,12 @@ extern "C" {
 #define SPP_SERVER_NAME "SPP_SERVER"
 
 // Size of BT data array:
-#define BT_DATA_SIZE 74
+#define BT_DATA_SIZE 64
 
 // Position of data in BT packet data frame in bytes
-#define PKT_OFFSET_SEN_TIME 8
-#define PKT_OFFSET_SEN_DATA 52
-#define PKT_OFFSET_IMU_TIME 16
+#define PKT_OFFSET_SEN_TIME 16
+#define PKT_OFFSET_SEN_DATA 38
+#define PKT_OFFSET_IMU_TIME 8
 #define PKT_OFFSET_IMU_DATA 24
 
 // Local BT channel, 0 for any channel
@@ -94,7 +94,7 @@ void bt_create_packet(sensor_data_t *sensor_d,imu_data_t *imu_d)
         
         // Copy IMU data to BT array:
         memcpy(bt_data + PKT_OFFSET_IMU_TIME, &imu_data.capture_time, sizeof(int64_t));
-        memcpy(bt_data + PKT_OFFSET_IMU_DATA, imu_data.data, sizeof(float) * IMU_VAR_COUNT);
+        memcpy(bt_data + PKT_OFFSET_IMU_DATA, imu_data.data, sizeof(int16_t) * IMU_VAR_COUNT);
 
         // If BT is available, send the packet:
         if (bt_spp_conn_properties.bt_available == true && bt_spp_conn_properties.bt_congested == false){
@@ -216,6 +216,7 @@ esp_err_t bt_init(char *dev_name)
     pin_number[1] = '3';
     pin_number[2] = '3';
     pin_number[3] = '7';
+
     // Copy parameters that were passed to the global variables:
     memcpy(device_name, dev_name, sizeof(char) * 64);
     
