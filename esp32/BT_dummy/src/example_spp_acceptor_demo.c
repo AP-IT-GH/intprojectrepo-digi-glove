@@ -53,24 +53,24 @@
 // CPU Core the generate functions are pinned to (-1 for no pin):
 #define GEN_DATA_CORE 1
 
-#define SPP_DATA_LEN 74 // msg data Array length 64 bytes
+#define SPP_DATA_LEN 64 // msg data Array length 64 bytes
 
-#define FLEX_DATA_LEN 10
+#define FLEX_DATA_LEN 9
 #define FLEX_LIMIT_MAX 255
 #define FLEX_LIMIT_MIN 0
 #define FLEX_STEP 1
 
-#define PRESS_DATA_LEN 5
+#define PRESS_DATA_LEN 4
 #define GYRO_DATA_LEN 4
 #define ACC_DATA_LEN 3
 
 // Position of data in packet:
 #define PKG_OFFSET_IMU_TIME 8
 #define PKG_OFFSET_SENSOR_TIME 16
-#define PKG_OFFSET_FLEX 52
-#define PKG_OFFSET_PRESS 62
+#define PKG_OFFSET_FLEX 38
+#define PKG_OFFSET_PRESS 47
 #define PKG_OFFSET_GYRO 24
-#define PKG_OFFSET_ACC 40
+#define PKG_OFFSET_ACC 32
 
 #define GEN_DATA_NAME "GEN_DUMMY_DATA"
 #define BT_SEND_NAME "BT_SPP_SEND"
@@ -98,14 +98,15 @@ uint8_t press_data[PRESS_DATA_LEN];
 static uint8_t press_limit_max = 255;
 static uint8_t press_limit_min = 0;
 
-float gyro_data[GYRO_DATA_LEN];
-static float gyro_limit_max = 1.00;
-static float gyro_limit_min = 0.00;
-static float gyro_step = 0.01;
+uint16_t gyro_data[GYRO_DATA_LEN];
+static uint16_t gyro_limit_max = 16383;
+static uint16_t gyro_limit_min = 0;
+static uint16_t gyro_step = 100;
 
-int16_t acc_data[ACC_DATA_LEN];
-static int16_t acc_limit_max = 50;
-static int16_t acc_limit_min = -50;
+uint16_t acc_data[ACC_DATA_LEN];
+static uint16_t acc_limit_max = 16383;
+static uint16_t acc_limit_min = 0;
+static uint16_t acc_step = 100;
 
 int64_t cur_time = 0;
 
@@ -260,12 +261,12 @@ void generate_acc_data()
     {
         
         //Generate acceleration data:
-        if (acc_data[0] == -50)
+        if (acc_data[0] == acc_limit_min)
         {
             
             for (int i = 0; i < ACC_DATA_LEN; i++)
             {
-                for(int16_t j = acc_limit_min; j <= acc_limit_max; j = j + 1.00)
+                for(int16_t j = acc_limit_min; j <= acc_limit_max; j = j + acc_step)
                 {   
                     acc_data[i] = j;
                     vTaskDelay(ACC_DELAY/portTICK_PERIOD_MS);
@@ -278,7 +279,7 @@ void generate_acc_data()
         {
             for (int i = (ACC_DATA_LEN - 1); i >= 0; i--)
             {
-                for (int16_t j = acc_limit_max; j >= acc_limit_min; j = j - 1.00)
+                for (int16_t j = acc_limit_max; j >= acc_limit_min; j = j - acc_step)
                 {
                     acc_data[i] = j;
                     vTaskDelay(ACC_DELAY/portTICK_PERIOD_MS);
@@ -314,6 +315,7 @@ void send_BT()
         cur_time = esp_timer_get_time();
         //copy timestamp to message array start:
         memcpy(spp_data + PKG_OFFSET_IMU_TIME, &cur_time, sizeof(int64_t));
+        memcpy(spp_data + PKG_OFFSET_SENSOR_TIME, &cur_time, sizeof(int64_t));
 
         // copy flex data array to message array starting from the end of planned timestamp...
         memcpy(spp_data + PKG_OFFSET_FLEX, flex_data, sizeof(int8_t) * FLEX_DATA_LEN);
