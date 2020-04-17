@@ -33,9 +33,10 @@ void task_initI2C(void *ignore) {
 	ESP_ERROR_CHECK(i2c_driver_install(I2C_NUM_0, I2C_MODE_MASTER, 0, 0, 0));
 	vTaskDelete(NULL);
 }
+
+void imu_task(void* ignore) {
 	
-void imu_init(MPU6050 imu) {
-	vTaskDelay(1000);
+	MPU6050 imu = MPU6050();
 	uint8_t devId = imu.getDeviceID();
 	if (devId <= 57 && devId != 0)
 		printf("MPU6050 connected succesfully, device ID = %d \r\n", devId);
@@ -43,35 +44,34 @@ void imu_init(MPU6050 imu) {
 		printf("ERROR: MPU6050 might be connected succesfully but, device ID = %d \r\n", devId);
 	imu.initialize();
 	imu.dmpInitialize();
+
 	imu.setXAccelOffset(ACCEL_X_OFFSET);
     imu.setYAccelOffset(ACCEL_Y_OFFSET);
     imu.setZAccelOffset(ACCEL_Z_OFFSET);
     imu.setYGyroOffset(GYRO_X_OFFSET);
     imu.setZGyroOffset(GYRO_X_OFFSET);
 	imu.setXGyroOffset(GYRO_X_OFFSET);
-
 	imu.CalibrateAccel(6);
     imu.CalibrateGyro(6);
-	
-	//imu.PrintActiveOffsets();
-
 	imu.setDMPEnabled(true);
-}
-
-void imu_task(void* ignore) {
-	MPU6050 imu = MPU6050();
-	imu_init(imu);
 	imu_data_t packet;
 	uint8_t fifoBuffer[64];
 	const TickType_t xFrequency = FREQUENCY;
 	int test = 0; 	// just for testing and troubleshoothing
 	TickType_t xLastWakeTime = xTaskGetTickCount();
+	int curTime = 0;
+    int prevTime = 0;
+    int tTime = 0;
+
+
+
 	while(1) {
-		test = 0;
-		if (imu.dmpGetCurrentFIFOPacket(fifoBuffer)) { 	// Get the Latest packet 
-		#if OUTPUT_PACKET
-			test = 1;
-			packet.capture_time = esp_timer_get_time();
+		if (imu.dmpGetCurrentFIFOPacket(fifoBuffer)) { // Get the Latest packet 
+            curTime = esp_timer_get_time();
+            tTime = curTime - prevTime;
+			
+		    packet.capture_time = esp_timer_get_time();
+
 			packet.data[0] = fifoBuffer[0] << 8 | fifoBuffer[1];	// quaternion W component
 			packet.data[1] = fifoBuffer[4] << 8 | fifoBuffer[5];	// quaternion X component
 			packet.data[2] = fifoBuffer[8] << 8 | fifoBuffer[9];	// quaternion Y component
@@ -79,13 +79,13 @@ void imu_task(void* ignore) {
 			packet.data[4] = fifoBuffer[22] << 8 | fifoBuffer[23];	// acceleration X component
 			packet.data[5] = fifoBuffer[24] << 8 | fifoBuffer[25];	// acceleration Y component
 			packet.data[6] = fifoBuffer[26] << 8 | fifoBuffer[27];	// acceleration Z component
-
 			bt_create_packet(NULL,&packet);
-		
-			vTaskDelayUntil(&xLastWakeTime, xFrequency);
-		}
-		#endif
-		if (!test)
-			vTaskDelay(1);
+
+			printf("time = %d \t W = %d\r\n", tTime, packet.data[0]);
+			prevTime = curTime;
+		   
+        }
+        //vTaskDelay(10);
+        vTaskDelayUntil(&xLastWakeTime, xFrequency);
 	}
 }
