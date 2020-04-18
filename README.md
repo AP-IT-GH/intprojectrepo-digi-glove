@@ -4,7 +4,7 @@ With this project we try to make a digital glove which can be used to perform ma
 ## General Information
 ### Privacy Policy
 If you want to learn more about our privacy policy, open the following file:
--'PRIVACYPOLICY_DigiGlove.docx'
+- 'PRIVACYPOLICY_DigiGlove.docx'
 
 ### Manual of the Application (GUI)
 If you want to learn more about how to use the application or GUI (=Graphic User Interface), open the following file:
