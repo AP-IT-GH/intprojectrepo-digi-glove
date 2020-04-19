@@ -155,6 +155,16 @@ def CallUpdate():
     #endloop
 #endcallupdate
 
+def ValidationFingers():
+    print("yeetyeet")
+    if(thumb): eval(SplitMessage[0]+'()')
+    if(indexFinger): eval('PrintScreen'+'()')
+    if(middleFinger): eval(SplitMessage[2]+'()')
+    if(ringFinger): eval(SplitMessage[3]+'()')
+    if(littleFinger): eval(SplitMessage[4]+'()')
+    print(SplitMessage[1])
+
+
 class updateThread(Thread):
     def __init__(self):
         Thread.__init__(self)
@@ -180,6 +190,16 @@ class updateFingers(Thread):
 updateFingers()
 
 
+class validationFingers(Thread):
+    def __init__(self):
+        Thread.__init__(self)
+        self.daemon=True
+        self.start()
+    def run(self):
+        while True:
+           ValidationFingers()
+           time.sleep(0.005)
+validationFingers()
 
 
 #start threading update from BluetoothData concurrently with the rest of the code
@@ -225,28 +245,28 @@ while True:
 
 
     #when you bend the finger that is assigned to let the glove be paused and used: if you bend the glove it's inactive, if you bend that finger again, the glove is back active.
-    if(gloveActivatedFinger==0):
-        if(thumb):
-            PauseGlove()
-    elif(gloveActivatedFinger==1):
-        if(indexFinger):
-            PauseGlove()
-    elif(gloveActivatedFinger==2):
-        if(middleFinger):
-            PauseGlove()
-    elif(gloveActivatedFinger==3):
-        if(ringFinger):
-            PauseGlove()
-    elif(gloveActivatedFinger==4):
-        if(littleFinger):
-            PauseGlove()
+    #if(gloveActivatedFinger==0):
+    #    if(thumb):
+    #        PauseGlove()
+    #elif(gloveActivatedFinger==1):
+    #    if(indexFinger):
+    #        PauseGlove()
+    #elif(gloveActivatedFinger==2):
+    #    if(middleFinger):
+    #        PauseGlove()
+    #elif(gloveActivatedFinger==3):
+    #   if(ringFinger):
+    #        PauseGlove()
+    #elif(gloveActivatedFinger==4):
+    #    if(littleFinger):
+    #        PauseGlove()
 
 
     #thumb=True
-    if(gloveActivated):
-        if(thumb): eval(SplitMessage[0]+'()')
-        if(indexFinger): eval(SplitMessage[1]+'()')
-        if(middleFinger): eval(SplitMessage[2]+'()')
-        if(ringFinger): eval(SplitMessage[3]+'()')
-        if(littleFinger): eval(SplitMessage[4]+'()')
-        print(SplitMessage[1])
+    #if(gloveActivated):
+    #    if(thumb): eval(SplitMessage[0]+'()')
+    #    if(indexFinger): eval(SplitMessage[1]+'()')
+     #   if(middleFinger): eval(SplitMessage[2]+'()')
+     #   if(ringFinger): eval(SplitMessage[3]+'()')
+      #  if(littleFinger): eval(SplitMessage[4]+'()')
+       # print(SplitMessage[1])
