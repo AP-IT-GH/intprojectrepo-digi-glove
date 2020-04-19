@@ -70,8 +70,6 @@ accelerationYaxis = 0
 accelerationZaxis = 0
 
 
-
-
 def RightMouseClick():
     pt = POINT()
     windll.user32.GetCursorPos(byref(pt))
@@ -158,14 +156,42 @@ def CallUpdate():
     #endloop
 #endcallupdate
 
+def CheckPauseGlove():
+    for macro in SplitMessage:
+        if(macro == "PauseGlove"):
+            gloveActivatedFinger = indexSplitMessage
+            indexSplitMessage = indexSplitMessage + 1
+
+    #when you bend the finger that is assigned to let the glove be paused and used: if you bend the glove it's inactive, if you bend that finger again, the glove is back active.
+    if(gloveActivatedFinger==0):
+        if(thumb):
+            PauseGlove()
+    elif(gloveActivatedFinger==1):
+        if(indexFinger):
+            PauseGlove()
+    elif(gloveActivatedFinger==2):
+        if(middleFinger):
+            PauseGlove()
+    elif(gloveActivatedFinger==3):
+       if(ringFinger):
+            PauseGlove()
+    elif(gloveActivatedFinger==4):
+        if(littleFinger):
+            PauseGlove()
+
+
+
 def ValidationFingers():
     SplitMessage = message.split("-")
-    if(thumb): eval(SplitMessage[0]+'()')
-    if(indexFinger): eval(SplitMessage[1]+'()')
-    if(middleFinger): eval(SplitMessage[2]+'()')
-    if(ringFinger): eval(SplitMessage[3]+'()')
-    if(littleFinger): eval(SplitMessage[4]+'()')
-    print(SplitMessage[1])
+    CheckPauseGlove()
+
+    if(gloveActivated):
+        if(thumb): eval(SplitMessage[0]+'()')
+        if(indexFinger): eval(SplitMessage[1]+'()')
+        if(middleFinger): eval(SplitMessage[2]+'()')
+        if(ringFinger): eval(SplitMessage[3]+'()')
+        if(littleFinger): eval(SplitMessage[4]+'()')
+        #print(SplitMessage[1])
 
 
 class updateThread(Thread):
@@ -205,13 +231,6 @@ class validationFingers(Thread):
 validationFingers()
 
 
-#start threading update from BluetoothData concurrently with the rest of the code
-#updateThread = threading.Thread(target=CallUpdate(), args=()) #this thread is created in the class above
-
-#start checking values if or if not bend concurrently with the rest of the code
-#checkFingerThread = threading.Thread(target=CheckFingers(), args=())
-
-
 print("initiating sockets")
 socket
 listensocket=socket.socket()
@@ -240,36 +259,3 @@ while True:
     if(message!=""):
         SplitMessage=message.split("-")
 
-
-    #for macro in SplitMessage:
-    #    if(macro == "PauseGlove"):
-    #        gloveActivatedFinger = indexSplitMessage
-    #    indexSplitMessage = indexSplitMessage + 1
-
-
-    #when you bend the finger that is assigned to let the glove be paused and used: if you bend the glove it's inactive, if you bend that finger again, the glove is back active.
-    #if(gloveActivatedFinger==0):
-    #    if(thumb):
-    #        PauseGlove()
-    #elif(gloveActivatedFinger==1):
-    #    if(indexFinger):
-    #        PauseGlove()
-    #elif(gloveActivatedFinger==2):
-    #    if(middleFinger):
-    #        PauseGlove()
-    #elif(gloveActivatedFinger==3):
-    #   if(ringFinger):
-    #        PauseGlove()
-    #elif(gloveActivatedFinger==4):
-    #    if(littleFinger):
-    #        PauseGlove()
-
-
-    #thumb=True
-    #if(gloveActivated):
-    #    if(thumb): eval(SplitMessage[0]+'()')
-    #    if(indexFinger): eval(SplitMessage[1]+'()')
-     #   if(middleFinger): eval(SplitMessage[2]+'()')
-     #   if(ringFinger): eval(SplitMessage[3]+'()')
-      #  if(littleFinger): eval(SplitMessage[4]+'()')
-       # print(SplitMessage[1])
