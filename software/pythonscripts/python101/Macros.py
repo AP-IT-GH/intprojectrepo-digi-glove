@@ -130,7 +130,7 @@ def CheckFingers():
         thumb=True
     else:
         thumb=False
-    if(flexFinger3>= 200 and flexFinger4>=50): # 200 200
+    if(flexFinger3>= 200 and flexFinger4>=200): # 200 200
         global indexFinger
         indexFinger=True
     else:
