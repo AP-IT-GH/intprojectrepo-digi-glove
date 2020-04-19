@@ -188,7 +188,7 @@ namespace Digi_Glove_Application
         {
             try
             {
-                client=new TcpClient("LAPTOP-UVPKI186", port);
+                client=new TcpClient("localhost", port);
                 Debug.WriteLine("connection made");
                 button_config_connect.Enabled = false;
             }
