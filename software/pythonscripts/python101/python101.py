@@ -119,6 +119,9 @@ def update(): #to edit in release
                 #buffer reset
                 ser1.reset_input_buffer() #clear the buffer of any data so the next line can come through properly
                 #endif
+                #hardcoded overrides
+                #data["IndexF_0"] = 205
+                #data["IndexF_tip"] = 205
 
        except:
         print("no connection all data is 0")

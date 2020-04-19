@@ -8,6 +8,7 @@ import threading
 from threading import Thread
 import time
 
+message = "PrintScreen-PrintScreen-PrintScreen-PrintScreen-PrintScreen" #overidden from Zeno's gui
 print("loaded libraries")
 
 class POINT(Structure):
@@ -129,6 +130,7 @@ def CheckFingers():
     else:
         thumb=False
     if(flexFinger3>= 200 and flexFinger4>=200):
+        global indexFinger
         indexFinger=True
     else:
         indexFinger=False
@@ -151,14 +153,15 @@ def CheckFingers():
 def CallUpdate():
     #update values from the Bluetooth
         python101.update()
-        print(python101.data["Quat_X"]) #for demo purposes
+        #print(str(flexFinger3) + " " + str(flexFinger4)) #for demo purposes
+
     #endloop
 #endcallupdate
 
 def ValidationFingers():
-    print("yeetyeet")
+    SplitMessage = message.split("-")
     if(thumb): eval(SplitMessage[0]+'()')
-    if(indexFinger): eval('PrintScreen'+'()')
+    if(indexFinger): eval(SplitMessage[1]+'()')
     if(middleFinger): eval(SplitMessage[2]+'()')
     if(ringFinger): eval(SplitMessage[3]+'()')
     if(littleFinger): eval(SplitMessage[4]+'()')
@@ -185,8 +188,8 @@ class updateFingers(Thread):
     def run(self):
         while True:
            CheckFingers()
-           #run this at aprox 120H = t = 1 / 120
-           time.sleep(0.008)
+           #run this at aprox 200Hz
+           time.sleep(0.005)
 updateFingers()
 
 
@@ -198,7 +201,7 @@ class validationFingers(Thread):
     def run(self):
         while True:
            ValidationFingers()
-           time.sleep(0.005)
+           time.sleep(0.5)
 validationFingers()
 
 
