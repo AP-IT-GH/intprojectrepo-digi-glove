@@ -59,19 +59,17 @@ void imu_task(void* ignore) {
 	const TickType_t xFrequency = FREQUENCY;
 	int test = 0; 	// just for testing and troubleshoothing
 	TickType_t xLastWakeTime = xTaskGetTickCount();
-	int curTime = 0;
-    int prevTime = 0;
-    int tTime = 0;
+	//int curTime = 0;
+    //int prevTime = 0;
+    //int tTime = 0;
 
 
 
 	while(1) {
 		if (imu.dmpGetCurrentFIFOPacket(fifoBuffer)) { // Get the Latest packet 
-            curTime = esp_timer_get_time();
-            tTime = curTime - prevTime;
-			
+            //curTime = esp_timer_get_time();
+            //tTime = curTime - prevTime;
 		    packet.capture_time = esp_timer_get_time();
-
 			packet.data[0] = fifoBuffer[0] << 8 | fifoBuffer[1];	// quaternion W component
 			packet.data[1] = fifoBuffer[4] << 8 | fifoBuffer[5];	// quaternion X component
 			packet.data[2] = fifoBuffer[8] << 8 | fifoBuffer[9];	// quaternion Y component
@@ -81,8 +79,8 @@ void imu_task(void* ignore) {
 			packet.data[6] = fifoBuffer[26] << 8 | fifoBuffer[27];	// acceleration Z component
 			bt_create_packet(NULL,&packet);
 
-			printf("time = %d \t W = %d\r\n", tTime, packet.data[0]);
-			prevTime = curTime;
+			//printf("time = %d \t W = %d\r\n", tTime, packet.data[0]);
+			//prevTime = curTime;
 		   
         }
         //vTaskDelay(10);

@@ -84,12 +84,12 @@ void sensors_task(void* ignore)
     uint16_t voltage[NUM_OF_ELEMENTS];
     uint16_t fcontainer[NUM_OF_ELEMENTS][FILTER_SIZE] = {0};
     int outputMax = pow(2,RESOLUTION) - 1;
-    float maxValue[NUM_OF_ELEMENTS];
-    float minValue[NUM_OF_ELEMENTS];
+    int maxValue[NUM_OF_ELEMENTS];
+    int minValue[NUM_OF_ELEMENTS];
 
     /* Initialize calibration arrays */
     for (int i = 0; i < NUM_OF_ELEMENTS; i++) {
-        maxValue[i] = -5000;
+        maxValue[i] = -4000;
         minValue[i] = 5000;
     }
 
@@ -102,7 +102,9 @@ void sensors_task(void* ignore)
             adc_reading[i] = adc1_get_raw(channel_1);               // Mux 1
             set_muxs((i+1) % MUX_MAX_ADDRESS);                      // Increments both muxes, not a problem
             voltage[i] = esp_adc_cal_raw_to_voltage(adc_reading[i], adc_chars);
+            //printf("Voltage[%d] = %d \t", i, voltage[i]);
         }
+        printf("\r\n");
         set_muxs(0);
         for (int i = 0; i < MUX_MAX_ADDRESS; i++) {
             adc_reading[i + OFFSET] = adc1_get_raw(channel_2);      // Mux 2
@@ -127,24 +129,26 @@ void sensors_task(void* ignore)
 
         #if SELFCALIBRATING
             for (int i = 0; i < NUM_OF_ELEMENTS; i++) {
-                if (voltage[i] > (int)maxValue[i])
-                    maxValue[i] = (float)voltage[i];
-                else if (voltage[i] < (int)minValue[i])
-                    minValue[i] = (float)voltage[i];
+                if (voltage[i] > maxValue[i])
+                    maxValue[i] = voltage[i];
+                else if (voltage[i] < minValue[i])
+                    minValue[i] = voltage[i];
 
-                packet.data[i] = round((float)((voltage[i] - minValue[i]) / (maxValue[i] - minValue[i]) * outputMax));
+                
+                packet.data[i] = round((((float)voltage[i] - (float)minValue[i]) / ((float)maxValue[i] - (float)minValue[i]) * outputMax));
             }
         #else
             for (int i = 0; i < NUM_OF_ELEMENTS; i++) {
                 packet.data[i] = round((float)((voltage[i] - MIN_VALUE) / (MAX_VALUE - MIN_VALUE) * outputMax));
             }
         #endif
-
+        
         bt_create_packet(&packet,NULL);
 
         /* DEBUG PRINTS HERE */
-
+        printf("Value = %d \t Voltage = %d \t MIN = %d \t MAX = %d", packet.data[0], voltage[0],minValue[0],maxValue[0]);
         //prevTime = curTime;
+
         vTaskDelayUntil(&xLastWakeTime, xFrequency);
     }
 }
