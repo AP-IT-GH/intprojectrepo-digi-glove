@@ -70,7 +70,7 @@ accelerationYaxis = 0
 accelerationZaxis = 0
 
 
-def RightMouseClick():
+def Rightmouseclick():
     pt = POINT()
     windll.user32.GetCursorPos(byref(pt))
     pyautogui.rightClick(x=pt.x, y=pt.y)
@@ -90,7 +90,7 @@ def Paste():
     pyautogui.hotkey('ctrl', 'v')
 
 def PrintScreen():
-    pyautogui.hotkey('ctrl', 'PrtSc') 
+    pyautogui.hotkey('ctrl', 'PrtSc')
 
 def CloseCommandPrompt():
     pyautogui.hotkey("esc")
@@ -114,12 +114,15 @@ def Bold():
     pyautogui.hotkey('ctrl','b')
 
 def PauseGlove():
+    global gloveActivated
     if(gloveActivated==True): 
         print("Glove OFF")
-        gloveActivated=True
-    elif(gloveActivated==False): 
+        gloveActivated=False #true for debugs
+        return
+    if(gloveActivated==False): 
         print("Glove ON")
         gloveActivated=True
+        return
 
 def CheckFingers():
     #the indexfinger is bend when the value of the flex resistor (2 flex sensors on each finger) is larger than 200 for each
@@ -127,7 +130,7 @@ def CheckFingers():
         thumb=True
     else:
         thumb=False
-    if(flexFinger3>= 200 and flexFinger4>=200):
+    if(flexFinger3>= 200 and flexFinger4>=50): # 200 200
         global indexFinger
         indexFinger=True
     else:
@@ -151,16 +154,33 @@ def CheckFingers():
 def CallUpdate():
     #update values from the Bluetooth
         python101.update()
+        flexFinger1 = python101.data["Thumb_0"]
+        #flexFinger2 = python101.data["Thumb_1"] # missing as of 10/04/2020 because of hardware and software changes
+        flexFinger2 = python101.data["Thumb_0"] #copied from thumb 0 to not create a null reference
+        flexFinger3 = python101.data["IndexF_tip"]
+        flexFinger4 = python101.data["IndexF_0"]
+        flexFinger5 = python101.data["MiddleF_tip"]
+        flexFinger6 = python101.data["MiddleF_0"]
+        flexFinger7 = python101.data["RingF_tip"]
+        flexFinger8 = python101.data["RingF_0"]
+        flexFinger9= python101.data["LittleF_tip"]
+        flexFinger10 = python101.data["LittleF_0"]
         #print(str(flexFinger3) + " " + str(flexFinger4)) #for demo purposes
 
     #endloop
 #endcallupdate
 
 def CheckPauseGlove():
+    SplitMessage = message.split("-")
+    indexSplitMessage = 0
     for macro in SplitMessage:
         if(macro == "PauseGlove"):
+            #print("macro = pause")
             gloveActivatedFinger = indexSplitMessage
             indexSplitMessage = indexSplitMessage + 1
+        else:
+            gloveActivatedFinger = 5 #failsafe
+            #print("macro is not pause")
 
     #when you bend the finger that is assigned to let the glove be paused and used: if you bend the glove it's inactive, if you bend that finger again, the glove is back active.
     if(gloveActivatedFinger==0):
@@ -178,6 +198,8 @@ def CheckPauseGlove():
     elif(gloveActivatedFinger==4):
         if(littleFinger):
             PauseGlove()
+    elif(gloveActivatedFinger==5):
+        pass #failsafe
 
 
 
@@ -185,7 +207,7 @@ def ValidationFingers():
     SplitMessage = message.split("-")
     CheckPauseGlove()
 
-    if(gloveActivated):
+    if(True):
         if(thumb): eval(SplitMessage[0]+'()')
         if(indexFinger): eval(SplitMessage[1]+'()')
         if(middleFinger): eval(SplitMessage[2]+'()')
@@ -227,7 +249,7 @@ class validationFingers(Thread):
     def run(self):
         while True:
            ValidationFingers()
-           time.sleep(0.5)
+           time.sleep(0.5) #2Hz
 validationFingers()
 
 
@@ -258,4 +280,5 @@ while True:
     message=clientsocket.recv(1024).decode()
     if(message!=""):
         SplitMessage=message.split("-")
+        print(str(message))
 

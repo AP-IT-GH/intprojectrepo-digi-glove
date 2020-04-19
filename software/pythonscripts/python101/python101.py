@@ -122,6 +122,7 @@ def update(): #to edit in release
                 #hardcoded overrides
                 #data["IndexF_0"] = 205
                 #data["IndexF_tip"] = 205
+                data["Thumb_0"] = 205
 
        except:
         print("no connection all data is 0")
