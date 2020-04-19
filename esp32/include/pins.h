@@ -15,9 +15,9 @@
 #define IMU_INT 4
 
 /* LED */
-#define LED_R 19
-#define LED_G 18
-#define LED_B 5
+#define LED_R 18
+#define LED_G 5
+#define LED_B 19
 
 /* BUTTONS */
 #define BTN_1 34
