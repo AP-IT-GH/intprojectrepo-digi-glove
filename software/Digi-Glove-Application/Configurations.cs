@@ -188,7 +188,7 @@ namespace Digi_Glove_Application
         {
             try
             {
-                client=new TcpClient("DESKTOP-NEIH7KA",port);
+                client=new TcpClient("localhost", port);
                 Debug.WriteLine("connection made");
                 button_config_connect.Enabled = false;
             }
