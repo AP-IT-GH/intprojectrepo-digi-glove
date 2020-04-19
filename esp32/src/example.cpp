@@ -14,9 +14,9 @@
 //#include "MPU6050_6Axis_MotionApps20.h"
 #include "sdkconfig.h"
 
-#define PIN_SDA 22
-#define PIN_CLK 21
-#define OUTPUT_READABLE_YAWPITCHROLL
+#define PIN_SDA 21
+#define PIN_CLK 22
+#define OUTPUT_READABLE_WORLDACCEL
 // MPU control/status vars
 bool dmpReady = false;  // set true if DMP init was successful
 uint8_t mpuIntStatus;   // holds actual interrupt status byte from MPU
@@ -81,13 +81,13 @@ void task_display(void*){
 		#ifdef OUTPUT_READABLE_QUATERNION
 			// display quaternion values in easy matrix form: w x y z
 			mpu.dmpGetQuaternion(&q, fifoBuffer);
-			printf"quat\t");
-			printfq.w);
-			printf"\t");
-			printfq.x);
-			printf"\t");
-			printfq.y);
-			printf"\t");
+			printf("quat\t");
+			printf(q.w);
+			printf("\t");
+			printf(q.x);
+			printf("\t");
+			printf(q.y);
+			printf("\t");
 			Serial.println(q.z);
 		#endif
 
@@ -133,12 +133,13 @@ void task_display(void*){
 			mpu.dmpGetGravity(&gravity, &q);
 			mpu.dmpGetLinearAccel(&aaReal, &aa, &gravity);
 			mpu.dmpGetLinearAccelInWorld(&aaWorld, &aaReal, &q);
-			printf"aworld\t");
-			printfaaWorld.x);
-			printf"\t");
-			printfaaWorld.y);
-			printf"\t");
-			Serial.println(aaWorld.z);
+			printf("aworld\t");
+			printf("%d,",aaWorld.x);
+			printf("\t");
+			printf("%d",aaWorld.y);
+			printf("\t");
+			printf("%d",aaWorld.z);
+			printf("\n");
 		#endif
 
 		#ifdef OUTPUT_TEAPOT
