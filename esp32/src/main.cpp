@@ -13,7 +13,7 @@
 #include "bt_spp.h"
 
 extern "C" {
-	void app_main(void);
+    void app_main(void);
     void sensors_task(void* ignore);
     void dummydata_task(void* ignore);
 }
