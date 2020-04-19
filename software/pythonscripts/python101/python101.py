@@ -134,3 +134,5 @@ try:
 except:
    print("update failed in python101, is the device connected?, only 0's will be returned")
 #lets the update method run infinitely in the background without locking any threads
+
+import mouseControl #gives the main thread to mousecontrol
