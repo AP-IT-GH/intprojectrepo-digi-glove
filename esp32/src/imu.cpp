@@ -35,7 +35,6 @@ void task_initI2C(void *ignore) {
 }
 
 void imu_task(void* ignore) {
-	
 	MPU6050 imu = MPU6050();
 	uint8_t devId = imu.getDeviceID();
 	if (devId <= 57 && devId != 0)
@@ -46,13 +45,13 @@ void imu_task(void* ignore) {
 	imu.dmpInitialize();
 
 	imu.setXAccelOffset(ACCEL_X_OFFSET);
-    imu.setYAccelOffset(ACCEL_Y_OFFSET);
-    imu.setZAccelOffset(ACCEL_Z_OFFSET);
-    imu.setYGyroOffset(GYRO_X_OFFSET);
-    imu.setZGyroOffset(GYRO_X_OFFSET);
+   	imu.setYAccelOffset(ACCEL_Y_OFFSET);
+    	imu.setZAccelOffset(ACCEL_Z_OFFSET);
+	imu.setYGyroOffset(GYRO_X_OFFSET);
+	imu.setZGyroOffset(GYRO_X_OFFSET);
 	imu.setXGyroOffset(GYRO_X_OFFSET);
 	imu.CalibrateAccel(6);
-    imu.CalibrateGyro(6);
+	imu.CalibrateGyro(6);
 	imu.setDMPEnabled(true);
 	imu_data_t packet;
 	uint8_t fifoBuffer[64];
@@ -60,16 +59,16 @@ void imu_task(void* ignore) {
 	int test = 0; 	// just for testing and troubleshoothing
 	TickType_t xLastWakeTime = xTaskGetTickCount();
 	//int curTime = 0;
-    //int prevTime = 0;
-    //int tTime = 0;
+    	//int prevTime = 0;
+    	//int tTime = 0;
 
 
 
 	while(1) {
 		if (imu.dmpGetCurrentFIFOPacket(fifoBuffer)) { // Get the Latest packet 
-            //curTime = esp_timer_get_time();
-            //tTime = curTime - prevTime;
-		    packet.capture_time = esp_timer_get_time();
+            		//curTime = esp_timer_get_time();
+            		//tTime = curTime - prevTime;
+		        packet.capture_time = esp_timer_get_time();
 			packet.data[0] = fifoBuffer[0] << 8 | fifoBuffer[1];	// quaternion W component
 			packet.data[1] = fifoBuffer[4] << 8 | fifoBuffer[5];	// quaternion X component
 			packet.data[2] = fifoBuffer[8] << 8 | fifoBuffer[9];	// quaternion Y component
