@@ -15,11 +15,11 @@ If you want to learn more about how to use the application or GUI (=Graphic User
 
 ## The Project
 ### Connections
-#### Connection between the glove and the computer
+## Connection between the glove and the computer
 The connection between the glove and the computer ensures a channel through which data is continuously send.
 This is a Bluetooth module. The Bluetooth-transmitter (the glove) sends captured data continuously to the Bluetooth-receiver (a COM-port on the PC).
 
-### Connection between the GUI and the running script
+## Connection between the GUI and the running script
 The connection between the GUI is used to transfer settings/ a configuration to the script
 This connection gets made by using a network socket. The user has to establish a connection between the two parties in the GUI. One of the parties is the Application, the other party is the running script. A string of data with the specifications gets send to the running program.
 
