@@ -11,19 +11,28 @@ using System.Diagnostics;
 using System.Net.Sockets;
 using System.Net;
 using System.Net.NetworkInformation;
+using System.IO;
+using Newtonsoft.Json;
 
 namespace Digi_Glove_Application
 {
     public partial class Configurations : UserControl
     {
-        IPAddress ip = null;
-        TcpListener server = null;
-        TcpClient client = null;
-        string serverIP = "localhost";
-        int port = 8087;
+        int port=8000;
+        int byteCount;
+        NetworkStream stream;
+        byte[] sendData;
+        TcpClient client;
 
+        string savePath = Application.UserAppDataPath + "/macro_configurations.txt";
+        string macro_json;
+        List<Macro> macros;
+        List<MacroConfiguration> macroConfigurations;
+        
         public Configurations()
         {
+            macros = new List<Macro>();
+            macroConfigurations = new List<MacroConfiguration>();
             //Configuration of the server
 
             //ip = Dns.GetHostEntry(serverIP).AddressList[0];
@@ -42,7 +51,28 @@ namespace Digi_Glove_Application
 
             //backgroundWorker1.RunWorkerAsync();
 
+            if (File.Exists(savePath))
+            {
+                macro_json = File.ReadAllText(savePath);
+                macros = JsonConvert.DeserializeObject<List<Macro>>(macro_json);
+            }
+
             InitializeComponent();
+            
+            if (macros != null)
+            {
+                foreach (Macro macro in macros)
+                {
+                    MacroConfiguration macroconfig = new MacroConfiguration();
+                    macroconfig.MacroName.Text = macro.Name;
+                    macroconfig.MacroExecutables.Text = macro.Excecutable;
+                    macroconfig.MacroTrigger.SelectedItem = macro.Trigger;
+                    //macro.Height = 62;
+                    panel_macro.Controls.Add(macroconfig);
+                    macroconfig.BringToFront();
+                    macroconfig.Dock = DockStyle.Top;
+                }
+            }
         }
 
         //Server Background task
@@ -151,7 +181,8 @@ namespace Digi_Glove_Application
                 "Refresh",
                 "SelectAll",
                 "Cut",
-                "Bold"
+                "Bold",
+                "PauseGlove"
             };
         }
 
@@ -159,28 +190,46 @@ namespace Digi_Glove_Application
         {
             Debug.WriteLine("Selected Value was changed");
 
-            ComboBox comboBox = (ComboBox)sender;        }
+            ComboBox comboBox = (ComboBox)sender;
+        }
 
         private void button_config_save_Click(object sender, EventArgs e)
         {
-            string configurations = (string)comboBox_Thumb.SelectedItem + "-" + (string)comboBox_IndexFinger.SelectedItem + "-" + (string)comboBox_MiddleFinger.SelectedItem + "-" + (string)comboBox_RingFinger.SelectedItem + "-" + (string)comboBox_Pinky.SelectedItem;
-
-            Debug.WriteLine(configurations);
-
-            if (client != null)
+            macros = new List<Macro>();
+            foreach (MacroConfiguration macroconfig in macroConfigurations)
             {
-                int byteCount = Encoding.ASCII.GetByteCount(configurations);
+                macros.Add(new Macro()
+                {
+                    Name = macroconfig.MacroName.Text,
+                    Trigger = macroconfig.MacroTrigger.SelectedItem.ToString(),
+                    Excecutable = macroconfig.MacroExecutables.Text
+                });
+            }
 
-                byte[] sendData = new byte[byteCount];
+            macro_json = JsonConvert.SerializeObject(macros, Formatting.Indented);
+            File.WriteAllText(savePath, macro_json);
 
-                sendData = Encoding.ASCII.GetBytes(configurations);
+            Debug.WriteLine("Saved in " + savePath);
 
-                NetworkStream stream = client.GetStream();
+            if (stream != null)
+            {
+                string configurations = (string)comboBox_Thumb.SelectedItem + "-" + (string)comboBox_IndexFinger.SelectedItem + "-" + (string)comboBox_MiddleFinger.SelectedItem + "-" + (string)comboBox_RingFinger.SelectedItem + "-" + (string)comboBox_Pinky.SelectedItem;
+                Debug.WriteLine(configurations);
 
-                stream.Write(sendData, 0, sendData.Length);
+                try
+                {
+                    byteCount=Encoding.ASCII.GetByteCount(configurations);
+                    sendData=new byte[byteCount];
+                    sendData=Encoding.ASCII.GetBytes(configurations);
+                    stream=client.GetStream();
+                    stream.Write(sendData,0,sendData.Length);
+                    Debug.WriteLine(sendData);
 
-                stream.Close();
-
+                }
+                catch (System.NullReferenceException)
+                {
+                    Debug.WriteLine("No connection");
+                }
             }
 
         }
@@ -189,14 +238,28 @@ namespace Digi_Glove_Application
         {
             try
             {
-                client = new TcpClient(serverIP, port);
-                button_config_connect.Text = "Connected!";
+                client=new TcpClient("DESKTOP-NEIH7KA",port);
+                Debug.WriteLine("connection made");
+                button_config_connect.Enabled = false;
             }
-            catch (Exception)
+            catch(System.Net.Sockets.SocketException)
             {
-                Debug.WriteLine("Couldn't connect to the server:");
-                Debug.WriteLine(e.ToString());
+                Debug.WriteLine("Connection failed");
+                button_config_connect.Enabled = true;
             }
+        } 
+        
+
+        private void AddMacro_Click(object sender, EventArgs e)
+        {
+            MacroConfiguration macro = new MacroConfiguration();
+            //macro.Top = 100;
+            //macro.Width = 687;
+            //macro.Height = 62;
+            panel_macro.Controls.Add(macro);
+            macro.BringToFront();
+            macro.Dock = DockStyle.Top;
+            macroConfigurations.Add(macro);
         }
     }
 }

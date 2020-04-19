@@ -1,4 +1,6 @@
-﻿namespace Digi_Glove_Application
+﻿using System.Collections.Generic;
+
+namespace Digi_Glove_Application
 {
     partial class Configurations
     {
@@ -29,14 +31,7 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Configurations));
-            this.panel_calibration = new System.Windows.Forms.Panel();
-            this.panel_text = new System.Windows.Forms.Panel();
-            this.button_title_calibration = new System.Windows.Forms.Button();
-            this.panel_control = new System.Windows.Forms.Panel();
-            this.panel3 = new System.Windows.Forms.Panel();
-            this.button1 = new System.Windows.Forms.Button();
             this.panel_macro = new System.Windows.Forms.Panel();
-            this.panel4 = new System.Windows.Forms.Panel();
             this.panel8 = new System.Windows.Forms.Panel();
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.comboBox_Pinky = new System.Windows.Forms.ComboBox();
@@ -45,9 +40,6 @@
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.panel5 = new System.Windows.Forms.Panel();
             this.textBox4 = new System.Windows.Forms.TextBox();
-            this.panel6 = new System.Windows.Forms.Panel();
-            this.comboBox4 = new System.Windows.Forms.ComboBox();
-            this.textBox8 = new System.Windows.Forms.TextBox();
             this.comboBox_MiddleFinger = new System.Windows.Forms.ComboBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.textBox5 = new System.Windows.Forms.TextBox();
@@ -55,138 +47,48 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.comboBox_Thumb = new System.Windows.Forms.ComboBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
+            this.panel_buttoncontrol = new System.Windows.Forms.Panel();
+            this.AddMacro = new System.Windows.Forms.Button();
+            this.button_config_connect = new System.Windows.Forms.Button();
+            this.button_config_save = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.button_config_save = new System.Windows.Forms.Button();
-            this.button_config_connect = new System.Windows.Forms.Button();
-            this.panel_calibration.SuspendLayout();
-            this.panel_control.SuspendLayout();
             this.panel_macro.SuspendLayout();
-            this.panel4.SuspendLayout();
             this.panel8.SuspendLayout();
             this.panel7.SuspendLayout();
             this.panel5.SuspendLayout();
-            this.panel6.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.panel_buttoncontrol.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // panel_calibration
-            // 
-            this.panel_calibration.Controls.Add(this.panel_text);
-            this.panel_calibration.Controls.Add(this.button_title_calibration);
-            this.panel_calibration.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel_calibration.Location = new System.Drawing.Point(0, 320);
-            this.panel_calibration.Margin = new System.Windows.Forms.Padding(0);
-            this.panel_calibration.Name = "panel_calibration";
-            this.panel_calibration.Size = new System.Drawing.Size(727, 74);
-            this.panel_calibration.TabIndex = 1;
-            // 
-            // panel_text
-            // 
-            this.panel_text.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel_text.Location = new System.Drawing.Point(0, 34);
-            this.panel_text.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.panel_text.Name = "panel_text";
-            this.panel_text.Padding = new System.Windows.Forms.Padding(20);
-            this.panel_text.Size = new System.Drawing.Size(727, 40);
-            this.panel_text.TabIndex = 3;
-            // 
-            // button_title_calibration
-            // 
-            this.button_title_calibration.Dock = System.Windows.Forms.DockStyle.Top;
-            this.button_title_calibration.FlatAppearance.BorderSize = 0;
-            this.button_title_calibration.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button_title_calibration.Font = new System.Drawing.Font("Century Gothic", 12F);
-            this.button_title_calibration.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.button_title_calibration.Image = ((System.Drawing.Image)(resources.GetObject("button_title_calibration.Image")));
-            this.button_title_calibration.Location = new System.Drawing.Point(0, 0);
-            this.button_title_calibration.Margin = new System.Windows.Forms.Padding(0);
-            this.button_title_calibration.Name = "button_title_calibration";
-            this.button_title_calibration.Size = new System.Drawing.Size(727, 34);
-            this.button_title_calibration.TabIndex = 0;
-            this.button_title_calibration.Text = "Calibration";
-            this.button_title_calibration.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button_title_calibration.TextImageRelation = System.Windows.Forms.TextImageRelation.TextAboveImage;
-            this.button_title_calibration.UseVisualStyleBackColor = true;
-            // 
-            // panel_control
-            // 
-            this.panel_control.Controls.Add(this.panel3);
-            this.panel_control.Controls.Add(this.button1);
-            this.panel_control.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel_control.Location = new System.Drawing.Point(0, 246);
-            this.panel_control.Margin = new System.Windows.Forms.Padding(0);
-            this.panel_control.Name = "panel_control";
-            this.panel_control.Size = new System.Drawing.Size(727, 74);
-            this.panel_control.TabIndex = 2;
-            // 
-            // panel3
-            // 
-            this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel3.Location = new System.Drawing.Point(0, 34);
-            this.panel3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.panel3.Name = "panel3";
-            this.panel3.Padding = new System.Windows.Forms.Padding(20);
-            this.panel3.Size = new System.Drawing.Size(727, 40);
-            this.panel3.TabIndex = 3;
-            // 
-            // button1
-            // 
-            this.button1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.button1.FlatAppearance.BorderSize = 0;
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Font = new System.Drawing.Font("Century Gothic", 12F);
-            this.button1.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.button1.Image = ((System.Drawing.Image)(resources.GetObject("button1.Image")));
-            this.button1.Location = new System.Drawing.Point(0, 0);
-            this.button1.Margin = new System.Windows.Forms.Padding(0);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(727, 34);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "Controls";
-            this.button1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button1.TextImageRelation = System.Windows.Forms.TextImageRelation.TextAboveImage;
-            this.button1.UseVisualStyleBackColor = true;
             // 
             // panel_macro
             // 
-            this.panel_macro.Controls.Add(this.button_config_connect);
-            this.panel_macro.Controls.Add(this.button_config_save);
-            this.panel_macro.Controls.Add(this.panel4);
+            this.panel_macro.AutoScroll = true;
+            this.panel_macro.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(245)))), ((int)(((byte)(246)))));
+            this.panel_macro.Controls.Add(this.panel8);
+            this.panel_macro.Controls.Add(this.panel7);
+            this.panel_macro.Controls.Add(this.panel5);
+            this.panel_macro.Controls.Add(this.panel2);
+            this.panel_macro.Controls.Add(this.panel1);
+            this.panel_macro.Controls.Add(this.panel_buttoncontrol);
             this.panel_macro.Controls.Add(this.button2);
-            this.panel_macro.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel_macro.Location = new System.Drawing.Point(0, 0);
+            this.panel_macro.Location = new System.Drawing.Point(20, 20);
             this.panel_macro.Margin = new System.Windows.Forms.Padding(0);
             this.panel_macro.Name = "panel_macro";
-            this.panel_macro.Size = new System.Drawing.Size(727, 246);
+            this.panel_macro.Size = new System.Drawing.Size(687, 440);
             this.panel_macro.TabIndex = 2;
-            // 
-            // panel4
-            // 
-            this.panel4.Controls.Add(this.panel8);
-            this.panel4.Controls.Add(this.panel7);
-            this.panel4.Controls.Add(this.panel5);
-            this.panel4.Controls.Add(this.panel2);
-            this.panel4.Controls.Add(this.panel1);
-            this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel4.Location = new System.Drawing.Point(0, 34);
-            this.panel4.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.panel4.Name = "panel4";
-            this.panel4.Padding = new System.Windows.Forms.Padding(20);
-            this.panel4.Size = new System.Drawing.Size(727, 212);
-            this.panel4.TabIndex = 3;
             // 
             // panel8
             // 
             this.panel8.Controls.Add(this.textBox3);
             this.panel8.Controls.Add(this.comboBox_Pinky);
             this.panel8.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel8.Location = new System.Drawing.Point(20, 144);
+            this.panel8.Location = new System.Drawing.Point(0, 212);
             this.panel8.Margin = new System.Windows.Forms.Padding(4);
             this.panel8.Name = "panel8";
             this.panel8.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.panel8.Size = new System.Drawing.Size(687, 31);
+            this.panel8.Size = new System.Drawing.Size(687, 33);
             this.panel8.TabIndex = 5;
             // 
             // textBox3
@@ -220,11 +122,11 @@
             this.panel7.Controls.Add(this.comboBox_RingFinger);
             this.panel7.Controls.Add(this.textBox2);
             this.panel7.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel7.Location = new System.Drawing.Point(20, 113);
+            this.panel7.Location = new System.Drawing.Point(0, 182);
             this.panel7.Margin = new System.Windows.Forms.Padding(4);
             this.panel7.Name = "panel7";
             this.panel7.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.panel7.Size = new System.Drawing.Size(687, 31);
+            this.panel7.Size = new System.Drawing.Size(687, 30);
             this.panel7.TabIndex = 4;
             // 
             // comboBox_RingFinger
@@ -256,14 +158,13 @@
             // panel5
             // 
             this.panel5.Controls.Add(this.textBox4);
-            this.panel5.Controls.Add(this.panel6);
             this.panel5.Controls.Add(this.comboBox_MiddleFinger);
             this.panel5.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel5.Location = new System.Drawing.Point(20, 82);
+            this.panel5.Location = new System.Drawing.Point(0, 152);
             this.panel5.Margin = new System.Windows.Forms.Padding(4);
             this.panel5.Name = "panel5";
             this.panel5.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.panel5.Size = new System.Drawing.Size(687, 31);
+            this.panel5.Size = new System.Drawing.Size(687, 30);
             this.panel5.TabIndex = 4;
             // 
             // textBox4
@@ -277,39 +178,6 @@
             this.textBox4.Size = new System.Drawing.Size(103, 17);
             this.textBox4.TabIndex = 3;
             this.textBox4.Text = "Middle Finger";
-            // 
-            // panel6
-            // 
-            this.panel6.Controls.Add(this.comboBox4);
-            this.panel6.Controls.Add(this.textBox8);
-            this.panel6.Location = new System.Drawing.Point(0, 28);
-            this.panel6.Margin = new System.Windows.Forms.Padding(4);
-            this.panel6.Name = "panel6";
-            this.panel6.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.panel6.Size = new System.Drawing.Size(623, 31);
-            this.panel6.TabIndex = 4;
-            // 
-            // comboBox4
-            // 
-            this.comboBox4.Dock = System.Windows.Forms.DockStyle.Right;
-            this.comboBox4.FormattingEnabled = true;
-            this.comboBox4.Location = new System.Drawing.Point(460, 2);
-            this.comboBox4.Margin = new System.Windows.Forms.Padding(4);
-            this.comboBox4.Name = "comboBox4";
-            this.comboBox4.Size = new System.Drawing.Size(160, 24);
-            this.comboBox4.TabIndex = 1;
-            // 
-            // textBox8
-            // 
-            this.textBox8.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(233)))), ((int)(((byte)(237)))), ((int)(((byte)(245)))));
-            this.textBox8.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox8.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox8.Location = new System.Drawing.Point(19, 4);
-            this.textBox8.Margin = new System.Windows.Forms.Padding(4);
-            this.textBox8.Name = "textBox8";
-            this.textBox8.Size = new System.Drawing.Size(57, 17);
-            this.textBox8.TabIndex = 0;
-            this.textBox8.Text = "Thumb";
             // 
             // comboBox_MiddleFinger
             // 
@@ -330,11 +198,11 @@
             this.panel2.Controls.Add(this.textBox5);
             this.panel2.Controls.Add(this.comboBox_IndexFinger);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel2.Location = new System.Drawing.Point(20, 51);
+            this.panel2.Location = new System.Drawing.Point(0, 119);
             this.panel2.Margin = new System.Windows.Forms.Padding(4);
             this.panel2.Name = "panel2";
             this.panel2.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.panel2.Size = new System.Drawing.Size(687, 31);
+            this.panel2.Size = new System.Drawing.Size(687, 33);
             this.panel2.TabIndex = 3;
             // 
             // textBox5
@@ -368,11 +236,11 @@
             this.panel1.Controls.Add(this.comboBox_Thumb);
             this.panel1.Controls.Add(this.textBox1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(20, 20);
+            this.panel1.Location = new System.Drawing.Point(0, 86);
             this.panel1.Margin = new System.Windows.Forms.Padding(4);
             this.panel1.Name = "panel1";
             this.panel1.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.panel1.Size = new System.Drawing.Size(687, 31);
+            this.panel1.Size = new System.Drawing.Size(687, 33);
             this.panel1.TabIndex = 2;
             // 
             // comboBox_Thumb
@@ -402,6 +270,48 @@
             this.textBox1.TabIndex = 0;
             this.textBox1.Text = "Thumb";
             // 
+            // panel_buttoncontrol
+            // 
+            this.panel_buttoncontrol.Controls.Add(this.AddMacro);
+            this.panel_buttoncontrol.Controls.Add(this.button_config_connect);
+            this.panel_buttoncontrol.Controls.Add(this.button_config_save);
+            this.panel_buttoncontrol.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel_buttoncontrol.Location = new System.Drawing.Point(0, 52);
+            this.panel_buttoncontrol.Name = "panel_buttoncontrol";
+            this.panel_buttoncontrol.Size = new System.Drawing.Size(687, 34);
+            this.panel_buttoncontrol.TabIndex = 7;
+            // 
+            // AddMacro
+            // 
+            this.AddMacro.Location = new System.Drawing.Point(19, 3);
+            this.AddMacro.Name = "AddMacro";
+            this.AddMacro.Size = new System.Drawing.Size(122, 24);
+            this.AddMacro.TabIndex = 6;
+            this.AddMacro.Text = "Add Macro";
+            this.AddMacro.UseVisualStyleBackColor = true;
+            this.AddMacro.Click += new System.EventHandler(this.AddMacro_Click);
+            // 
+            // button_config_connect
+            // 
+            this.button_config_connect.Location = new System.Drawing.Point(550, 3);
+            this.button_config_connect.Name = "button_config_connect";
+            this.button_config_connect.Size = new System.Drawing.Size(134, 24);
+            this.button_config_connect.TabIndex = 5;
+            this.button_config_connect.Text = "Connect";
+            this.button_config_connect.UseVisualStyleBackColor = true;
+            this.button_config_connect.Click += new System.EventHandler(this.button_config_connect_Click);
+            // 
+            // button_config_save
+            // 
+            this.button_config_save.Location = new System.Drawing.Point(413, 3);
+            this.button_config_save.Margin = new System.Windows.Forms.Padding(0);
+            this.button_config_save.Name = "button_config_save";
+            this.button_config_save.Size = new System.Drawing.Size(134, 24);
+            this.button_config_save.TabIndex = 4;
+            this.button_config_save.Text = "Save";
+            this.button_config_save.UseVisualStyleBackColor = true;
+            this.button_config_save.Click += new System.EventHandler(this.button_config_save_Click);
+            // 
             // button2
             // 
             this.button2.Dock = System.Windows.Forms.DockStyle.Top;
@@ -413,77 +323,42 @@
             this.button2.Location = new System.Drawing.Point(0, 0);
             this.button2.Margin = new System.Windows.Forms.Padding(0);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(727, 34);
-            this.button2.TabIndex = 0;
+            this.button2.Size = new System.Drawing.Size(687, 52);
+            this.button2.TabIndex = 1;
             this.button2.Text = "Macro\'s";
             this.button2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.button2.TextImageRelation = System.Windows.Forms.TextImageRelation.TextAboveImage;
             this.button2.UseVisualStyleBackColor = true;
             // 
-            // button_config_save
-            // 
-            this.button_config_save.Location = new System.Drawing.Point(541, 4);
-            this.button_config_save.Margin = new System.Windows.Forms.Padding(0);
-            this.button_config_save.Name = "button_config_save";
-            this.button_config_save.Size = new System.Drawing.Size(163, 23);
-            this.button_config_save.TabIndex = 4;
-            this.button_config_save.Text = "Save";
-            this.button_config_save.UseVisualStyleBackColor = true;
-            this.button_config_save.Click += new System.EventHandler(this.button_config_save_Click);
-            // 
-            // button_config_connect
-            // 
-            this.button_config_connect.Location = new System.Drawing.Point(404, 4);
-            this.button_config_connect.Name = "button_config_connect";
-            this.button_config_connect.Size = new System.Drawing.Size(134, 23);
-            this.button_config_connect.TabIndex = 5;
-            this.button_config_connect.Text = "Connect";
-            this.button_config_connect.UseVisualStyleBackColor = true;
-            this.button_config_connect.Click += new System.EventHandler(this.button_config_connect_Click);
-            // 
             // Configurations
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.AutoScroll = true;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(233)))), ((int)(((byte)(237)))), ((int)(((byte)(245)))));
-            this.Controls.Add(this.panel_calibration);
-            this.Controls.Add(this.panel_control);
             this.Controls.Add(this.panel_macro);
+            this.Font = new System.Drawing.Font("Century Gothic", 7.8F);
             this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "Configurations";
             this.Size = new System.Drawing.Size(727, 483);
-            this.panel_calibration.ResumeLayout(false);
-            this.panel_control.ResumeLayout(false);
             this.panel_macro.ResumeLayout(false);
-            this.panel4.ResumeLayout(false);
             this.panel8.ResumeLayout(false);
             this.panel8.PerformLayout();
             this.panel7.ResumeLayout(false);
             this.panel7.PerformLayout();
             this.panel5.ResumeLayout(false);
             this.panel5.PerformLayout();
-            this.panel6.ResumeLayout(false);
-            this.panel6.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            this.panel_buttoncontrol.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
-        private System.Windows.Forms.Panel panel_calibration;
-        private System.Windows.Forms.Button button_title_calibration;
-        private System.Windows.Forms.Panel panel_control;
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Panel panel_macro;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Panel panel_text;
-        private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.ComboBox comboBox_Thumb;
         private System.Windows.Forms.TextBox textBox1;
@@ -495,9 +370,6 @@
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.TextBox textBox4;
-        private System.Windows.Forms.Panel panel6;
-        private System.Windows.Forms.ComboBox comboBox4;
-        private System.Windows.Forms.TextBox textBox8;
         private System.Windows.Forms.ComboBox comboBox_MiddleFinger;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.TextBox textBox5;
@@ -505,5 +377,8 @@
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.Button button_config_save;
         private System.Windows.Forms.Button button_config_connect;
+        private System.Windows.Forms.Button AddMacro;
+        public List<MacroConfiguration> Macros;
+        private System.Windows.Forms.Panel panel_buttoncontrol;
     }
 }
