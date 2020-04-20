@@ -21,7 +21,7 @@ namespace Digi_Glove_Application
             InitializeComponent();
             IsCollapsed = false;
             home_usercontrol.BringToFront();
-            label_title.Text = "Home";
+            this.Text = "Home";
         }
         private void UpdateSelectedButton(Button button)
         {
@@ -83,21 +83,21 @@ namespace Digi_Glove_Application
         {
             UpdateSelectedButton(sender as Button);
             home_usercontrol.BringToFront();
-            label_title.Text = "Home";
+            this.Text = "Home";
         }
 
         private void button_configuration_Click(object sender, EventArgs e)
         {
             UpdateSelectedButton(sender as Button);
             configurations_usercontrol.BringToFront();
-            label_title.Text = "Configuration";
+            this.Text = "Configuration";
         }
 
         private void button_info_Click(object sender, EventArgs e)
         {
             UpdateSelectedButton(sender as Button);
             info_usercontrol.BringToFront();
-            label_title.Text = "Info";
+            this.Text = "Info";
         }
 
         private void buttonclose_Click(object sender, EventArgs e)
