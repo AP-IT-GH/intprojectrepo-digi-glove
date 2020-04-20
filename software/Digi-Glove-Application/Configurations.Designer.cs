@@ -76,7 +76,7 @@ namespace Digi_Glove_Application
             this.panel_macro.Location = new System.Drawing.Point(20, 20);
             this.panel_macro.Margin = new System.Windows.Forms.Padding(0);
             this.panel_macro.Name = "panel_macro";
-            this.panel_macro.Size = new System.Drawing.Size(687, 440);
+            this.panel_macro.Size = new System.Drawing.Size(687, 470);
             this.panel_macro.TabIndex = 2;
             // 
             // panel8
@@ -339,7 +339,7 @@ namespace Digi_Glove_Application
             this.Font = new System.Drawing.Font("Century Gothic", 7.8F);
             this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "Configurations";
-            this.Size = new System.Drawing.Size(727, 483);
+            this.Size = new System.Drawing.Size(727, 513);
             this.panel_macro.ResumeLayout(false);
             this.panel8.ResumeLayout(false);
             this.panel8.PerformLayout();

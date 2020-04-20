@@ -44,7 +44,7 @@
             this.panel_info.Controls.Add(this.button_title_calibration);
             this.panel_info.Location = new System.Drawing.Point(20, 20);
             this.panel_info.Name = "panel_info";
-            this.panel_info.Size = new System.Drawing.Size(687, 440);
+            this.panel_info.Size = new System.Drawing.Size(687, 470);
             this.panel_info.TabIndex = 2;
             // 
             // panel_text
@@ -54,7 +54,7 @@
             this.panel_text.Location = new System.Drawing.Point(0, 36);
             this.panel_text.Name = "panel_text";
             this.panel_text.Padding = new System.Windows.Forms.Padding(20, 21, 20, 21);
-            this.panel_text.Size = new System.Drawing.Size(687, 404);
+            this.panel_text.Size = new System.Drawing.Size(687, 434);
             this.panel_text.TabIndex = 2;
             // 
             // textBox1
@@ -69,7 +69,7 @@
             this.textBox1.Location = new System.Drawing.Point(20, 21);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(647, 362);
+            this.textBox1.Size = new System.Drawing.Size(647, 392);
             this.textBox1.TabIndex = 1;
             this.textBox1.Text = resources.GetString("textBox1.Text");
             // 
@@ -97,7 +97,7 @@
             this.Controls.Add(this.panel_info);
             this.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "Info";
-            this.Size = new System.Drawing.Size(727, 483);
+            this.Size = new System.Drawing.Size(727, 513);
             this.panel_info.ResumeLayout(false);
             this.panel_text.ResumeLayout(false);
             this.panel_text.PerformLayout();
