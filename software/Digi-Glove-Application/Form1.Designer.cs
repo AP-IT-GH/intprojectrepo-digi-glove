@@ -39,17 +39,14 @@
             this.panel_logo = new System.Windows.Forms.Panel();
             this.label_logo = new System.Windows.Forms.Label();
             this.panel_body = new System.Windows.Forms.Panel();
+            this.configurations_usercontrol = new Digi_Glove_Application.Configurations();
             this.home_usercontrol = new Digi_Glove_Application.Home();
             this.info_usercontrol = new Digi_Glove_Application.Info();
-            this.panel_header = new System.Windows.Forms.Panel();
-            this.label_title = new System.Windows.Forms.Label();
             this.timer_drop_panel = new System.Windows.Forms.Timer(this.components);
-            this.configurations_usercontrol = new Digi_Glove_Application.Configurations();
             this.panel_menu.SuspendLayout();
             this.panel_button_main.SuspendLayout();
             this.panel_logo.SuspendLayout();
             this.panel_body.SuspendLayout();
-            this.panel_header.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel_menu
@@ -189,11 +186,22 @@
             this.panel_body.Size = new System.Drawing.Size(727, 530);
             this.panel_body.TabIndex = 1;
             // 
+            // configurations_usercontrol
+            // 
+            this.configurations_usercontrol.AutoScroll = true;
+            this.configurations_usercontrol.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(233)))), ((int)(((byte)(237)))), ((int)(((byte)(245)))));
+            this.configurations_usercontrol.Font = new System.Drawing.Font("Century Gothic", 7.8F);
+            this.configurations_usercontrol.Location = new System.Drawing.Point(0, 0);
+            this.configurations_usercontrol.Margin = new System.Windows.Forms.Padding(0);
+            this.configurations_usercontrol.Name = "configurations_usercontrol";
+            this.configurations_usercontrol.Size = new System.Drawing.Size(727, 513);
+            this.configurations_usercontrol.TabIndex = 4;
+            // 
             // home_usercontrol
             // 
             this.home_usercontrol.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(233)))), ((int)(((byte)(237)))), ((int)(((byte)(245)))));
             this.home_usercontrol.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.home_usercontrol.Location = new System.Drawing.Point(0, 47);
+            this.home_usercontrol.Location = new System.Drawing.Point(0, 0);
             this.home_usercontrol.Name = "home_usercontrol";
             this.home_usercontrol.Size = new System.Drawing.Size(727, 483);
             this.home_usercontrol.TabIndex = 2;
@@ -202,51 +210,21 @@
             // 
             this.info_usercontrol.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(233)))), ((int)(((byte)(237)))), ((int)(((byte)(245)))));
             this.info_usercontrol.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.info_usercontrol.Location = new System.Drawing.Point(0, 47);
+            this.info_usercontrol.Location = new System.Drawing.Point(0, 0);
             this.info_usercontrol.Name = "info_usercontrol";
             this.info_usercontrol.Size = new System.Drawing.Size(727, 483);
             this.info_usercontrol.TabIndex = 1;
-            // 
-            // panel_header
-            // 
-            this.panel_header.Controls.Add(this.label_title);
-            this.panel_header.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel_header.Location = new System.Drawing.Point(156, 0);
-            this.panel_header.Name = "panel_header";
-            this.panel_header.Size = new System.Drawing.Size(727, 47);
-            this.panel_header.TabIndex = 2;
-            // 
-            // label_title
-            // 
-            this.label_title.AutoSize = true;
-            this.label_title.Location = new System.Drawing.Point(15, 9);
-            this.label_title.Name = "label_title";
-            this.label_title.Size = new System.Drawing.Size(112, 23);
-            this.label_title.TabIndex = 0;
-            this.label_title.Text = "Digi-Glove";
             // 
             // timer_drop_panel
             // 
             this.timer_drop_panel.Interval = 1;
             this.timer_drop_panel.Tick += new System.EventHandler(this.timer_drop_panel_Tick);
             // 
-            // configurations_usercontrol
-            // 
-            this.configurations_usercontrol.AutoScroll = true;
-            this.configurations_usercontrol.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(233)))), ((int)(((byte)(237)))), ((int)(((byte)(245)))));
-            this.configurations_usercontrol.Font = new System.Drawing.Font("Century Gothic", 7.8F);
-            this.configurations_usercontrol.Location = new System.Drawing.Point(0, 47);
-            this.configurations_usercontrol.Margin = new System.Windows.Forms.Padding(0);
-            this.configurations_usercontrol.Name = "configurations_usercontrol";
-            this.configurations_usercontrol.Size = new System.Drawing.Size(727, 513);
-            this.configurations_usercontrol.TabIndex = 4;
-            // 
             // Form1
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.SystemColors.Window;
             this.ClientSize = new System.Drawing.Size(883, 530);
-            this.Controls.Add(this.panel_header);
             this.Controls.Add(this.panel_body);
             this.Controls.Add(this.panel_menu);
             this.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -258,8 +236,6 @@
             this.panel_logo.ResumeLayout(false);
             this.panel_logo.PerformLayout();
             this.panel_body.ResumeLayout(false);
-            this.panel_header.ResumeLayout(false);
-            this.panel_header.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -270,8 +246,6 @@
         private System.Windows.Forms.Panel panel_logo;
         private System.Windows.Forms.Label label_logo;
         private System.Windows.Forms.Panel panel_body;
-        private System.Windows.Forms.Panel panel_header;
-        private System.Windows.Forms.Label label_title;
         private System.Windows.Forms.Panel panel_button_main;
         private System.Windows.Forms.Button button_info;
         private System.Windows.Forms.Button button_configuration;

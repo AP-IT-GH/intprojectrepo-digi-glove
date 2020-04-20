@@ -45,7 +45,7 @@
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
             this.pictureBox1.Location = new System.Drawing.Point(20, 21);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(647, 362);
+            this.pictureBox1.Size = new System.Drawing.Size(647, 392);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
@@ -57,7 +57,7 @@
             this.panel_glove.Controls.Add(this.button_title_calibration);
             this.panel_glove.Location = new System.Drawing.Point(20, 20);
             this.panel_glove.Name = "panel_glove";
-            this.panel_glove.Size = new System.Drawing.Size(687, 440);
+            this.panel_glove.Size = new System.Drawing.Size(687, 470);
             this.panel_glove.TabIndex = 3;
             // 
             // panel_text
@@ -67,7 +67,7 @@
             this.panel_text.Location = new System.Drawing.Point(0, 36);
             this.panel_text.Name = "panel_text";
             this.panel_text.Padding = new System.Windows.Forms.Padding(20, 21, 20, 21);
-            this.panel_text.Size = new System.Drawing.Size(687, 404);
+            this.panel_text.Size = new System.Drawing.Size(687, 434);
             this.panel_text.TabIndex = 2;
             // 
             // button_title_calibration
@@ -95,7 +95,7 @@
             this.Controls.Add(this.panel_glove);
             this.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "Home";
-            this.Size = new System.Drawing.Size(727, 483);
+            this.Size = new System.Drawing.Size(727, 513);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.panel_glove.ResumeLayout(false);
             this.panel_text.ResumeLayout(false);
