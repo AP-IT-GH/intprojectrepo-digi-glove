@@ -64,10 +64,8 @@ rotationYaxis = 0
 rotationZaxis = 0
 
 #Variables acceleration
-accelerationTime = 0
 accelerationXaxis = 0
 accelerationYaxis = 0
-accelerationZaxis = 0
 
 
 def Rightmouseclick():
@@ -165,6 +163,8 @@ def CallUpdate():
         flexFinger8 = python101.data["RingF_0"]
         flexFinger9= python101.data["LittleF_tip"]
         flexFinger10 = python101.data["LittleF_0"]
+        accelerationXaxis = python101.data["Accel_X"]
+        accelerationYaxis = python101.data["Accel_Y"]
         #print(str(flexFinger3) + " " + str(flexFinger4)) #for demo purposes
 
     #endloop
