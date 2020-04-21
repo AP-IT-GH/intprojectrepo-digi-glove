@@ -7,6 +7,8 @@ import python101
 import threading
 from threading import Thread
 import time
+from tkinter import Tk,Label,Button
+from random import randrange
 
 message = "PrintScreen-PrintScreen-PrintScreen-PrintScreen-PrintScreen" #overidden from Zeno's gui
 print("loaded libraries")
@@ -214,6 +216,46 @@ def ValidationFingers():
         if(ringFinger): eval(SplitMessage[3]+'()')
         if(littleFinger): eval(SplitMessage[4]+'()')
         #print(SplitMessage[1])
+
+
+class Application(Tk):
+
+    def __init__(self):
+        # build parents:
+        Tk.__init__(self)
+
+        # Ignore fails:
+        pyautogui.FAILSAFE = False
+
+        # state flag for switch on/off:
+        self.state = True
+
+        # Settings:
+
+        self.xmin, self.ymin = 0, 0
+        self.xmax = self.winfo_screenwidth()    # Width of the monitor
+        self.ymax = self.winfo_screenheight()   # Height of the 
+        PreviousstateX = self.xmax/2            # starts in the middle of the screen
+        PreviousstateY = self.ymax/2
+        self.duration = 0.3  # Duration of mouse movement on seconds (float)
+        self.waitTime = 3000   # wait time on seconds (int)
+
+    def on(self):
+        "Actions when is turned on"
+
+        # Switch the flag to on:
+        self.state = True
+
+        # Do this while is on:
+        while self.state == True:
+            # Moving mouse:
+            MaccelerationXaxis = (accelerationXaxis/16383)*9.80665
+            MaccelerationYaxis = (accelerationYaxis/16383)*9.80665
+
+            pyautogui.moveTo(x=randrange(self.xmin,self.xmax),y=randrange(self.ymin,self.ymax),duration=self.duration)
+            
+            # Time to sleep:
+            #self.after(self.waitTime)
 
 
 class updateThread(Thread):
