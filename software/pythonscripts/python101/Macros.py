@@ -226,7 +226,7 @@ class Application(Tk):
         # Ignore fails:
         pyautogui.FAILSAFE = False
 
-        # state flag for switch on/off:
+        # state flag for switch on/off
         self.state = True
 
         # Settings:

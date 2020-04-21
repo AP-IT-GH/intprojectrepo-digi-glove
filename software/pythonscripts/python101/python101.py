@@ -125,7 +125,8 @@ def update(): #to edit in release
                 #data["Thumb_0"] = 205
 
        except:
-        print("no connection all data is 0")
+        #print("no connection all data is 0")
+        pass
 
 ##endupdate
 try:
