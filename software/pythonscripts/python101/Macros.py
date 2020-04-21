@@ -219,7 +219,6 @@ def ValidationFingers():
 
 
 class Application(Tk):
-
     def __init__(self):
         # build parents:
         Tk.__init__(self)
