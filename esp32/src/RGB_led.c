@@ -84,9 +84,12 @@ void rgb_init()
 
 void rgb_set(uint32_t r_duty, uint32_t g_duty, uint32_t b_duty, uint32_t fade_time)
 {
-    ledc_set_fade_time_and_start(ledc_channel[LEDC_HS_CH0_CHANNEL].speed_mode, ledc_channel[LEDC_HS_CH0_CHANNEL].channel, r_duty, fade_time, LEDC_FADE_NO_WAIT);
+    ledc_set_fade_time_and_start(ledc_channel[LEDC_HS_CH0_CHANNEL].speed_mode, 
+        ledc_channel[LEDC_HS_CH0_CHANNEL].channel, r_duty, fade_time, LEDC_FADE_NO_WAIT);
 
-    ledc_set_fade_time_and_start(ledc_channel[LEDC_HS_CH1_CHANNEL].speed_mode, ledc_channel[LEDC_HS_CH1_CHANNEL].channel, g_duty, fade_time, LEDC_FADE_NO_WAIT);
+    ledc_set_fade_time_and_start(ledc_channel[LEDC_HS_CH1_CHANNEL].speed_mode, 
+        ledc_channel[LEDC_HS_CH1_CHANNEL].channel, g_duty, fade_time, LEDC_FADE_NO_WAIT);
 
-    ledc_set_fade_time_and_start(ledc_channel[LEDC_HS_CH2_CHANNEL].speed_mode, ledc_channel[LEDC_HS_CH2_CHANNEL].channel, b_duty, fade_time, LEDC_FADE_NO_WAIT);
+    ledc_set_fade_time_and_start(ledc_channel[LEDC_HS_CH2_CHANNEL].speed_mode, 
+        ledc_channel[LEDC_HS_CH2_CHANNEL].channel, b_duty, fade_time, LEDC_FADE_NO_WAIT);
 }
