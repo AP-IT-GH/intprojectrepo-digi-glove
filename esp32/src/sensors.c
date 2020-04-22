@@ -36,6 +36,10 @@ static const adc_atten_t atten = ADC_ATTEN_DB_11;   // 150 to 2450 mV
 static const adc_unit_t unit = ADC_UNIT_1;
 
 void set_muxs(uint8_t address);
+void reset_calibration_task(void* ignore);
+
+volatile int maxValue[NUM_OF_ELEMENTS];             // Pressing a button will...
+volatile int minValue[NUM_OF_ELEMENTS];             // ...reset these
 
 void sensors_init(void)
 {
@@ -79,37 +83,29 @@ void sensors_task(void* ignore)
     set_muxs(0);
     const TickType_t xFrequency = FREQUENCY;
     sensor_data_t packet;
-    //uint32_t curTime = 0; uint32_t prevTime = 0;
     uint16_t adc_reading[NUM_OF_ELEMENTS];
     uint16_t voltage[NUM_OF_ELEMENTS];
     uint16_t fcontainer[NUM_OF_ELEMENTS][FILTER_SIZE] = {0};
     int outputMax = pow(2,RESOLUTION) - 1;
-    int maxValue[NUM_OF_ELEMENTS];
-    int minValue[NUM_OF_ELEMENTS];
 
     /* Initialize calibration arrays */
-    for (int i = 0; i < NUM_OF_ELEMENTS; i++) {
-        maxValue[i] = -4000;
-        minValue[i] = 5000;
-    }
-
+    xTaskCreate(reset_calibration_task, "reset_calibration_task", 2048, NULL, configMAX_PRIORITIES, NULL);
+    
     TickType_t xLastWakeTime = xTaskGetTickCount();
     while (1) {
-        //curTime = esp_timer_get_time();
-
         /* Had to seperate these, because ADC was not working with them in the same loop */
         for (int i = 0; i < MUX_MAX_ADDRESS; i++) {
             adc_reading[i] = adc1_get_raw(channel_1);               // Mux 1
             set_muxs((i+1) % MUX_MAX_ADDRESS);                      // Increments both muxes, not a problem
             voltage[i] = esp_adc_cal_raw_to_voltage(adc_reading[i], adc_chars);
-            //printf("Voltage[%d] = %d \t", i, voltage[i]);
+            
         }
-        printf("\r\n");
         set_muxs(0);
-        for (int i = 0; i < MUX_MAX_ADDRESS; i++) {
+        for (int i = 0; i < MUX_MAX_ADDRESS - 1; i++) {             // Only 6 sensors in mux 2
             adc_reading[i + OFFSET] = adc1_get_raw(channel_2);      // Mux 2
             set_muxs((i+1) % MUX_MAX_ADDRESS);                      
             voltage[i + OFFSET] = esp_adc_cal_raw_to_voltage(adc_reading[i + OFFSET], adc_chars);
+
         }
         set_muxs(0);
         packet.capture_time = esp_timer_get_time();
@@ -124,17 +120,14 @@ void sensors_task(void* ignore)
                     sum[k] += voltage[k];
                     fcontainer[k][0] = voltage[k];
                     voltage[k] = sum[k] / FILTER_SIZE;
-                }  
+                }
         #endif
-
         #if SELFCALIBRATING
             for (int i = 0; i < NUM_OF_ELEMENTS; i++) {
                 if (voltage[i] > maxValue[i])
                     maxValue[i] = voltage[i];
                 else if (voltage[i] < minValue[i])
                     minValue[i] = voltage[i];
-
-                
                 packet.data[i] = round((((float)voltage[i] - (float)minValue[i]) / ((float)maxValue[i] - (float)minValue[i]) * outputMax));
             }
         #else
@@ -142,12 +135,11 @@ void sensors_task(void* ignore)
                 packet.data[i] = round((float)((voltage[i] - MIN_VALUE) / (MAX_VALUE - MIN_VALUE) * outputMax));
             }
         #endif
-        
+
         bt_create_packet(&packet,NULL);
 
         /* DEBUG PRINTS HERE */
-        printf("Value = %d \t Voltage = %d \t MIN = %d \t MAX = %d", packet.data[0], voltage[0],minValue[0],maxValue[0]);
-        //prevTime = curTime;
+        //printf("Value = %d \t Voltage = %d \t MIN = %d \t MAX = %d", packet.data[0], voltage[0],minValue[0],maxValue[0]);
 
         vTaskDelayUntil(&xLastWakeTime, xFrequency);
     }
@@ -163,4 +155,12 @@ void set_muxs(uint8_t address)
     gpio_set_level(MUX_2_C, (address >> 2) & 0x1);
     gpio_set_level(MUX_2_B, (address >> 1) & 0x1);
     gpio_set_level(MUX_2_A, address & 0x1);
+}
+
+void reset_calibration_task(void* ignore) {
+    for (int i = 0; i < NUM_OF_ELEMENTS; i++) {
+        maxValue[i] = -4000;
+        minValue[i] = 5000;
+    }
+    vTaskDelete(NULL);
 }
