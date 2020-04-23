@@ -217,6 +217,9 @@ def ValidationFingers():
         if(littleFinger): eval(SplitMessage[4]+'()')
         #print(SplitMessage[1])
 
+def CheckMousemovement():
+    #HIER DE CODE DIE ELKE KEER MOET GERUND WORDEN. (eigenlijk een while loop dus niet te zwaar belasten maar enkel de variabelen die nodig zijn of stuk code)
+
 
 class Application(Tk):
     def __init__(self):
@@ -281,6 +284,16 @@ class updateFingers(Thread):
            time.sleep(0.005)
 updateFingers()
 
+class updateMousemovement(Thread):
+    def __init__(self):
+        Thread._init__(self)
+        self.daemon = True
+        self.start()
+    def run(self):
+        while True:
+            CheckMousemovement()
+            time.sleep(0.05)
+updateMousemovement()
 
 class validationFingers(Thread):
     def __init__(self):
