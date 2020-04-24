@@ -219,6 +219,7 @@ def ValidationFingers():
 
 def CheckMousemovement():
     #HIER DE CODE DIE ELKE KEER MOET GERUND WORDEN. (eigenlijk een while loop dus niet te zwaar belasten maar enkel de variabelen die nodig zijn of stuk code)
+     pyautogui.moveTo(x=randrange(self.xmin,self.xmax),y=randrange(self.ymin,self.ymax),duration=self.duration)
 
 
 class Application(Tk):
@@ -286,7 +287,7 @@ updateFingers()
 
 class updateMousemovement(Thread):
     def __init__(self):
-        Thread._init__(self)
+        Thread.__init__(self)
         self.daemon = True
         self.start()
     def run(self):
