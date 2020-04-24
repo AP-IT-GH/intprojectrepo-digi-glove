@@ -217,31 +217,32 @@ def ValidationFingers():
         if(littleFinger): eval(SplitMessage[4]+'()')
         #print(SplitMessage[1])
 
+
+       
+
 def CheckMousemovement():
     #HIER DE CODE DIE ELKE KEER MOET GERUND WORDEN. (eigenlijk een while loop dus niet te zwaar belasten maar enkel de variabelen die nodig zijn of stuk code)
-     pyautogui.moveTo(x=randrange(self.xmin,self.xmax),y=randrange(self.ymin,self.ymax),duration=self.duration)
-
-
-class Application(Tk):
-    def __init__(self):
-        # build parents:
-        Tk.__init__(self)
-
+     
         # Ignore fails:
         pyautogui.FAILSAFE = False
 
         # state flag for switch on/off
-        self.state = True
+        state = True
 
         # Settings:
 
-        self.xmin, self.ymin = 0, 0
-        self.xmax = self.winfo_screenwidth()    # Width of the monitor
-        self.ymax = self.winfo_screenheight()   # Height of the 
-        PreviousstateX = self.xmax/2            # starts in the middle of the screen
-        PreviousstateY = self.ymax/2
-        self.duration = 0.3  # Duration of mouse movement on seconds (float)
-        self.waitTime = 3000   # wait time on seconds (int)
+        xmin, ymin = 0, 0
+        xmax = 1920    # Width of the monitor
+        ymax = 1080   # Height of the 
+        PreviousstateX = xmax/2            # starts in the middle of the screen
+        PreviousstateY = ymax/2
+        duration = 0.3  # Duration of mouse movement on seconds (float)
+        waitTime = 3000   # wait time on seconds (int)
+        pyautogui.moveTo(x=randrange(xmin,xmax),y=randrange(ymin,ymax),duration=duration)
+
+
+class Application(Tk):
+    
 
     def on(self):
         "Actions when is turned on"
