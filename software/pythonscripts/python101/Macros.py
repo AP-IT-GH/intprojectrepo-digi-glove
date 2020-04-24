@@ -238,28 +238,9 @@ def CheckMousemovement():
         PreviousstateY = ymax/2
         duration = 0.3  # Duration of mouse movement on seconds (float)
         waitTime = 3000   # wait time on seconds (int)
+        MaccelerationXaxis = (accelerationXaxis/16383)*9.80665
+        MaccelerationYaxis = (accelerationYaxis/16383)*9.80665
         pyautogui.moveTo(x=randrange(xmin,xmax),y=randrange(ymin,ymax),duration=duration)
-
-
-class Application(Tk):
-    
-
-    def on(self):
-        "Actions when is turned on"
-
-        # Switch the flag to on:
-        self.state = True
-
-        # Do this while is on:
-        while self.state == True:
-            # Moving mouse:
-            MaccelerationXaxis = (accelerationXaxis/16383)*9.80665
-            MaccelerationYaxis = (accelerationYaxis/16383)*9.80665
-
-            pyautogui.moveTo(x=randrange(self.xmin,self.xmax),y=randrange(self.ymin,self.ymax),duration=self.duration)
-            
-            # Time to sleep:
-            #self.after(self.waitTime)
 
 
 class updateThread(Thread):
