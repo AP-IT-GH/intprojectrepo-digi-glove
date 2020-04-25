@@ -39,4 +39,5 @@ The task of the GUI is to configure the glove's settings:
 - In the GUI you can create as many macro's as you want by using a "+" sign as seperator or without create automatic typed messages
 - You can choose which macro you want to assign to each finger
 - Your able to overlay as many macros as you want on each finger.
+
 When you have made a configuration and press the save button, the configuration gets passed on to the program via a network socket (as beeing explained in the connections part).
