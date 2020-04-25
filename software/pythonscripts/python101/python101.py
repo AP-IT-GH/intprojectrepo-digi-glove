@@ -3,13 +3,14 @@ import serial
 import time
 import numpy as np
 
-
 port = "COM15"
+
 try:
     ser1 = serial.Serial(port, 9600, 8) #attempts to make a connection to a device
 except:
     print("error either bluetooth is off or the device in not connected only 0's will be returned")
 print("if the device is connected, comms will now start")
+
 data = {"reserved_0" : 0 , "reserved_1" : 0 , "reserved_2" : 0 , "reserved_3" : 0 , "reserved_4" : 0 , "reserved_5" : 0 , "reserved_6" : 0 , "reserved_7" : 0 ,  #reserved0
         "timestamp_0" : 0 , "timestamp_1" : 0 , "timestamp_2" : 0, "timestamp_3" : 0, "timestamp_4" : 0, "timestamp_5" : 0, "timestamp_6" : 0, "timestamp_7" : 0, #timestamp
         "Sensortime_0" : 0 , "Sensortime_1" : 0 , "Sensortime_2" : 0 , "Sensortime_3" : 0 , "Sensortime_4" : 0 , "Sensortime_5" : 0 , "Sensortime_6" : 0 , "Sensortime_7" : 0, #sensortime

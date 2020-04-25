@@ -63,11 +63,11 @@ namespace Digi_Glove_Application
             {
                 foreach (Macro macro in macros)
                 {
-                    MacroConfiguration macroconfig = new MacroConfiguration();
+                    MacroConfiguration macroconfig = new MacroConfiguration(this);
                     macroconfig.MacroName.Text = macro.Name;
-                    macroconfig.MacroExecutables.Text = macro.Excecutable;
+                    macroconfig.MacroExecutable.Text = macro.Excecutable;
                     macroconfig.MacroTrigger.SelectedItem = macro.Trigger;
-                    //macro.Height = 62;
+                    macroConfigurations.Add(macroconfig);
                     panel_macro.Controls.Add(macroconfig);
                     macroconfig.BringToFront();
                     macroconfig.Dock = DockStyle.Top;
@@ -115,12 +115,15 @@ namespace Digi_Glove_Application
             macros = new List<Macro>();
             foreach (MacroConfiguration macroconfig in macroConfigurations)
             {
-                macros.Add(new Macro()
+                if (!string.IsNullOrEmpty(macroconfig.MacroExecutable.Text) && !string.IsNullOrEmpty(macroconfig.MacroName.Text) && !macroconfig.MacroExecutable.Text.Contains("~") && !macroconfig.MacroExecutable.Text.Contains("%"))
                 {
-                    Name = macroconfig.MacroName.Text,
-                    Trigger = macroconfig.MacroTrigger.SelectedItem.ToString(),
-                    Excecutable = macroconfig.MacroExecutables.Text
-                });
+                    macros.Add(new Macro()
+                    {
+                        Name = macroconfig.MacroName.Text.ToLower(),
+                        Trigger = macroconfig.MacroTrigger.SelectedItem.ToString(),
+                        Excecutable = macroconfig.MacroExecutable.Text.ToLower()
+                    });
+                }
             }
 
             macro_json = JsonConvert.SerializeObject(macros, Formatting.Indented);
@@ -128,9 +131,14 @@ namespace Digi_Glove_Application
 
             Debug.WriteLine("Saved in " + savePath);
 
-            if (stream != null)
+            if (client != null)
             {
-                string configurations = (string)comboBox_Thumb.SelectedItem + "-" + (string)comboBox_IndexFinger.SelectedItem + "-" + (string)comboBox_MiddleFinger.SelectedItem + "-" + (string)comboBox_RingFinger.SelectedItem + "-" + (string)comboBox_Pinky.SelectedItem;
+                string configurations = "";
+                foreach (Macro macro in macros)
+                {
+                    configurations += macro.Name + "~" + macro.Excecutable+ "~" + ConvertMacroTriggers()[macro.Trigger] + "%";
+                }
+                //string configurations = (string)comboBox_Thumb.SelectedItem + "-" + (string)comboBox_IndexFinger.SelectedItem + "-" + (string)comboBox_MiddleFinger.SelectedItem + "-" + (string)comboBox_RingFinger.SelectedItem + "-" + (string)comboBox_Pinky.SelectedItem;
                 Debug.WriteLine(configurations);
 
                 try
@@ -139,8 +147,17 @@ namespace Digi_Glove_Application
                     sendData=new byte[byteCount];
                     sendData=Encoding.ASCII.GetBytes(configurations);
                     stream=client.GetStream();
-                    stream.Write(sendData,0,sendData.Length);
-                    Debug.WriteLine(sendData);
+                    try
+                    {
+                        stream.Write(sendData, 0, sendData.Length);
+                        Debug.WriteLine(sendData);
+                    }
+                    catch (Exception)
+                    {
+                        Debug.WriteLine("Connection failed");
+                        button_config_connect.Enabled = true;
+                        client = null;
+                    }
 
                 }
                 catch (System.NullReferenceException)
@@ -169,14 +186,32 @@ namespace Digi_Glove_Application
 
         private void AddMacro_Click(object sender, EventArgs e)
         {
-            MacroConfiguration macro = new MacroConfiguration();
-            //macro.Top = 100;
-            //macro.Width = 687;
-            //macro.Height = 62;
+            MacroConfiguration macro = new MacroConfiguration(this);
             panel_macro.Controls.Add(macro);
             macro.BringToFront();
             macro.Dock = DockStyle.Top;
             macroConfigurations.Add(macro);
+        }
+        public void DeleteMacro(MacroConfiguration m)
+        {
+            macroConfigurations.Remove(m);
+            panel_macro.Controls.Remove(m);
+        }
+
+        private Dictionary<string, string> ConvertMacroTriggers()
+        {
+            return new Dictionary<string, string>()
+            {
+                { "Thumb Bend", "flexthumb"},
+                { "Index Finger Touch", "touchindex"},
+                { "Index Finger Bend", "flexindex"},
+                { "Middle Finger Touch", "touchmiddle"},
+                { "Middle Finger Bend", "flexmiddle"},
+                { "Ring Finger Touch", "touchring"},
+                { "Ring Finger Bend", "flexring"},
+                { "Pinky Touch", "touchpink"},
+                { "Pinky Bend", "flexpink"}
+            };
         }
     }
 }
