@@ -51,7 +51,7 @@
             this.MacroTrigger.FormattingEnabled = true;
             this.MacroTrigger.Location = new System.Drawing.Point(6, 24);
             this.MacroTrigger.Name = "MacroTrigger";
-            this.MacroTrigger.Size = new System.Drawing.Size(191, 24);
+            this.MacroTrigger.Size = new System.Drawing.Size(175, 24);
             this.MacroTrigger.TabIndex = 1;
             // 
             // panel_macroname
@@ -69,8 +69,9 @@
             // 
             this.MacroName.Location = new System.Drawing.Point(7, 24);
             this.MacroName.Name = "MacroName";
-            this.MacroName.Size = new System.Drawing.Size(172, 23);
+            this.MacroName.Size = new System.Drawing.Size(153, 23);
             this.MacroName.TabIndex = 1;
+            this.MacroName.Validating += new System.ComponentModel.CancelEventHandler(this.MacroName_Validating);
             // 
             // label_macroname
             // 
@@ -95,7 +96,7 @@
             // 
             this.MacroExecutable.Location = new System.Drawing.Point(6, 25);
             this.MacroExecutable.Name = "MacroExecutable";
-            this.MacroExecutable.Size = new System.Drawing.Size(192, 22);
+            this.MacroExecutable.Size = new System.Drawing.Size(175, 22);
             this.MacroExecutable.TabIndex = 3;
             this.MacroExecutable.Validating += new System.ComponentModel.CancelEventHandler(this.MacroExcecutable_Validating);
             // 
