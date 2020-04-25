@@ -1,13 +1,13 @@
 import pyautogui, time
 from tkinter import Tk,Label,Button
 from random import randrange
-import python101
 import socket
+from threading import Thread
+import python101
 
 #todo: add a button for stop (Thread?)
 
 class Application(Tk):
-
     def __init__(self):
         # build parents:
         Tk.__init__(self)

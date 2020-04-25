@@ -39,20 +39,14 @@
             this.panel_logo = new System.Windows.Forms.Panel();
             this.label_logo = new System.Windows.Forms.Label();
             this.panel_body = new System.Windows.Forms.Panel();
-            this.panel_header = new System.Windows.Forms.Panel();
-            this.button_maximize = new System.Windows.Forms.Button();
-            this.button_minimize = new System.Windows.Forms.Button();
-            this.button_close = new System.Windows.Forms.Button();
-            this.label_title = new System.Windows.Forms.Label();
-            this.timer_drop_panel = new System.Windows.Forms.Timer(this.components);
+            this.configurations_usercontrol = new Digi_Glove_Application.Configurations();
             this.home_usercontrol = new Digi_Glove_Application.Home();
             this.info_usercontrol = new Digi_Glove_Application.Info();
-            this.configurations_usercontrol = new Digi_Glove_Application.Configurations();
+            this.timer_drop_panel = new System.Windows.Forms.Timer(this.components);
             this.panel_menu.SuspendLayout();
             this.panel_button_main.SuspendLayout();
             this.panel_logo.SuspendLayout();
             this.panel_body.SuspendLayout();
-            this.panel_header.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel_menu
@@ -192,74 +186,22 @@
             this.panel_body.Size = new System.Drawing.Size(727, 530);
             this.panel_body.TabIndex = 1;
             // 
-            // panel_header
+            // configurations_usercontrol
             // 
-            this.panel_header.Controls.Add(this.button_maximize);
-            this.panel_header.Controls.Add(this.button_minimize);
-            this.panel_header.Controls.Add(this.button_close);
-            this.panel_header.Controls.Add(this.label_title);
-            this.panel_header.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel_header.Location = new System.Drawing.Point(156, 0);
-            this.panel_header.Name = "panel_header";
-            this.panel_header.Size = new System.Drawing.Size(727, 47);
-            this.panel_header.TabIndex = 2;
-            // 
-            // button_maximize
-            // 
-            this.button_maximize.FlatAppearance.BorderSize = 0;
-            this.button_maximize.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button_maximize.Image = ((System.Drawing.Image)(resources.GetObject("button_maximize.Image")));
-            this.button_maximize.Location = new System.Drawing.Point(619, 12);
-            this.button_maximize.Name = "button_maximize";
-            this.button_maximize.Size = new System.Drawing.Size(45, 23);
-            this.button_maximize.TabIndex = 4;
-            this.button_maximize.UseVisualStyleBackColor = true;
-            this.button_maximize.Click += new System.EventHandler(this.button_maximize_Click);
-            // 
-            // button_minimize
-            // 
-            this.button_minimize.FlatAppearance.BorderSize = 0;
-            this.button_minimize.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button_minimize.Image = ((System.Drawing.Image)(resources.GetObject("button_minimize.Image")));
-            this.button_minimize.Location = new System.Drawing.Point(568, 12);
-            this.button_minimize.Margin = new System.Windows.Forms.Padding(0);
-            this.button_minimize.Name = "button_minimize";
-            this.button_minimize.Size = new System.Drawing.Size(45, 23);
-            this.button_minimize.TabIndex = 3;
-            this.button_minimize.UseVisualStyleBackColor = true;
-            this.button_minimize.Click += new System.EventHandler(this.button_minimize_Click);
-            // 
-            // button_close
-            // 
-            this.button_close.FlatAppearance.BorderSize = 0;
-            this.button_close.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button_close.Image = ((System.Drawing.Image)(resources.GetObject("button_close.Image")));
-            this.button_close.Location = new System.Drawing.Point(670, 12);
-            this.button_close.Name = "button_close";
-            this.button_close.Size = new System.Drawing.Size(45, 23);
-            this.button_close.TabIndex = 2;
-            this.button_close.UseVisualStyleBackColor = true;
-            this.button_close.Click += new System.EventHandler(this.buttonclose_Click);
-            // 
-            // label_title
-            // 
-            this.label_title.AutoSize = true;
-            this.label_title.Location = new System.Drawing.Point(15, 9);
-            this.label_title.Name = "label_title";
-            this.label_title.Size = new System.Drawing.Size(112, 23);
-            this.label_title.TabIndex = 0;
-            this.label_title.Text = "Digi-Glove";
-            // 
-            // timer_drop_panel
-            // 
-            this.timer_drop_panel.Interval = 1;
-            this.timer_drop_panel.Tick += new System.EventHandler(this.timer_drop_panel_Tick);
+            this.configurations_usercontrol.AutoScroll = true;
+            this.configurations_usercontrol.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(233)))), ((int)(((byte)(237)))), ((int)(((byte)(245)))));
+            this.configurations_usercontrol.Font = new System.Drawing.Font("Century Gothic", 7.8F);
+            this.configurations_usercontrol.Location = new System.Drawing.Point(0, 0);
+            this.configurations_usercontrol.Margin = new System.Windows.Forms.Padding(0);
+            this.configurations_usercontrol.Name = "configurations_usercontrol";
+            this.configurations_usercontrol.Size = new System.Drawing.Size(727, 513);
+            this.configurations_usercontrol.TabIndex = 4;
             // 
             // home_usercontrol
             // 
             this.home_usercontrol.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(233)))), ((int)(((byte)(237)))), ((int)(((byte)(245)))));
             this.home_usercontrol.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.home_usercontrol.Location = new System.Drawing.Point(0, 47);
+            this.home_usercontrol.Location = new System.Drawing.Point(0, 0);
             this.home_usercontrol.Name = "home_usercontrol";
             this.home_usercontrol.Size = new System.Drawing.Size(727, 483);
             this.home_usercontrol.TabIndex = 2;
@@ -268,40 +210,32 @@
             // 
             this.info_usercontrol.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(233)))), ((int)(((byte)(237)))), ((int)(((byte)(245)))));
             this.info_usercontrol.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.info_usercontrol.Location = new System.Drawing.Point(0, 47);
+            this.info_usercontrol.Location = new System.Drawing.Point(0, 0);
             this.info_usercontrol.Name = "info_usercontrol";
             this.info_usercontrol.Size = new System.Drawing.Size(727, 483);
             this.info_usercontrol.TabIndex = 1;
             // 
-            // configurations_usercontrol
+            // timer_drop_panel
             // 
-            this.configurations_usercontrol.AutoScroll = true;
-            this.configurations_usercontrol.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(233)))), ((int)(((byte)(237)))), ((int)(((byte)(245)))));
-            this.configurations_usercontrol.Location = new System.Drawing.Point(0, 47);
-            this.configurations_usercontrol.Margin = new System.Windows.Forms.Padding(0);
-            this.configurations_usercontrol.Name = "configurations_usercontrol";
-            this.configurations_usercontrol.Size = new System.Drawing.Size(727, 483);
-            this.configurations_usercontrol.TabIndex = 3;
+            this.timer_drop_panel.Interval = 1;
+            this.timer_drop_panel.Tick += new System.EventHandler(this.timer_drop_panel_Tick);
             // 
             // Form1
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.SystemColors.Window;
             this.ClientSize = new System.Drawing.Size(883, 530);
-            this.Controls.Add(this.panel_header);
             this.Controls.Add(this.panel_body);
             this.Controls.Add(this.panel_menu);
             this.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.panel_menu.ResumeLayout(false);
             this.panel_button_main.ResumeLayout(false);
             this.panel_logo.ResumeLayout(false);
             this.panel_logo.PerformLayout();
             this.panel_body.ResumeLayout(false);
-            this.panel_header.ResumeLayout(false);
-            this.panel_header.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -312,8 +246,6 @@
         private System.Windows.Forms.Panel panel_logo;
         private System.Windows.Forms.Label label_logo;
         private System.Windows.Forms.Panel panel_body;
-        private System.Windows.Forms.Panel panel_header;
-        private System.Windows.Forms.Label label_title;
         private System.Windows.Forms.Panel panel_button_main;
         private System.Windows.Forms.Button button_info;
         private System.Windows.Forms.Button button_configuration;
@@ -322,9 +254,6 @@
         private System.Windows.Forms.Timer timer_drop_panel;
         private Home home_usercontrol;
         private Info info_usercontrol;
-        private System.Windows.Forms.Button button_close;
-        private System.Windows.Forms.Button button_maximize;
-        private System.Windows.Forms.Button button_minimize;
         private Configurations configurations_usercontrol;
     }
 }

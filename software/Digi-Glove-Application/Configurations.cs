@@ -11,6 +11,8 @@ using System.Diagnostics;
 using System.Net.Sockets;
 using System.Net;
 using System.Net.NetworkInformation;
+using System.IO;
+using Newtonsoft.Json;
 
 namespace Digi_Glove_Application
 {
@@ -22,9 +24,55 @@ namespace Digi_Glove_Application
         byte[] sendData;
         TcpClient client;
 
+        string savePath = Application.UserAppDataPath + "/macro_configurations.txt";
+        string macro_json;
+        List<Macro> macros;
+        List<MacroConfiguration> macroConfigurations;
+        
         public Configurations()
         {
+            macros = new List<Macro>();
+            macroConfigurations = new List<MacroConfiguration>();
+            //Configuration of the server
+
+            //ip = Dns.GetHostEntry(serverIP).AddressList[0];
+            //server = new TcpListener(ip, port);
+            //client = default(TcpClient);
+
+            //try
+            //{
+            //    server.Start();
+            //    Debug.WriteLine("Server started...");
+            //}
+            //catch (Exception e)
+            //{
+            //    Debug.WriteLine(e.ToString());
+            //}
+
+            //backgroundWorker1.RunWorkerAsync();
+
+            if (File.Exists(savePath))
+            {
+                macro_json = File.ReadAllText(savePath);
+                macros = JsonConvert.DeserializeObject<List<Macro>>(macro_json);
+            }
+
             InitializeComponent();
+            
+            if (macros != null)
+            {
+                foreach (Macro macro in macros)
+                {
+                    MacroConfiguration macroconfig = new MacroConfiguration();
+                    macroconfig.MacroName.Text = macro.Name;
+                    macroconfig.MacroExecutables.Text = macro.Excecutable;
+                    macroconfig.MacroTrigger.SelectedItem = macro.Trigger;
+                    //macro.Height = 62;
+                    panel_macro.Controls.Add(macroconfig);
+                    macroconfig.BringToFront();
+                    macroconfig.Dock = DockStyle.Top;
+                }
+            }
         }
 
         private void comboBox_Macro_DropDown(object sender, EventArgs e)
@@ -59,26 +107,46 @@ namespace Digi_Glove_Application
         {
             Debug.WriteLine("Selected Value was changed");
 
-            ComboBox comboBox = (ComboBox)sender;        }
+            ComboBox comboBox = (ComboBox)sender;
+        }
 
         private void button_config_save_Click(object sender, EventArgs e)
         {
-            string configurations = (string)comboBox_Thumb.SelectedItem + "-" + (string)comboBox_IndexFinger.SelectedItem + "-" + (string)comboBox_MiddleFinger.SelectedItem + "-" + (string)comboBox_RingFinger.SelectedItem + "-" + (string)comboBox_Pinky.SelectedItem;
-            Debug.WriteLine(configurations);
-
-            try
+            macros = new List<Macro>();
+            foreach (MacroConfiguration macroconfig in macroConfigurations)
             {
-                byteCount=Encoding.ASCII.GetByteCount(configurations);
-                sendData=new byte[byteCount];
-                sendData=Encoding.ASCII.GetBytes(configurations);
-                stream=client.GetStream();
-                stream.Write(sendData,0,sendData.Length);
-                Debug.WriteLine(sendData);
-
+                macros.Add(new Macro()
+                {
+                    Name = macroconfig.MacroName.Text,
+                    Trigger = macroconfig.MacroTrigger.SelectedItem.ToString(),
+                    Excecutable = macroconfig.MacroExecutables.Text
+                });
             }
-            catch (System.NullReferenceException)
+
+            macro_json = JsonConvert.SerializeObject(macros, Formatting.Indented);
+            File.WriteAllText(savePath, macro_json);
+
+            Debug.WriteLine("Saved in " + savePath);
+
+            if (stream != null)
             {
-                Debug.WriteLine("No connection");
+                string configurations = (string)comboBox_Thumb.SelectedItem + "-" + (string)comboBox_IndexFinger.SelectedItem + "-" + (string)comboBox_MiddleFinger.SelectedItem + "-" + (string)comboBox_RingFinger.SelectedItem + "-" + (string)comboBox_Pinky.SelectedItem;
+                Debug.WriteLine(configurations);
+
+                try
+                {
+                    byteCount=Encoding.ASCII.GetByteCount(configurations);
+                    sendData=new byte[byteCount];
+                    sendData=Encoding.ASCII.GetBytes(configurations);
+                    stream=client.GetStream();
+                    stream.Write(sendData,0,sendData.Length);
+                    Debug.WriteLine(sendData);
+
+                }
+                catch (System.NullReferenceException)
+                {
+                    Debug.WriteLine("No connection");
+                }
             }
 
         }
@@ -96,6 +164,19 @@ namespace Digi_Glove_Application
                 Debug.WriteLine("Connection failed");
                 button_config_connect.Enabled = true;
             }
+        } 
+        
+
+        private void AddMacro_Click(object sender, EventArgs e)
+        {
+            MacroConfiguration macro = new MacroConfiguration();
+            //macro.Top = 100;
+            //macro.Width = 687;
+            //macro.Height = 62;
+            panel_macro.Controls.Add(macro);
+            macro.BringToFront();
+            macro.Dock = DockStyle.Top;
+            macroConfigurations.Add(macro);
         }
     }
 }
