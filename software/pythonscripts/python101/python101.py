@@ -1,6 +1,7 @@
 import Macros
 import serial
 import time
+import numpy as np
 
 port = "COM15"
 
@@ -26,7 +27,7 @@ def update(): #to edit in release
        try:
             if(ser1.inWaiting() >= 64):
                 data_seq = ser1.read(64) #read the buffer as soon as it reached 64 bytes aka a full sequence has entered1
-                #print(data_seq)
+                print(data["IndexF_0"], data["MiddleF_0"], data["RingF_0"], data["LittleF_0"], data["Thumb_0"])
                 data["reserved_0"] = int(data_seq[0])
                 data["reserved_1"] = int(data_seq[1])
                 data["reserved_2"] = int(data_seq[2])
@@ -56,31 +57,31 @@ def update(): #to edit in release
                 #
                 data["Quat_W_0"] = int(data_seq[24]) # higher order
                 data["Quat_W_1"] = int(data_seq[25]) # lower order
-                data["Quat_W"] = int((data["Quat_W_1"] << 8) + data["Quat_W_0"]) # create the full number in int needs to be devided by 16383 and multiplied with 9.80665
+                data["Quat_W"] = np.int16((data["Quat_W_1"] << 8) + data["Quat_W_0"]) # create the full number in int needs to be devided by 16383 and multiplied with 9.80665
                 #
                 data["Quat_X_0"] = int(data_seq[26])
                 data["Quat_X_1"] = int(data_seq[27])
-                data["Quat_X"] = int((data["Quat_X_1"] << 8) + data["Quat_X_0"]) # create the full number in int needs to be devided by 16383 and multiplied with 9.80665
+                data["Quat_X"] = np.int16((data["Quat_X_1"] << 8) + data["Quat_X_0"]) # create the full number in int needs to be devided by 16383 and multiplied with 9.80665
                 #
                 data["Quat_Y_0"] = int(data_seq[28])
                 data["Quat_Y_1"] = int(data_seq[29])
-                data["Quat_Y"] = int((data["Quat_Y_1"] << 8) + data["Quat_Y_0"]) # create the full number in int needs to be devided by 16383 and multiplied with 9.80665
+                data["Quat_Y"] = np.int16((data["Quat_Y_1"] << 8) + data["Quat_Y_0"]) # create the full number in int needs to be devided by 16383 and multiplied with 9.80665
                 #
                 data["Quat_Z_0"] = int(data_seq[30])
                 data["Quat_Z_1"] = int(data_seq[31])
-                data["Quat_Z"] = int((data["Quat_Z_1"] << 8) + data["Quat_Z_0"]) # create the full number in int needs to be devided by 16383 and multiplied with 9.80665
+                data["Quat_Z"] = np.int16((data["Quat_Z_1"] << 8) + data["Quat_Z_0"]) # create the full number in int needs to be devided by 16383 and multiplied with 9.80665
                 #
                 data["Accel_X_0"] = int(data_seq[32])
                 data["Accel_X_1"] = int(data_seq[33])
-                data["Accel_X"] = int((data["Accel_X_1"] << 8) + data["Accel_X_0"]) # create the full number in int needs to be devided by 16383 and multiplied with 9.80665
+                data["Accel_X"] = np.int16((data["Accel_X_1"] << 8) + data["Accel_X_0"]) # create the full number in int needs to be devided by 16383 and multiplied with 9.80665
                 #
                 data["Accel_Y_0"] = int(data_seq[34])
                 data["Accel_Y_1"] = int(data_seq[35])
-                data["Accel_Y"] = int((data["Accel_Y_1"] << 8) + data["Accel_Y_0"]) # create the full number in int needs to be devided by 16383 and multiplied with 9.80665
+                data["Accel_Y"] = np.int16((data["Accel_Y_1"] << 8) + data["Accel_Y_0"]) # create the full number in int needs to be devided by 16383 and multiplied with 9.80665
                 #
                 data["Accel_Z_0"] = int(data_seq[36])
                 data["Accel_Z_1"] = int(data_seq[37])
-                data["Accel_Z"] = int((data["Accel_Z_1"] << 8) + data["Accel_Z_0"]) # create the full number in int needs to be devided by 16383 and multiplied with 9.80665
+                data["Accel_Z"] = np.int16((data["Accel_Z_1"] << 8) + data["Accel_Z_0"]) # create the full number in int needs to be devided by 16383 and multiplied with 9.80665
                 #
                 data["IndexF_0"] = int(data_seq[38])
                 data["MiddleF_0"] = int(data_seq[39])
@@ -115,8 +116,9 @@ def update(): #to edit in release
                 #data["IndexF_1"] = 201
                 #print(data["reserved_17"])
                 #print("updated")
-                #print(str(data["Quat_X"]))
+                #print(str(data["Accel_X"]) + "<x y> " + str(data["Accel_Y"]))
                 #
+                #print(str(data["Quat_W"]))
                 #buffer reset
                 ser1.reset_input_buffer() #clear the buffer of any data so the next line can come through properly
                 #endif
@@ -124,10 +126,11 @@ def update(): #to edit in release
                 #data["IndexF_0"] = 205
                 #data["IndexF_tip"] = 205
                 #data["Thumb_0"] = 205
+                
 
        except:
+        #print("no connection all data is 0")
         pass
-        print("no connection all data is 0")
 
 ##endupdate
 try:
@@ -136,3 +139,5 @@ try:
 except:
    print("update failed in python101, is the device connected?, only 0's will be returned")
 #lets the update method run infinitely in the background without locking any threads
+
+#import mouseControl #gives the main thread to mousecontrol

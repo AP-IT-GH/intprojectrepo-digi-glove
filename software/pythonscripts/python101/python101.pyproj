@@ -26,6 +26,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Macros.py" />
+    <Compile Include="mouseControl.py" />
     <Compile Include="python101.py" />
   </ItemGroup>
   <ItemGroup>
