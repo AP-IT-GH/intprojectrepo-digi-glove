@@ -10,6 +10,7 @@ import time
 from tkinter import Tk,Label,Button
 from random import randrange
 import math
+import numpy
 
 message = "PrintScreen-PrintScreen-PrintScreen-PrintScreen-PrintScreen" #overidden from Zeno's gui
 print("loaded libraries")
@@ -68,7 +69,7 @@ xmax = 1920    # Width of the monitor
 ymax = 1080   # Height of the 
 PreviousstateX = xmax/2            # starts in the middle of the screen
 PreviousstateY = ymax/2
-duration = 0.3  # Duration of mouse movement on seconds (float)
+duration = 0.05  # Duration of mouse movement on seconds (float)
 
 #Variable rotation time
 timeRotation = 0
@@ -238,10 +239,7 @@ def CheckMousemovement():
      
         # Ignore fails:
         pyautogui.FAILSAFE = False
-        
-        
-            
-      
+
         global xmin, ymin 
         global xmax
         global ymax  
@@ -250,16 +248,19 @@ def CheckMousemovement():
         global duration
 
 
-        
+        accelerationXaxis = python101.data["Accel_X"]
+        accelerationYaxis = python101.data["Accel_Y"]
 
         
-        MaccelerationXaxis = (accelerationXaxis/16383)*9.80665*xmax
-        MaccelerationYaxis = (accelerationYaxis/16383)*9.80665*ymax
+        MaccelerationXaxis = (accelerationXaxis/16383)*9.80665#*xmax #m/s²
+        MaccelerationYaxis = (accelerationYaxis/16383)*9.80665#*ymax
+        #print(str(MaccelerationXaxis) + "  " + str(MaccelerationYaxis))
         PreviousstateX += MaccelerationXaxis
         PreviousstateY += MaccelerationYaxis
         PreviousstateX = math.floor(PreviousstateX)
         PreviousstateY = math.floor(PreviousstateY)
-        pyautogui.moveTo(x=PreviousstateX,y=PreviousstateY,duration=duration)
+        #print(str(PreviousstateX) + " " + str(PreviousstateY))
+        #pyautogui.moveTo(x=PreviousstateX,y=PreviousstateY,duration=duration)
 
 
 class updateThread(Thread):
@@ -294,7 +295,7 @@ class updateMousemovement(Thread):
     def run(self):
         while True:
             CheckMousemovement()
-            time.sleep(0.05)
+            time.sleep(0.005)
 updateMousemovement()
 
 class validationFingers(Thread):
@@ -305,7 +306,7 @@ class validationFingers(Thread):
     def run(self):
         while True:
            ValidationFingers()
-           time.sleep(0.5) #2Hz
+           time.sleep(0.05) #2Hz
 validationFingers()
 
 

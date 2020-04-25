@@ -115,7 +115,7 @@ def update(): #to edit in release
                 #data["IndexF_1"] = 201
                 #print(data["reserved_17"])
                 #print("updated")
-                #print(str(data["Quat_X"]) + " " + str(data["Quat_W"]))
+                #print(str(data["Accel_X"]) + "<x y> " + str(data["Accel_Y"]))
                 #
                 #print(str(data["Quat_W"]))
                 #buffer reset
