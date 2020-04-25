@@ -157,6 +157,7 @@ namespace Digi_Glove_Application
                         Debug.WriteLine("Connection failed");
                         button_config_connect.Enabled = true;
                         client = null;
+                        MessageBox.Show( "Connection failed", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
 
                 }
@@ -175,11 +176,14 @@ namespace Digi_Glove_Application
                 client=new TcpClient("localhost", port);
                 Debug.WriteLine("connection made");
                 button_config_connect.Enabled = false;
+                button_config_connect.Text = "Connected";
             }
-            catch(System.Net.Sockets.SocketException)
+            catch (System.Net.Sockets.SocketException)
             {
                 Debug.WriteLine("Connection failed");
                 button_config_connect.Enabled = true;
+                MessageBox.Show("Failed to make connection.", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
             }
         } 
         
@@ -192,11 +196,7 @@ namespace Digi_Glove_Application
             macro.Dock = DockStyle.Top;
             macroConfigurations.Add(macro);
         }
-        public void DeleteMacro(MacroConfiguration m)
-        {
-            macroConfigurations.Remove(m);
-            panel_macro.Controls.Remove(m);
-        }
+        
 
         private Dictionary<string, string> ConvertMacroTriggers()
         {
@@ -213,5 +213,28 @@ namespace Digi_Glove_Application
                 { "Pinky Bend", "flexpink"}
             };
         }
+        public void DeleteMacro(MacroConfiguration m)
+        {
+            DialogResult result = MessageBox.Show("Are you sure you want to delete this macro?", "Alert", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (result == DialogResult.Yes)
+            {
+                macroConfigurations.Remove(m);
+                panel_macro.Controls.Remove(m);
+
+            }
+        }
+
+        public bool IsNameUnique(string name, MacroConfiguration macroconf)
+        {
+            foreach (MacroConfiguration mconf in macroConfigurations)
+            {
+                if (mconf.MacroName.Text == name && macroconf != mconf)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
     }
 }
