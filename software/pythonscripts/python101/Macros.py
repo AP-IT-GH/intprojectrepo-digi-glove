@@ -89,7 +89,7 @@ def Rightmouseclick():
     windll.user32.GetCursorPos(byref(pt))
     pyautogui.rightClick(x=pt.x, y=pt.y)
 
-def LeftMouseClick():
+def Leftmouseclick():
     pt = POINT()
     windll.user32.GetCursorPos(byref(pt))
     pyautogui.Click(x=pt.x, y=pt.y)
