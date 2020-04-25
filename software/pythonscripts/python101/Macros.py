@@ -7,6 +7,10 @@ import python101
 import threading
 from threading import Thread
 import time
+from tkinter import Tk,Label,Button
+from random import randrange
+import math
+import numpy
 
 message = "PrintScreen-PrintScreen-PrintScreen-PrintScreen-PrintScreen" #overidden from Zeno's gui
 print("loaded libraries")
@@ -14,18 +18,21 @@ print("loaded libraries")
 class POINT(Structure):
     _fields_ = [("x", c_long), ("y", c_long)]
 
+
+
 #Variables for fingers - 10 sensors, each finger has 2
 flexFinger1 = python101.data["Thumb_0"]
 #flexFinger2 = python101.data["Thumb_1"] # missing as of 10/04/2020 because of hardware and software changes
 flexFinger2 = python101.data["Thumb_0"] #copied from thumb 0 to not create a null reference
-flexFinger3 = python101.data["IndexF_tip"]
+flexFinger3 = python101.data["IndexF_1"]
 flexFinger4 = python101.data["IndexF_0"]
-flexFinger5 = python101.data["MiddleF_tip"]
+flexFinger5 = python101.data["MiddleF_1"]
 flexFinger6 = python101.data["MiddleF_0"]
 flexFinger7 = python101.data["RingF_tip"]
 flexFinger8 = python101.data["RingF_0"]
-flexFinger9= python101.data["LittleF_tip"]
+flexFinger9 = python101.data["LittleF_1"]
 flexFinger10 = python101.data["LittleF_0"]
+
 
 gloveActivated = True
 indexSplitMessage=0
@@ -55,6 +62,15 @@ touchFinger2 = 0
 touchFinger3 = 0
 touchFinger4 = 0
 
+
+
+xmin, ymin = 0, 0
+xmax = 1920    # Width of the monitor
+ymax = 1080   # Height of the 
+PreviousstateX = xmax/2            # starts in the middle of the screen
+PreviousstateY = ymax/2
+duration = 0.05  # Duration of mouse movement on seconds (float)
+
 #Variable rotation time
 timeRotation = 0
 
@@ -64,10 +80,8 @@ rotationYaxis = 0
 rotationZaxis = 0
 
 #Variables acceleration
-accelerationTime = 0
 accelerationXaxis = 0
 accelerationYaxis = 0
-accelerationZaxis = 0
 
 
 def Rightmouseclick():
@@ -75,10 +89,10 @@ def Rightmouseclick():
     windll.user32.GetCursorPos(byref(pt))
     pyautogui.rightClick(x=pt.x, y=pt.y)
 
-def LeftMouseClick():
+def Leftmouseclick():
     pt = POINT()
     windll.user32.GetCursorPos(byref(pt))
-    pyautogui.Click(x=pt.x, y=pt.y)
+    pyautogui.click(x=pt.x, y=pt.y)
 
 def ClosePage():
     pyautogui.hotkey('ctrl', 'w')  
@@ -117,11 +131,11 @@ def PauseGlove():
     global gloveActivated
     if(gloveActivated==True): 
         print("Glove OFF")
-        gloveActivated=False #true for debugs
+        #gloveActivated=False #true for debugs
         return
     if(gloveActivated==False): 
         print("Glove ON")
-        gloveActivated=True
+        #gloveActivated=True
         return
 
 def CheckFingers():
@@ -152,21 +166,23 @@ def CheckFingers():
 
        #callable function for the thread
 def CallUpdate():
+    global flexFinger1, felxFinger2, flexFinger3, flexFinger4, flexFinger5, flexFinger6, flexFinger7, flexFinger9, flexFinger10, accelerationXaxis, accelerationYaxis
     #update values from the Bluetooth
-        python101.update()
-        flexFinger1 = python101.data["Thumb_0"]
-        #flexFinger2 = python101.data["Thumb_1"] # missing as of 10/04/2020 because of hardware and software changes
-        flexFinger2 = python101.data["Thumb_0"] #copied from thumb 0 to not create a null reference
-        flexFinger3 = python101.data["IndexF_tip"]
-        flexFinger4 = python101.data["IndexF_0"]
-        flexFinger5 = python101.data["MiddleF_tip"]
-        flexFinger6 = python101.data["MiddleF_0"]
-        flexFinger7 = python101.data["RingF_tip"]
-        flexFinger8 = python101.data["RingF_0"]
-        flexFinger9= python101.data["LittleF_tip"]
-        flexFinger10 = python101.data["LittleF_0"]
-        #print(str(flexFinger3) + " " + str(flexFinger4)) #for demo purposes
-
+    python101.update()
+    flexFinger1 = python101.data["Thumb_0"]
+    #flexFinger2 = python101.data["Thumb_1"] # missing as of 10/04/2020 because of hardware and software changes
+    flexFinger2 = python101.data["Thumb_0"] #copied from thumb 0 to not create a null reference
+    flexFinger3 = python101.data["IndexF_1"]
+    flexFinger4 = python101.data["IndexF_0"]
+    flexFinger5 = python101.data["MiddleF_1"]
+    flexFinger6 = python101.data["MiddleF_0"]
+    flexFinger7 = python101.data["RingF_1"]
+    flexFinger8 = python101.data["RingF_0"]
+    flexFinger9= python101.data["LittleF_1"]
+    flexFinger10 = python101.data["LittleF_0"]
+    accelerationXaxis = python101.data["Accel_X"]
+    accelerationYaxis = python101.data["Accel_Y"]
+    #print(str(flexFinger3) + " " + str(flexFinger4)) #for demo purposes
     #endloop
 #endcallupdate
 
@@ -216,6 +232,37 @@ def ValidationFingers():
         #print(SplitMessage[1])
 
 
+       
+
+def CheckMousemovement():
+    #HIER DE CODE DIE ELKE KEER MOET GERUND WORDEN. (eigenlijk een while loop dus niet te zwaar belasten maar enkel de variabelen die nodig zijn of stuk code)
+     
+        # Ignore fails:
+        pyautogui.FAILSAFE = False
+
+        global xmin, ymin 
+        global xmax
+        global ymax  
+        global PreviousstateX
+        global PreviousstateY 
+        global duration
+
+
+        accelerationXaxis = python101.data["Accel_X"]
+        accelerationYaxis = python101.data["Accel_Y"]
+
+        
+        MaccelerationXaxis = (accelerationXaxis/16383)*9.80665#*xmax #m/s²
+        MaccelerationYaxis = (accelerationYaxis/16383)*9.80665#*ymax
+        #print(str(MaccelerationXaxis) + "  " + str(MaccelerationYaxis))
+        PreviousstateX += MaccelerationXaxis
+        PreviousstateY += MaccelerationYaxis
+        PreviousstateX = math.floor(PreviousstateX)
+        PreviousstateY = math.floor(PreviousstateY)
+        #print(str(PreviousstateX) + " " + str(PreviousstateY))
+        #pyautogui.moveTo(x=PreviousstateX,y=PreviousstateY,duration=duration)
+
+
 class updateThread(Thread):
     def __init__(self):
         Thread.__init__(self)
@@ -240,6 +287,16 @@ class updateFingers(Thread):
            time.sleep(0.005)
 updateFingers()
 
+class updateMousemovement(Thread):
+    def __init__(self):
+        Thread.__init__(self)
+        self.daemon = True
+        self.start()
+    def run(self):
+        while True:
+            CheckMousemovement()
+            time.sleep(0.005)
+updateMousemovement()
 
 class validationFingers(Thread):
     def __init__(self):
@@ -249,7 +306,7 @@ class validationFingers(Thread):
     def run(self):
         while True:
            ValidationFingers()
-           time.sleep(0.5) #2Hz
+           time.sleep(0.05) #2Hz
 validationFingers()
 
 
