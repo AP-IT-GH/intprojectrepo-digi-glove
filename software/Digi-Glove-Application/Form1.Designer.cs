@@ -39,10 +39,10 @@
             this.panel_logo = new System.Windows.Forms.Panel();
             this.label_logo = new System.Windows.Forms.Label();
             this.panel_body = new System.Windows.Forms.Panel();
-            this.timer_drop_panel = new System.Windows.Forms.Timer(this.components);
             this.configurations_usercontrol = new Digi_Glove_Application.Configurations();
             this.home_usercontrol = new Digi_Glove_Application.Home();
             this.info_usercontrol = new Digi_Glove_Application.Info();
+            this.timer_drop_panel = new System.Windows.Forms.Timer(this.components);
             this.panel_menu.SuspendLayout();
             this.panel_button_main.SuspendLayout();
             this.panel_logo.SuspendLayout();
@@ -186,11 +186,6 @@
             this.panel_body.Size = new System.Drawing.Size(727, 530);
             this.panel_body.TabIndex = 1;
             // 
-            // timer_drop_panel
-            // 
-            this.timer_drop_panel.Interval = 1;
-            this.timer_drop_panel.Tick += new System.EventHandler(this.timer_drop_panel_Tick);
-            // 
             // configurations_usercontrol
             // 
             this.configurations_usercontrol.AutoScroll = true;
@@ -220,6 +215,11 @@
             this.info_usercontrol.Name = "info_usercontrol";
             this.info_usercontrol.Size = new System.Drawing.Size(727, 483);
             this.info_usercontrol.TabIndex = 1;
+            // 
+            // timer_drop_panel
+            // 
+            this.timer_drop_panel.Interval = 1;
+            this.timer_drop_panel.Tick += new System.EventHandler(this.timer_drop_panel_Tick);
             // 
             // Form1
             // 
