@@ -39,10 +39,10 @@
             this.panel_logo = new System.Windows.Forms.Panel();
             this.label_logo = new System.Windows.Forms.Label();
             this.panel_body = new System.Windows.Forms.Panel();
+            this.timer_drop_panel = new System.Windows.Forms.Timer(this.components);
             this.configurations_usercontrol = new Digi_Glove_Application.Configurations();
             this.home_usercontrol = new Digi_Glove_Application.Home();
             this.info_usercontrol = new Digi_Glove_Application.Info();
-            this.timer_drop_panel = new System.Windows.Forms.Timer(this.components);
             this.panel_menu.SuspendLayout();
             this.panel_button_main.SuspendLayout();
             this.panel_logo.SuspendLayout();
@@ -186,9 +186,15 @@
             this.panel_body.Size = new System.Drawing.Size(727, 530);
             this.panel_body.TabIndex = 1;
             // 
+            // timer_drop_panel
+            // 
+            this.timer_drop_panel.Interval = 1;
+            this.timer_drop_panel.Tick += new System.EventHandler(this.timer_drop_panel_Tick);
+            // 
             // configurations_usercontrol
             // 
             this.configurations_usercontrol.AutoScroll = true;
+            this.configurations_usercontrol.AutoScrollMinSize = new System.Drawing.Size(20, 0);
             this.configurations_usercontrol.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(233)))), ((int)(((byte)(237)))), ((int)(((byte)(245)))));
             this.configurations_usercontrol.Font = new System.Drawing.Font("Century Gothic", 7.8F);
             this.configurations_usercontrol.Location = new System.Drawing.Point(0, 0);
@@ -215,11 +221,6 @@
             this.info_usercontrol.Size = new System.Drawing.Size(727, 483);
             this.info_usercontrol.TabIndex = 1;
             // 
-            // timer_drop_panel
-            // 
-            this.timer_drop_panel.Interval = 1;
-            this.timer_drop_panel.Tick += new System.EventHandler(this.timer_drop_panel_Tick);
-            // 
             // Form1
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -228,7 +229,7 @@
             this.Controls.Add(this.panel_body);
             this.Controls.Add(this.panel_menu);
             this.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "Form1";
             this.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.panel_menu.ResumeLayout(false);
