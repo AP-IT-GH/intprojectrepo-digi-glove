@@ -26,6 +26,7 @@ def update(): #to edit in release
        try:
             if(ser1.inWaiting() >= 64):
                 data_seq = ser1.read(64) #read the buffer as soon as it reached 64 bytes aka a full sequence has entered1
+                print(data_seq[38:50])
                 #print(data_seq)
                 data["reserved_0"] = int(data_seq[0])
                 data["reserved_1"] = int(data_seq[1])

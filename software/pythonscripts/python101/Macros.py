@@ -92,7 +92,7 @@ def Rightmouseclick():
 def Leftmouseclick():
     pt = POINT()
     windll.user32.GetCursorPos(byref(pt))
-    pyautogui.Click(x=pt.x, y=pt.y)
+    pyautogui.click(x=pt.x, y=pt.y)
 
 def ClosePage():
     pyautogui.hotkey('ctrl', 'w')  
