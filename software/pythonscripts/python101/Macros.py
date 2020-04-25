@@ -24,13 +24,13 @@ class POINT(Structure):
 flexFinger1 = python101.data["Thumb_0"]
 #flexFinger2 = python101.data["Thumb_1"] # missing as of 10/04/2020 because of hardware and software changes
 flexFinger2 = python101.data["Thumb_0"] #copied from thumb 0 to not create a null reference
-flexFinger3 = python101.data["IndexF_tip"]
+flexFinger3 = python101.data["IndexF_1"]
 flexFinger4 = python101.data["IndexF_0"]
-flexFinger5 = python101.data["MiddleF_tip"]
+flexFinger5 = python101.data["MiddleF_1"]
 flexFinger6 = python101.data["MiddleF_0"]
 flexFinger7 = python101.data["RingF_tip"]
 flexFinger8 = python101.data["RingF_0"]
-flexFinger9= python101.data["LittleF_tip"]
+flexFinger9 = python101.data["LittleF_1"]
 flexFinger10 = python101.data["LittleF_0"]
 
 
@@ -131,11 +131,11 @@ def PauseGlove():
     global gloveActivated
     if(gloveActivated==True): 
         print("Glove OFF")
-        gloveActivated=False #true for debugs
+        #gloveActivated=False #true for debugs
         return
     if(gloveActivated==False): 
         print("Glove ON")
-        gloveActivated=True
+        #gloveActivated=True
         return
 
 def CheckFingers():
@@ -171,13 +171,13 @@ def CallUpdate():
         flexFinger1 = python101.data["Thumb_0"]
         #flexFinger2 = python101.data["Thumb_1"] # missing as of 10/04/2020 because of hardware and software changes
         flexFinger2 = python101.data["Thumb_0"] #copied from thumb 0 to not create a null reference
-        flexFinger3 = python101.data["IndexF_tip"]
+        flexFinger3 = python101.data["IndexF_1"]
         flexFinger4 = python101.data["IndexF_0"]
-        flexFinger5 = python101.data["MiddleF_tip"]
+        flexFinger5 = python101.data["MiddleF_1"]
         flexFinger6 = python101.data["MiddleF_0"]
-        flexFinger7 = python101.data["RingF_tip"]
+        flexFinger7 = python101.data["RingF_1"]
         flexFinger8 = python101.data["RingF_0"]
-        flexFinger9= python101.data["LittleF_tip"]
+        flexFinger9= python101.data["LittleF_1"]
         flexFinger10 = python101.data["LittleF_0"]
         accelerationXaxis = python101.data["Accel_X"]
         accelerationYaxis = python101.data["Accel_Y"]
