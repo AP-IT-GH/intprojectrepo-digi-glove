@@ -9,12 +9,14 @@ from threading import Thread
 import time
 from tkinter import Tk,Label,Button
 from random import randrange
+import math
 
 message = "PrintScreen-PrintScreen-PrintScreen-PrintScreen-PrintScreen" #overidden from Zeno's gui
 print("loaded libraries")
 
 class POINT(Structure):
     _fields_ = [("x", c_long), ("y", c_long)]
+
 
 #Variables for fingers - 10 sensors, each finger has 2
 flexFinger1 = python101.data["Thumb_0"]
@@ -225,22 +227,28 @@ def CheckMousemovement():
      
         # Ignore fails:
         pyautogui.FAILSAFE = False
+        
+        if(state):
+            state = False
+            xmin, ymin = 0, 0
+            xmax = 1920    # Width of the monitor
+            ymax = 1080   # Height of the 
+            PreviousstateX = xmax/2            # starts in the middle of the screen
+            PreviousstateY = ymax/2
+            duration = 0.3  # Duration of mouse movement on seconds (float)
+        
+        
 
-        # state flag for switch on/off
-        state = True
+        
 
-        # Settings:
-
-        xmin, ymin = 0, 0
-        xmax = 1920    # Width of the monitor
-        ymax = 1080   # Height of the 
-        PreviousstateX = xmax/2            # starts in the middle of the screen
-        PreviousstateY = ymax/2
-        duration = 0.3  # Duration of mouse movement on seconds (float)
-        waitTime = 3000   # wait time on seconds (int)
-        MaccelerationXaxis = (accelerationXaxis/16383)*9.80665
-        MaccelerationYaxis = (accelerationYaxis/16383)*9.80665
-        pyautogui.moveTo(x=randrange(xmin,xmax),y=randrange(ymin,ymax),duration=duration)
+        
+        MaccelerationXaxis = (accelerationXaxis/16383)*9.80665*xmax
+        MaccelerationYaxis = (accelerationYaxis/16383)*9.80665*ymax
+        PreviousstateX += MaccelerationXaxis
+        PreviousstateY += MaccelerationYaxis
+        PreviousstateX = math.floor(PreviousstateX)
+        PreviousstateY = math.floor(PreviousstateY)
+        pyautogui.moveTo(x=PreviousstateX,y=PreviousstateY,duration=duration)
 
 
 class updateThread(Thread):
@@ -269,6 +277,7 @@ updateFingers()
 
 class updateMousemovement(Thread):
     def __init__(self):
+        state = True
         Thread.__init__(self)
         self.daemon = True
         self.start()
