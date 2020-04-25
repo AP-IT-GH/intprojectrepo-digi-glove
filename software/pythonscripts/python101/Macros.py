@@ -18,6 +18,7 @@ class POINT(Structure):
     _fields_ = [("x", c_long), ("y", c_long)]
 
 
+
 #Variables for fingers - 10 sensors, each finger has 2
 flexFinger1 = python101.data["Thumb_0"]
 #flexFinger2 = python101.data["Thumb_1"] # missing as of 10/04/2020 because of hardware and software changes
@@ -30,6 +31,7 @@ flexFinger7 = python101.data["RingF_tip"]
 flexFinger8 = python101.data["RingF_0"]
 flexFinger9= python101.data["LittleF_tip"]
 flexFinger10 = python101.data["LittleF_0"]
+
 
 gloveActivated = True
 indexSplitMessage=0
@@ -58,6 +60,15 @@ touchFinger1 = 0
 touchFinger2 = 0
 touchFinger3 = 0
 touchFinger4 = 0
+
+
+
+xmin, ymin = 0, 0
+xmax = 1920    # Width of the monitor
+ymax = 1080   # Height of the 
+PreviousstateX = xmax/2            # starts in the middle of the screen
+PreviousstateY = ymax/2
+duration = 0.3  # Duration of mouse movement on seconds (float)
 
 #Variable rotation time
 timeRotation = 0
@@ -228,16 +239,16 @@ def CheckMousemovement():
         # Ignore fails:
         pyautogui.FAILSAFE = False
         
-        if(state):
-            state = False
-            xmin, ymin = 0, 0
-            xmax = 1920    # Width of the monitor
-            ymax = 1080   # Height of the 
-            PreviousstateX = xmax/2            # starts in the middle of the screen
-            PreviousstateY = ymax/2
-            duration = 0.3  # Duration of mouse movement on seconds (float)
         
-        
+            
+      
+        global xmin, ymin 
+        global xmax
+        global ymax  
+        global PreviousstateX
+        global PreviousstateY 
+        global duration
+
 
         
 
@@ -277,7 +288,6 @@ updateFingers()
 
 class updateMousemovement(Thread):
     def __init__(self):
-        state = True
         Thread.__init__(self)
         self.daemon = True
         self.start()
