@@ -72,9 +72,13 @@ xmax = 1920    # Width of the monitor
 ymax = 1080   # Height of the 
 PreviousstateX = xmax/2            # starts in the middle of the screen
 PreviousstateY = ymax/2
-duration = 0.05  # Duration of mouse movement on seconds (float)
+duration = 0.5  # Duration of mouse movement on seconds (float)
 offset =0
 offset2=0
+minread = 0
+minread2 = 0
+maxread = 0
+maxread2 = 0
 #Variable rotation time
 timeRotation = 0
 
@@ -89,6 +93,7 @@ accelerationYaxis = 0
 
 #endregion
 
+#region
 def Rightmouseclick():
     pt = POINT()
     windll.user32.GetCursorPos(byref(pt))
@@ -131,6 +136,7 @@ def Cut():
 
 def Bold():
     pyautogui.hotkey('ctrl','b')
+#endregion
 
 def PauseGlove():
     global gloveActivated
@@ -270,29 +276,29 @@ def CheckMousemovement():
         global duration
         global offset
         global offset2
-
+        global minread, maxread, minread2, maxread2
 
         accelerationXaxis = python101.data["yaw"]
         accelerationYaxis = python101.data["pitch"]
 
-        if(accelerationXaxis*2000>950 & accelerationXaxis*2000> maxread):
+        if(accelerationXaxis*2000 > 950 and accelerationXaxis*2000 > maxread):
             maxread = accelerationXaxis*2000
             offset = maxread -950
-            minread =0
-        if(accelerationXaxis*2000<-950 & accelerationXaxis*2000< minread):
+            minread = 0
+        if(accelerationXaxis*2000 <- 950 and accelerationXaxis*2000 < minread):
             minread = accelerationXaxis*2000
             offset = maxread -950
-            maxread =0
+            maxread = 0
 
-        if(accelerationYaxis*2000>500 & accelerationXaxis*2000> maxread2):
+        if(accelerationYaxis*2000 > 500 and accelerationXaxis*2000 > maxread2):
             maxread = accelerationXaxis*2000
             offset2 = maxread2 -500
-            minread2 =0
-        if(accelerationYaxis*2000<-500 & accelerationXaxis*2000< minread2):
+            minread2 = 0
+        if(accelerationYaxis*2000 <- 500 and accelerationXaxis*2000 < minread2):
             minread2 = accelerationXaxis*2000
             offset2 = maxread -950
-            maxread2 =0
-
+            maxread2 = 0
+            
         xx = constrain(accelerationXaxis*2000-offset,-950,950)
         yy = constrain(accelerationYaxis*-2000+offset2,-500,500)
         
@@ -304,7 +310,7 @@ def CheckMousemovement():
         PreviousstateX = math.floor(PreviousstateX)
         PreviousstateY = math.floor(PreviousstateY)
         #print(str(PreviousstateX) + " " + str(PreviousstateY))
-        #pyautogui.moveTo(x=PreviousstateX,y=PreviousstateY,duration=duration)
+        pyautogui.moveTo(x=PreviousstateX,y=PreviousstateY,duration=duration)
 
 
 class updateThread(Thread):
