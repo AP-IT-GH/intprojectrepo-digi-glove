@@ -169,17 +169,19 @@ def CallUpdate():
     global flexFinger1, felxFinger2, flexFinger3, flexFinger4, flexFinger5, flexFinger6, flexFinger7, flexFinger9, flexFinger10, accelerationXaxis, accelerationYaxis
     #update values from the Bluetooth
     python101.update()
-    flexFinger1 = python101.data["Thumb_0"]
-    #flexFinger2 = python101.data["Thumb_1"] # missing as of 10/04/2020 because of hardware and software changes
-    flexFinger2 = python101.data["Thumb_0"] #copied from thumb 0 to not create a null reference
-    flexFinger3 = python101.data["IndexF_1"]
-    flexFinger4 = python101.data["IndexF_0"]
-    flexFinger5 = python101.data["MiddleF_1"]
-    flexFinger6 = python101.data["MiddleF_0"]
-    flexFinger7 = python101.data["RingF_1"]
-    flexFinger8 = python101.data["RingF_0"]
-    flexFinger9= python101.data["LittleF_1"]
-    flexFinger10 = python101.data["LittleF_0"]
+    flexThumb = python101.data["Thumb_0"]
+    flexIndex0 = python101.data["IndexF_0"]
+    flexIndex1 = python101.data["IndexF_1"]
+    flexMiddle0 = python101.data["MiddleF_0"]
+    flexMiddle1 = python101.data["MiddleF_1"]
+    flexRing0 = python101.data["RingF_0"]
+    flexRing1 = python101.data["RingF_1"]
+    flexPink0 = python101.data["LittleF_0"]
+
+    touchIndex = python101.data["IndexF_tip"]
+    touchMiddle = python101.data["MiddleF_tip"]
+    touchRing = python101.data["RingF_tip"]
+    touchPink = python101.data["LittleF_tip"]
     accelerationXaxis = python101.data["Accel_X"]
     accelerationYaxis = python101.data["Accel_Y"]
     #print(str(flexFinger3) + " " + str(flexFinger4)) #for demo purposes
