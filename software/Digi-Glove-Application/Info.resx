@@ -117,12 +117,31 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="textBox1.Text" xml:space="preserve">
-    <value>Aliquam interdum ornare tellus a euismod. Nulla tempor aliquet ex sit amet semper. Pellentesque vitae auctor neque. Nam auctor nulla nec lorem fringilla, a ullamcorper massa dictum. Nulla non ultricies quam. Ut vel risus sagittis, vulputate ante efficitur, commodo ante. Cras a nulla mi. Nulla bibendum risus at velit placerat, in condimentum nunc porta.
+  <data name="textBox_info.Text" xml:space="preserve">
+    <value>The Digi-Glove is a controller that can both control the mouse and excecute configured macros...
 
-Nunc ut lacus sit amet lacus viverra finibus. Vestibulum varius, dolor non convallis euismod, urna sapien convallis urna, quis hendrerit eros sem congue eros. Sed ac lacus tellus. Fusce accumsan quam in accumsan tempus. Maecenas gravida quam quis mauris dapibus pellentesque a ut ipsum. Maecenas porta sollicitudin eleifend. Curabitur nec viverra ipsum, sit amet elementum magna. Mauris convallis libero a nunc efficitur, vel scelerisque sem auctor. Nullam sit amet mi mollis, viverra ex ut, ullamcorper erat.
+How to configure a macro:
+To create a macro press the "add macro" button under the configurations tab. A blank macro will appear where you enter a name, chose a trigger and enter the macro itself. 
+A couple of rules:
+-You cannot configure two macros with the same name.
+-To create a macro for a shortcut you must include a + in the macro, ex.: ctrl+shift or prsc+.
+-You can have the same trigger on multiple macros, but beware all those macros will excecute when the trigger happens.
 
-Cras ultrices condimentum egestas. Vivamus ac felis nisl. Etiam nec enim neque. Cras porta lectus dolor, a facilisis urna vulputate ac. Nullam turpis enim, euismod sed mauris placerat, sodales sodales velit. Integer volutpat, dolor quis dignissim tempus, nisl metus semper lectus, ut vulputate tellus metus non sem. Morbi maximus felis eu dignissim tempor. Curabitur ut enim in eros tempor auctor. Aliquam et feugiat ligula.</value>
+What are the triggers:
+The triggers are the actions you make with the glove. Bend corresponds to the bending of set finger. Touch corresponds to touching something with said finger.
+
+What is a macro:
+A macro is a set of action that fires one after another together by the press of a single button, or in this case the movement of a finger.
+
+Digi-Glove was created by:
+-Elias Toivola (Hardware)
+-Nisar Kainulainen (Hardware)
+-Jaakko Ropponen (Hardware)
+-Stef Martens (Software)
+-Jan Boeckx (Software)
+-Zeno Hattas (Software)
+-Charlie Cramm (Software)
+-Quinten Van Ginderen (Software)</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="button_title_calibration.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">

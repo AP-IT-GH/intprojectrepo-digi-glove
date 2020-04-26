@@ -93,5 +93,20 @@ namespace Digi_Glove_Application
                 errorProvider.SetError(MacroExecutable, string.Empty);
             }
         }
+
+        private void MacroName_Validating(object sender, CancelEventArgs e)
+        {
+            if (!Configurations.IsNameUnique(MacroName.Text, this))
+            {
+                e.Cancel = true;
+                MacroName.Focus();
+                errorProvider.SetError(MacroName, "Excecutable name cannot be the same as another macro");
+            }
+            else
+            {
+                e.Cancel = false;
+                errorProvider.SetError(MacroName, string.Empty);
+            }
+        }
     }
 }
