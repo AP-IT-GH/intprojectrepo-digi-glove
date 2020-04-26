@@ -1,6 +1,7 @@
 #!/usr/bin/python3.8
 from ctypes import windll, Structure, c_long, byref
 import pyautogui
+import win32api, win32con
 import socket
 import datetime
 import python101
@@ -72,9 +73,9 @@ xmax = 1920    # Width of the monitor
 ymax = 1080   # Height of the 
 PreviousstateX = xmax/2            # starts in the middle of the screen
 PreviousstateY = ymax/2
-duration = 0.5  # Duration of mouse movement on seconds (float)
-offset =0
-offset2=0
+duration = 0.25  # Duration of mouse movement on seconds (float) higher is smoother but not too high
+offset = 0
+offset2 = 0
 minread = 0
 minread2 = 0
 maxread = 0
@@ -310,8 +311,8 @@ def CheckMousemovement():
         PreviousstateX = math.floor(PreviousstateX)
         PreviousstateY = math.floor(PreviousstateY)
         #print(str(PreviousstateX) + " " + str(PreviousstateY))
-        pyautogui.moveTo(x=PreviousstateX,y=PreviousstateY,duration=duration)
-
+        #pyautogui.moveTo(x=PreviousstateX,y=PreviousstateY,duration=duration)
+        win32api.SetCursorPos((int(PreviousstateX),int(PreviousstateY)))
 
 class updateThread(Thread):
     def __init__(self):
@@ -321,8 +322,8 @@ class updateThread(Thread):
     def run(self):
         while True:
             CallUpdate() #this is nonblocking it is a background thread
-            #make it run at aprox 200Hz
-            time.sleep(0.005)
+            #make it run at aprox 100Hz
+            time.sleep(0.01)
 updateThread()
 
 class updateFingers(Thread):
@@ -333,8 +334,8 @@ class updateFingers(Thread):
     def run(self):
         while True:
            CheckFingers()
-           #run this at aprox 200Hz
-           time.sleep(0.005)
+           #run this at aprox 100Hz
+           time.sleep(0.01)
 updateFingers()
 
 class updateMousemovement(Thread):
@@ -345,7 +346,7 @@ class updateMousemovement(Thread):
     def run(self):
         while True:
             CheckMousemovement()
-            time.sleep(0.005)
+            time.sleep(0.01) #100Hz
 updateMousemovement()
 
 class validationFingers(Thread):
@@ -356,7 +357,7 @@ class validationFingers(Thread):
     def run(self):
         while True:
            ValidationFingers()
-           time.sleep(0.05) #2Hz
+           time.sleep(0.01) #100Hz
 validationFingers()
 
 

@@ -6,9 +6,9 @@ import math
 
 port = "COM15"
 port = "COM" + input("what com port does the glove use? ex: 15 \r\n") #trying to write auto port detection software
+print(port)
 try:
     ser1 = serial.Serial(port, 9600, 8) #attempts to make a connection to a device
-
 except:
     print("error either bluetooth is off or the device in not connected only 0's will be returned")
 print("if the device is connected, comms will now start")
