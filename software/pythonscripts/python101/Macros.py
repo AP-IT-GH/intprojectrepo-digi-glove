@@ -73,7 +73,8 @@ ymax = 1080   # Height of the
 PreviousstateX = xmax/2            # starts in the middle of the screen
 PreviousstateY = ymax/2
 duration = 0.05  # Duration of mouse movement on seconds (float)
-
+offset =0
+offset2=0
 #Variable rotation time
 timeRotation = 0
 
@@ -237,8 +238,23 @@ def ValidationFingers():
         if(littleFinger): eval(SplitMessage[4]+'()')
         #print(SplitMessage[1])
 
+def constrain(val, min_val, max_val):
 
-       
+    if val < min_val: 
+        val = min_val
+
+    elif val > max_val: 
+        val = max_val
+
+    return val
+
+def map(OldValue,OldMin,OldMax,NewMin,NewMax):
+
+    OldRange = (OldMax - OldMin)  
+    NewRange = (NewMax - NewMin)  
+    NewValue = (((OldValue - OldMin) * NewRange) / OldRange) + NewMin
+
+    return NewValue
 
 def CheckMousemovement():
     #HIER DE CODE DIE ELKE KEER MOET GERUND WORDEN. (eigenlijk een while loop dus niet te zwaar belasten maar enkel de variabelen die nodig zijn of stuk code)
@@ -252,17 +268,39 @@ def CheckMousemovement():
         global PreviousstateX
         global PreviousstateY 
         global duration
+        global offset
+        global offset2
 
 
-        accelerationXaxis = python101.data["Accel_X"]
-        accelerationYaxis = python101.data["Accel_Y"]
+        accelerationXaxis = python101.data["yaw"]
+        accelerationYaxis = python101.data["pitch"]
 
+        if(accelerationXaxis*2000>950 & accelerationXaxis*2000> maxread):
+            maxread = accelerationXaxis*2000
+            offset = maxread -950
+            minread =0
+        if(accelerationXaxis*2000<-950 & accelerationXaxis*2000< minread):
+            minread = accelerationXaxis*2000
+            offset = maxread -950
+            maxread =0
+
+        if(accelerationYaxis*2000>500 & accelerationXaxis*2000> maxread2):
+            maxread = accelerationXaxis*2000
+            offset2 = maxread2 -500
+            minread2 =0
+        if(accelerationYaxis*2000<-500 & accelerationXaxis*2000< minread2):
+            minread2 = accelerationXaxis*2000
+            offset2 = maxread -950
+            maxread2 =0
+
+        xx = constrain(accelerationXaxis*2000-offset,-950,950)
+        yy = constrain(accelerationYaxis*-2000+offset2,-500,500)
         
-        MaccelerationXaxis = (accelerationXaxis/16383)*9.80665#*xmax #m/s²
-        MaccelerationYaxis = (accelerationYaxis/16383)*9.80665#*ymax
         #print(str(MaccelerationXaxis) + "  " + str(MaccelerationYaxis))
-        PreviousstateX += MaccelerationXaxis
-        PreviousstateY += MaccelerationYaxis
+      
+        PreviousstateX = map(xx,-950,950,0,1920)
+        PreviousstateY = map(yy,-500,500,0,1080)
+
         PreviousstateX = math.floor(PreviousstateX)
         PreviousstateY = math.floor(PreviousstateY)
         #print(str(PreviousstateX) + " " + str(PreviousstateY))
