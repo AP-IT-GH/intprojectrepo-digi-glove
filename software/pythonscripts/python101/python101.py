@@ -4,10 +4,11 @@ import time
 import numpy as np
 import math
 
-
 port = "COM15"
+port = "COM" + input("what com port does the glove use? ex: 15 \r\n") #trying to write auto port detection software
 try:
     ser1 = serial.Serial(port, 9600, 8) #attempts to make a connection to a device
+
 except:
     print("error either bluetooth is off or the device in not connected only 0's will be returned")
 print("if the device is connected, comms will now start")
@@ -126,7 +127,7 @@ def update(): #to edit in release
                 #hardcode debug
                 #print(str(data["Quat_W"]))
                 #
-                print(data["yaw"], data["pitch"], data["roll"])
+                #print(data["yaw"], data["pitch"], data["roll"])
                 #buffer reset
                 ser1.reset_input_buffer() #clear the buffer of any data so the next line can come through properly
                 #endif

@@ -18,7 +18,7 @@ print("loaded libraries")
 class POINT(Structure):
     _fields_ = [("x", c_long), ("y", c_long)]
 
-
+#region
 
 #Variables for fingers - 10 sensors, each finger has 2
 flexFinger1 = python101.data["Thumb_0"]
@@ -32,6 +32,7 @@ flexFinger7 = python101.data["RingF_tip"]
 flexFinger8 = python101.data["RingF_0"]
 flexFinger9 = python101.data["LittleF_1"]
 flexFinger10 = python101.data["LittleF_0"]
+
 
 
 gloveActivated = True
@@ -55,6 +56,8 @@ indexMacro="";
 middleMacro="";
 ringMacro="";
 littleMacro="";
+
+
 
 #Variables for touch sensors
 touchFinger1 = 0
@@ -83,6 +86,7 @@ rotationZaxis = 0
 accelerationXaxis = 0
 accelerationYaxis = 0
 
+#endregion
 
 def Rightmouseclick():
     pt = POINT()
