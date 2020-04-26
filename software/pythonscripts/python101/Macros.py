@@ -1,5 +1,5 @@
 #!/usr/bin/python3.8
-from ctypes import windll, Structure, c_long, byref
+
 import pyautogui
 import socket
 import datetime
@@ -17,11 +17,6 @@ message = "PrintScreen-PrintScreen-PrintScreen-PrintScreen-PrintScreen" #overidd
 print("loaded libraries")          
 MacrosList = []
 
-class POINT(Structure):
-    _fields_ = [("x", c_long), ("y", c_long)]
-
-
-
 #Variables for fingers - 10 sensors, each finger has 2
 flexIndex0 = python101.data["IndexF_0"]
 flexIndex1 = python101.data["IndexF_1"]
@@ -30,14 +25,16 @@ flexMiddle1 = python101.data["MiddleF_1"]
 flexRing0 = python101.data["RingF_0"]
 flexRing1 = python101.data["RingF_1"]
 flexPink0 = python101.data["LittleF_0"]
-flexThumb = 200#python101.data["Thumb_0"]
+flexPink1 = python101.data["LittleF_1"]
+flexThumb = python101.data["Thumb_0"]
 
-touchIndex = python101.data["IndexF_tip"]
-touchMiddle = python101.data["MiddleF_tip"]
+touchIndex = 200 #python101.data["IndexF_tip"]
+touchMiddle = 200 #python101.data["MiddleF_tip"]
 touchRing = python101.data["RingF_tip"]
 touchPink = python101.data["LittleF_tip"]
 
-
+Triggerpoint = 200
+ResetTriggerPoint = 150
 
 xmin, ymin = 0, 0
 xmax = 1920    # Width of the monitor
@@ -58,16 +55,6 @@ rotationZaxis = 0
 accelerationXaxis = 0
 accelerationYaxis = 0
 
-
-def Rightmouseclick():
-    pt = POINT()
-    windll.user32.GetCursorPos(byref(pt))
-    pyautogui.rightClick(x=pt.x, y=pt.y)
-
-def Leftmouseclick():
-    pt = POINT()
-    windll.user32.GetCursorPos(byref(pt))
-    pyautogui.click(x=pt.x, y=pt.y)
 
 def ClosePage():
     pyautogui.hotkey('ctrl', 'w')  
@@ -114,36 +101,73 @@ def PauseGlove():
         return
 
 def CheckFingers():
-    if(flexThumb>=200):
+    #Trigger checking
+    if(flexThumb>=Triggerpoint):
         CheckTrigger("flexthumb")
-    if(flexIndex0>=200 and flexIndex1>=200):
+    if(flexIndex1>=Triggerpoint):
         CheckTrigger("flexindex")
-    if(flexMiddle0>= 200 and flexMiddle1>=200): # 200 200
+    if(flexMiddle1>=Triggerpoint): # 200 200
         CheckTrigger("flexmiddle")
-    if(flexRing0>=200 and flexRing1>=200):
+    if(flexRing1>=Triggerpoint):
         CheckTrigger("flexring")
-    if(flexPink0>=200):
+    if(flexPink0>=Triggerpoint):
         CheckTrigger("flexpink")
 
-    if(touchIndex>=200):
+    if(touchIndex>=Triggerpoint):
         CheckTrigger("touchindex")
-    if(touchMiddle>=200):
+    if(touchMiddle>=Triggerpoint):
         CheckTrigger("touchmiddle")
-    if(touchRing>=200):
+    if(touchRing>=Triggerpoint):
         CheckTrigger("touchring")
-    if(touchPink>=200):
+    if(touchPink>=Triggerpoint):
         CheckTrigger("touchpink")
 
+    #CanTrigger again
+    if(flexThumb<=ResetTriggerPoint):
+        ResetTrigger ("flexthumb")
+    if(flexIndex1<=ResetTriggerPoint):
+        ResetTrigger("flexindex")
+    if(flexMiddle1<=ResetTriggerPoint): # 200 200
+        ResetTrigger("flexmiddle")
+    if(flexRing1<=ResetTriggerPoint):
+        ResetTrigger("flexring")
+    if(flexPink0<=ResetTriggerPoint):
+        ResetTrigger("flexpink")
+
+    if(touchIndex<=ResetTriggerPoint):
+        ResetTrigger("touchindex")
+    if(touchMiddle<=ResetTriggerPoint):
+        ResetTrigger("touchmiddle")
+    if(touchRing<=ResetTriggerPoint):
+        ResetTrigger("touchring")
+    if(touchPink<=ResetTriggerPoint):
+        ResetTrigger("touchpink")
+
+def DisableAllMacrosExcept(name):
+    global MacrosList
+    print("Disabling all marco's")
+    for macroToDisable in MacrosList:
+        if not macroToDisable.Name == name: #All other macro's other than the disabling macro
+            print("Disabled: " + macroToDisable.Name)
+            macroToDisable.ChangeLock()
 
 def CheckTrigger(trigger):
     for macro in MacrosList:
-        macro.TryTrigger(trigger)
+        if macro.TryTrigger(trigger) == False:
+            DisableAllMacrosExcept(macro.Name)
+            
+
+def ResetTrigger(trigger):
+    for macro in MacrosList:
+        macro.ResetTrigger(trigger)
+
+
 
        #callable function for the thread
 def CallUpdate():
     global flexThumb, flexIndex0, flexIndex1, flexMiddle0, flexMiddle1, flexRing0, flexRing1, flexPink0, accelerationXaxis, accelerationYaxis
     #update values from the Bluetooth
-    flexThumb = python101.data["Thumb_0"]
+    flexThumb = 200 #python101.data["Thumb_0"]
     flexIndex0 = python101.data["IndexF_0"]
     flexIndex1 = python101.data["IndexF_1"]
     flexMiddle0 = python101.data["MiddleF_0"]
@@ -151,9 +175,10 @@ def CallUpdate():
     flexRing0 = python101.data["RingF_0"]
     flexRing1 = python101.data["RingF_1"]
     flexPink0 = python101.data["LittleF_0"]
+    flexPink1 = python101.data["LittleF_1"]
 
-    touchIndex = python101.data["IndexF_tip"]
-    touchMiddle = python101.data["MiddleF_tip"]
+    touchIndex = 200 #python101.data["IndexF_tip"]
+    touchMiddle = 200 #python101.data["MiddleF_tip"]
     touchRing = python101.data["RingF_tip"]
     touchPink = python101.data["LittleF_tip"]
     accelerationXaxis = python101.data["Accel_X"]

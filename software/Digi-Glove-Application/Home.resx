@@ -461,6 +461,17 @@
         9v8BvWBIJYTppNcAAAAASUVORK5CYII=
 </value>
   </data>
+  <data name="textBox1.Text" xml:space="preserve">
+    <value>
+-Elias Toivola (Hardware)
+-Nisar Kainulainen (Hardware)
+-Jaakko Ropponen (Hardware)
+-Stef Martens (Software)
+-Jan Boeckx (Software)
+-Zeno Hattas (Software)
+-Charlie Cramm (Software)
+-Quinten Van Ginderen (Software)</value>
+  </data>
   <data name="button_title_calibration.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAA+gAAAABCAIAAADCYhNkAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO

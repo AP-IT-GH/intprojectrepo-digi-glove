@@ -48,11 +48,12 @@ namespace Digi_Glove_Application
             this.panel_macro.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(245)))), ((int)(((byte)(246)))));
             this.panel_macro.Controls.Add(this.panel_buttoncontrol);
             this.panel_macro.Controls.Add(this.button2);
+            this.panel_macro.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel_macro.Location = new System.Drawing.Point(20, 20);
             this.panel_macro.Margin = new System.Windows.Forms.Padding(0);
             this.panel_macro.Name = "panel_macro";
             this.panel_macro.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
-            this.panel_macro.Size = new System.Drawing.Size(687, 470);
+            this.panel_macro.Size = new System.Drawing.Size(687, 473);
             this.panel_macro.TabIndex = 2;
             // 
             // panel_buttoncontrol
@@ -128,6 +129,7 @@ namespace Digi_Glove_Application
             this.Font = new System.Drawing.Font("Century Gothic", 7.8F);
             this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "Configurations";
+            this.Padding = new System.Windows.Forms.Padding(20);
             this.Size = new System.Drawing.Size(727, 513);
             this.panel_macro.ResumeLayout(false);
             this.panel_buttoncontrol.ResumeLayout(false);
