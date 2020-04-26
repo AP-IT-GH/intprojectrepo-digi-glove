@@ -39,22 +39,25 @@
             // 
             // panel_info
             // 
+            this.panel_info.AutoScroll = true;
             this.panel_info.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(245)))), ((int)(((byte)(246)))));
             this.panel_info.Controls.Add(this.panel_text);
             this.panel_info.Controls.Add(this.button_title_calibration);
+            this.panel_info.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel_info.Location = new System.Drawing.Point(20, 20);
             this.panel_info.Name = "panel_info";
-            this.panel_info.Size = new System.Drawing.Size(687, 470);
+            this.panel_info.Size = new System.Drawing.Size(687, 473);
             this.panel_info.TabIndex = 2;
             // 
             // panel_text
             // 
+            this.panel_text.AutoScroll = true;
             this.panel_text.Controls.Add(this.textBox_info);
             this.panel_text.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel_text.Location = new System.Drawing.Point(0, 36);
             this.panel_text.Name = "panel_text";
-            this.panel_text.Padding = new System.Windows.Forms.Padding(20, 21, 20, 21);
-            this.panel_text.Size = new System.Drawing.Size(687, 434);
+            this.panel_text.Padding = new System.Windows.Forms.Padding(20);
+            this.panel_text.Size = new System.Drawing.Size(687, 437);
             this.panel_text.TabIndex = 2;
             // 
             // textBox_info
@@ -64,13 +67,14 @@
             this.textBox_info.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(245)))), ((int)(((byte)(246)))));
             this.textBox_info.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBox_info.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox_info.Enabled = false;
             this.textBox_info.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_info.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.textBox_info.Location = new System.Drawing.Point(20, 21);
+            this.textBox_info.ForeColor = System.Drawing.Color.Black;
+            this.textBox_info.Location = new System.Drawing.Point(20, 20);
             this.textBox_info.Multiline = true;
             this.textBox_info.Name = "textBox_info";
-            this.textBox_info.Size = new System.Drawing.Size(647, 392);
+            this.textBox_info.ReadOnly = true;
+            this.textBox_info.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.textBox_info.Size = new System.Drawing.Size(647, 397);
             this.textBox_info.TabIndex = 1;
             this.textBox_info.Text = resources.GetString("textBox_info.Text");
             // 
@@ -82,6 +86,7 @@
             this.button_title_calibration.Font = new System.Drawing.Font("Century Gothic", 12F);
             this.button_title_calibration.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.button_title_calibration.Image = ((System.Drawing.Image)(resources.GetObject("button_title_calibration.Image")));
+            this.button_title_calibration.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.button_title_calibration.Location = new System.Drawing.Point(0, 0);
             this.button_title_calibration.Name = "button_title_calibration";
             this.button_title_calibration.Size = new System.Drawing.Size(687, 36);
@@ -99,6 +104,7 @@
             this.Controls.Add(this.panel_info);
             this.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "Info";
+            this.Padding = new System.Windows.Forms.Padding(20);
             this.Size = new System.Drawing.Size(727, 513);
             this.panel_info.ResumeLayout(false);
             this.panel_text.ResumeLayout(false);

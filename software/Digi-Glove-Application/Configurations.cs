@@ -156,6 +156,7 @@ namespace Digi_Glove_Application
                     {
                         Debug.WriteLine("Connection failed");
                         button_config_connect.Enabled = true;
+                        button_config_connect.Text = "Connect";
                         client = null;
                         MessageBox.Show( "Connection failed", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }

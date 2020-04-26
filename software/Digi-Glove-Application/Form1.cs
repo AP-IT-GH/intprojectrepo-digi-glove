@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -127,6 +129,40 @@ namespace Digi_Glove_Application
 
                 this.Hide();
             }
+        }
+
+        private void StartIronPython()
+        {
+            //var engine = Python.CreateEngine();
+
+            //var script = @"C:\Electronica-ICT\InternationalProjectOulu\intprojectrepo-digi-glove\software\pythonscripts\python101";
+            //engine.ExecuteFile(script);
+            //var source = engine.CreateScriptSourceFromFile(script);
+
+            //var argv;
+
+            //engine.GetSysModule().SetVariable("argv", argv);
+
+            //var eIO = engine.Runtime.IO;
+
+            //var errors = new MemoryStream();
+            //eIO.SetErrorOutput(errors, Encoding.Default);
+
+            //var results = new MemoryStream();
+            //eIO.SetOutput(results, Encoding.Default);
+
+            ////Get variables from script
+            //var scope = engine.CreateScope();
+            //source.Execute(scope);
+
+            //string str(byte[] x) => Encoding.Default.GetString(x);
+
+            //Debug.WriteLine("ERRORS");
+            //Debug.WriteLine(str(errors.ToArray()));
+            //Debug.WriteLine("");
+            //Debug.WriteLine("RESULTS:");
+            //Debug.WriteLine(str(results.ToArray()));
+
         }
     }
 }
