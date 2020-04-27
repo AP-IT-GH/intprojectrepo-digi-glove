@@ -260,9 +260,8 @@ def CheckMousemovement():
 
         PreviousstateX = math.floor(PreviousstateX)
         PreviousstateY = math.floor(PreviousstateY)
-        #print(str(PreviousstateX) + " " + str(PreviousstateY))
-        #pyautogui.moveTo(x=PreviousstateX,y=PreviousstateY,duration=duration)
-        win32api.SetCursorPos((int(PreviousstateX),int(PreviousstateY)))
+        if(python101.connected == True):
+            win32api.SetCursorPos((int(PreviousstateX),int(PreviousstateY)))
 
 class updateThread(Thread):
     def __init__(self):
