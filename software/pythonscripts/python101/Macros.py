@@ -1,6 +1,7 @@
 #!/usr/bin/python3.8
 
 import pyautogui
+import win32api, win32con
 import socket
 import datetime
 import python101
@@ -8,13 +9,12 @@ import threading
 from threading import Thread
 import time
 import MacroClass
-from tkinter import Tk,Label,Button
 from random import randrange
 import math
 import numpy
 
 message = "PrintScreen-PrintScreen-PrintScreen-PrintScreen-PrintScreen" #overidden from Zeno's gui
-print("loaded libraries")          
+print("loaded libraries")      
 MacrosList = []
 
 #Variables for fingers - 10 sensors, each finger has 2
@@ -36,13 +36,19 @@ touchPink = python101.data["LittleF_tip"]
 Triggerpoint = 200
 ResetTriggerPoint = 150
 
+
 xmin, ymin = 0, 0
 xmax = 1920    # Width of the monitor
 ymax = 1080   # Height of the 
 PreviousstateX = xmax/2            # starts in the middle of the screen
 PreviousstateY = ymax/2
-duration = 0.05  # Duration of mouse movement on seconds (float)
-
+duration = 0.25  # Duration of mouse movement on seconds (float) higher is smoother but not too high
+offset = 0
+offset2 = 0
+minread = 0
+minread2 = 0
+maxread = 0
+maxread2 = 0
 #Variable rotation time
 timeRotation = 0
 
@@ -55,6 +61,7 @@ rotationZaxis = 0
 accelerationXaxis = 0
 accelerationYaxis = 0
 
+#endregion
 
 def ClosePage():
     pyautogui.hotkey('ctrl', 'w')  
@@ -88,6 +95,7 @@ def Cut():
 
 def Bold():
     pyautogui.hotkey('ctrl','b')
+#endregion
 
 def PauseGlove():
     global gloveActivated
@@ -167,7 +175,8 @@ def ResetTrigger(trigger):
 def CallUpdate():
     global flexThumb, flexIndex0, flexIndex1, flexMiddle0, flexMiddle1, flexRing0, flexRing1, flexPink0, accelerationXaxis, accelerationYaxis
     #update values from the Bluetooth
-    flexThumb = 200 #python101.data["Thumb_0"]
+    python101.update()
+    flexThumb = python101.data["Thumb_0"]
     flexIndex0 = python101.data["IndexF_0"]
     flexIndex1 = python101.data["IndexF_1"]
     flexMiddle0 = python101.data["MiddleF_0"]
@@ -175,10 +184,10 @@ def CallUpdate():
     flexRing0 = python101.data["RingF_0"]
     flexRing1 = python101.data["RingF_1"]
     flexPink0 = python101.data["LittleF_0"]
+    touchIndex = python101.data["IndexF_tip"]
+    touchMiddle = python101.data["MiddleF_tip"]
     flexPink1 = python101.data["LittleF_1"]
-
-    touchIndex = 200 #python101.data["IndexF_tip"]
-    touchMiddle = 200 #python101.data["MiddleF_tip"]
+    
     touchRing = python101.data["RingF_tip"]
     touchPink = python101.data["LittleF_tip"]
     accelerationXaxis = python101.data["Accel_X"]
@@ -186,37 +195,23 @@ def CallUpdate():
     #endloop
 #endcallupdate
 
-#Rewrite Zeno!!!
-#def CheckPauseGlove():
-    #SplitMessage = message.split("-")
-    #indexSplitMessage = 0
-    #for macro in SplitMessage:
-        #if(macro == "PauseGlove"):
-            #print("macro = pause")
-            #gloveActivatedFinger = indexSplitMessage
-            #indexSplitMessage = indexSplitMessage + 1
-        #else:
-            #gloveActivatedFinger = 5 #failsafe
-            #print("macro is not pause")
+def constrain(val, min_val, max_val):
 
-    #when you bend the finger that is assigned to let the glove be paused and used: if you bend the glove it's inactive, if you bend that finger again, the glove is back active.
-    #if(gloveActivatedFinger==0):
-        #if(thumb):
-            #PauseGlove()
-    #elif(gloveActivatedFinger==1):
-        #if(indexFinger):
-            #PauseGlove()
-    #elif(gloveActivatedFinger==2):
-        #if(middleFinger):
-            #PauseGlove()
-    #elif(gloveActivatedFinger==3):
-       #if(ringFinger):
-            #PauseGlove()
-    #elif(gloveActivatedFinger==4):
-        #if(littleFinger):
-            #PauseGlove()
-    #elif(gloveActivatedFinger==5):
-        #pass #failsafe      
+    if val < min_val: 
+        val = min_val
+
+    elif val > max_val: 
+        val = max_val
+
+    return val
+
+def map(OldValue,OldMin,OldMax,NewMin,NewMax):
+
+    OldRange = (OldMax - OldMin)  
+    NewRange = (NewMax - NewMin)  
+    NewValue = (((OldValue - OldMin) * NewRange) / OldRange) + NewMin
+
+    return NewValue
 
 def CheckMousemovement():
     #HIER DE CODE DIE ELKE KEER MOET GERUND WORDEN. (eigenlijk een while loop dus niet te zwaar belasten maar enkel de variabelen die nodig zijn of stuk code)
@@ -230,22 +225,44 @@ def CheckMousemovement():
         global PreviousstateX
         global PreviousstateY 
         global duration
+        global offset
+        global offset2
+        global minread, maxread, minread2, maxread2
 
+        accelerationXaxis = python101.data["yaw"]
+        accelerationYaxis = python101.data["pitch"]
 
-        accelerationXaxis = python101.data["Accel_X"]
-        accelerationYaxis = python101.data["Accel_Y"]
+        if(accelerationXaxis*2000 > 950 and accelerationXaxis*2000 > maxread):
+            maxread = accelerationXaxis*2000
+            offset = maxread -950
+            minread = 0
+        if(accelerationXaxis*2000 <- 950 and accelerationXaxis*2000 < minread):
+            minread = accelerationXaxis*2000
+            offset = maxread -950
+            maxread = 0
 
+        if(accelerationYaxis*2000 > 500 and accelerationXaxis*2000 > maxread2):
+            maxread = accelerationXaxis*2000
+            offset2 = maxread2 -500
+            minread2 = 0
+        if(accelerationYaxis*2000 <- 500 and accelerationXaxis*2000 < minread2):
+            minread2 = accelerationXaxis*2000
+            offset2 = maxread -950
+            maxread2 = 0
+            
+        xx = constrain(accelerationXaxis*2000-offset,-950,950)
+        yy = constrain(accelerationYaxis*-2000+offset2,-500,500)
         
-        MaccelerationXaxis = (accelerationXaxis/16383)*9.80665#*xmax #m/s²
-        MaccelerationYaxis = (accelerationYaxis/16383)*9.80665#*ymax
         #print(str(MaccelerationXaxis) + "  " + str(MaccelerationYaxis))
-        PreviousstateX += MaccelerationXaxis
-        PreviousstateY += MaccelerationYaxis
+      
+        PreviousstateX = map(xx,-950,950,0,1920)
+        PreviousstateY = map(yy,-500,500,0,1080)
+
         PreviousstateX = math.floor(PreviousstateX)
         PreviousstateY = math.floor(PreviousstateY)
         #print(str(PreviousstateX) + " " + str(PreviousstateY))
         #pyautogui.moveTo(x=PreviousstateX,y=PreviousstateY,duration=duration)
-
+        win32api.SetCursorPos((int(PreviousstateX),int(PreviousstateY)))
 
 class updateThread(Thread):
     def __init__(self):
@@ -255,8 +272,8 @@ class updateThread(Thread):
     def run(self):
         while True:
             CallUpdate() #this is nonblocking it is a background thread
-            #make it run at aprox 200Hz
-            time.sleep(0.005)
+            #make it run at aprox 100Hz
+            time.sleep(0.01)
 updateThread()
 
 class updateFingers(Thread):
@@ -267,8 +284,8 @@ class updateFingers(Thread):
     def run(self):
         while True:
            CheckFingers()
-           #run this at aprox 200Hz
-           time.sleep(0.005)
+           #run this at aprox 100Hz
+           time.sleep(0.01)
 updateFingers()
 
 class updateMousemovement(Thread):
@@ -279,9 +296,8 @@ class updateMousemovement(Thread):
     def run(self):
         while True:
             CheckMousemovement()
-            time.sleep(0.005)
+            time.sleep(0.01) #100Hz
 updateMousemovement()
-
 
 print("initiating sockets")
 socket
