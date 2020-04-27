@@ -719,3 +719,5 @@ healthchecksdb
 
 # Dolphin file manager folders
 *.directory
+
+*VirtualEnv/

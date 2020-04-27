@@ -135,7 +135,7 @@ namespace Digi_Glove_Application
 
         private void ExcecuteCommand(string command)
         {
-            string directoryPath = Directory.GetCurrentDirectory();
+            string directoryPath = Directory.GetCurrentDirectory().Replace(@"bin\Debug","");
             this.Text = directoryPath;
             try
             {
@@ -147,9 +147,9 @@ namespace Digi_Glove_Application
 
                 var process = Process.Start(processInfo);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-
+                Debug.WriteLine(e.Message);
             }
         }
 
