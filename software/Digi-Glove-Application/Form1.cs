@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Scripting;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -24,6 +25,7 @@ namespace Digi_Glove_Application
             IsCollapsed = false;
             home_usercontrol.BringToFront();
             this.Text = "Home";
+            ExcecuteCommand("RunBackEnd");
         }
         private void UpdateSelectedButton(Button button)
         {
@@ -131,38 +133,30 @@ namespace Digi_Glove_Application
             }
         }
 
-        private void StartIronPython()
+        private void ExcecuteCommand(string command)
         {
-            //var engine = Python.CreateEngine();
+            string directoryPath = Directory.GetCurrentDirectory();
+            this.Text = directoryPath;
+            try
+            {
+                var processInfo = new ProcessStartInfo("cmd.exe", "/c " + directoryPath + "\\" + command);
+                processInfo.CreateNoWindow = true;
+                processInfo.UseShellExecute = false;
+                processInfo.RedirectStandardError = true;
+                processInfo.RedirectStandardOutput = true;
 
-            //var script = @"C:\Electronica-ICT\InternationalProjectOulu\intprojectrepo-digi-glove\software\pythonscripts\python101";
-            //engine.ExecuteFile(script);
-            //var source = engine.CreateScriptSourceFromFile(script);
+                var process = Process.Start(processInfo);
+            }
+            catch (Exception)
+            {
 
-            //var argv;
+            }
+        }
 
-            //engine.GetSysModule().SetVariable("argv", argv);
-
-            //var eIO = engine.Runtime.IO;
-
-            //var errors = new MemoryStream();
-            //eIO.SetErrorOutput(errors, Encoding.Default);
-
-            //var results = new MemoryStream();
-            //eIO.SetOutput(results, Encoding.Default);
-
-            ////Get variables from script
-            //var scope = engine.CreateScope();
-            //source.Execute(scope);
-
-            //string str(byte[] x) => Encoding.Default.GetString(x);
-
-            //Debug.WriteLine("ERRORS");
-            //Debug.WriteLine(str(errors.ToArray()));
-            //Debug.WriteLine("");
-            //Debug.WriteLine("RESULTS:");
-            //Debug.WriteLine(str(results.ToArray()));
-
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            configurations_usercontrol.SendData("exit");
+            base.OnFormClosing(e);
         }
     }
 }
