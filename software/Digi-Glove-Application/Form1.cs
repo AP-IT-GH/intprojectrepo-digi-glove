@@ -25,7 +25,7 @@ namespace Digi_Glove_Application
             IsCollapsed = false;
             home_usercontrol.BringToFront();
             this.Text = "Home";
-            ExcecuteCommand("RunBackEnd");
+            //ExcecuteCommand("RunBackEnd");
         }
         private void UpdateSelectedButton(Button button)
         {
