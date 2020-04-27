@@ -8,7 +8,6 @@ import threading
 from threading import Thread
 import time
 import MacroClass
-from tkinter import Tk,Label,Button
 from random import randrange
 import math
 import numpy

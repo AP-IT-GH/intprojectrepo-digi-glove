@@ -1,5 +1,4 @@
 import pyautogui, time
-from tkinter import Tk,Label,Button
 from random import randrange
 import socket
 from threading import Thread
