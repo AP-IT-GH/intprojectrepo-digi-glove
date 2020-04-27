@@ -136,15 +136,20 @@ namespace Digi_Glove_Application
         private void ExcecuteCommand(string command)
         {
             string directoryPath = Directory.GetCurrentDirectory();
-            if (Directory.Exists(directoryPath + "VirtualEnv"))
+            this.Text = directoryPath;
+            try
             {
-                var processInfo = new ProcessStartInfo("cmd.exe", "/c " + directoryPath + command);
+                var processInfo = new ProcessStartInfo("cmd.exe", "/c " + directoryPath + "\\" + command);
                 processInfo.CreateNoWindow = true;
                 processInfo.UseShellExecute = false;
                 processInfo.RedirectStandardError = true;
                 processInfo.RedirectStandardOutput = true;
 
                 var process = Process.Start(processInfo);
+            }
+            catch (Exception)
+            {
+
             }
         }
 
