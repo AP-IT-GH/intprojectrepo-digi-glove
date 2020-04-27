@@ -20,7 +20,7 @@ The connection between the glove and the computer ensures a channel through whic
 This is a Bluetooth module. The Bluetooth-transmitter (the glove) sends captured data continuously to the Bluetooth-receiver (a COM-port on the PC).
 
 #### Connection between the GUI and the running script
-The connection between the GUI is used to transfer settings/ a configuration to the script
+The connection between the GUI is used to transfer settings/ a configuration to the script.
 This connection gets made by using a network socket. The user has to establish a connection between the two parties in the GUI. One of the parties is the Application, the other party is the running script. A string of data with the specifications gets send to the running program.
 
 ### Handeling the data
@@ -36,7 +36,8 @@ If the validation is true, a corresponding macro gets called and is executed.
 
 ### Configuration of the GUI
 The task of the GUI is to configure the glove's settings:
-- In the GUI you can choose between an amount of predefined macro’s.
-- You can choose which macro you want to assign to each finger.
-- Each finger can have 1 macro assigned to it.
-When you have made a configuration, the configuration gets passed on to the program via a network socket (as beeing explained in the connections part).
+- In the GUI you can create as many macro's as you want by using a "+" sign as seperator or without create automatic typed messages
+- You can choose which macro you want to assign to each finger
+- Your able to overlay as many macros as you want on each finger.
+
+When you have made a configuration and press the save button, the configuration gets passed on to the program via a network socket (as beeing explained in the connections part).

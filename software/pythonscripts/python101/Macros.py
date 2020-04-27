@@ -1,5 +1,5 @@
 #!/usr/bin/python3.8
-from ctypes import windll, Structure, c_long, byref
+
 import pyautogui
 import win32api, win32con
 import socket
@@ -8,63 +8,33 @@ import python101
 import threading
 from threading import Thread
 import time
+import MacroClass
 from random import randrange
 import math
 import numpy
 
 message = "PrintScreen-PrintScreen-PrintScreen-PrintScreen-PrintScreen" #overidden from Zeno's gui
-print("loaded libraries")
-
-class POINT(Structure):
-    _fields_ = [("x", c_long), ("y", c_long)]
-
-#region
+print("loaded libraries")      
+MacrosList = []
 
 #Variables for fingers - 10 sensors, each finger has 2
-flexFinger1 = python101.data["Thumb_0"]
-#flexFinger2 = python101.data["Thumb_1"] # missing as of 10/04/2020 because of hardware and software changes
-flexFinger2 = python101.data["Thumb_0"] #copied from thumb 0 to not create a null reference
-flexFinger3 = python101.data["IndexF_1"]
-flexFinger4 = python101.data["IndexF_0"]
-flexFinger5 = python101.data["MiddleF_1"]
-flexFinger6 = python101.data["MiddleF_0"]
-flexFinger7 = python101.data["RingF_tip"]
-flexFinger8 = python101.data["RingF_0"]
-flexFinger9 = python101.data["LittleF_1"]
-flexFinger10 = python101.data["LittleF_0"]
+flexIndex0 = python101.data["IndexF_0"]
+flexIndex1 = python101.data["IndexF_1"]
+flexMiddle0 = python101.data["MiddleF_0"]
+flexMiddle1 = python101.data["MiddleF_1"]
+flexRing0 = python101.data["RingF_0"]
+flexRing1 = python101.data["RingF_1"]
+flexPink0 = python101.data["LittleF_0"]
+flexPink1 = python101.data["LittleF_1"]
+flexThumb = python101.data["Thumb_0"]
 
+touchIndex = 200 #python101.data["IndexF_tip"]
+touchMiddle = 200 #python101.data["MiddleF_tip"]
+touchRing = python101.data["RingF_tip"]
+touchPink = python101.data["LittleF_tip"]
 
-
-gloveActivated = True
-indexSplitMessage=0
-gloveActivatedFinger=0
-
-thumb = False
-indexFinger = False
-middleFinger = False
-ringFinger = False
-littleFinger = False
-
-thumbHalf = False
-indexHalf = False
-middleHalf = False
-ringHalf = False
-littleHalf = False
-
-thumbMacro="";
-indexMacro="";
-middleMacro="";
-ringMacro="";
-littleMacro="";
-
-
-
-#Variables for touch sensors
-touchFinger1 = 0
-touchFinger2 = 0
-touchFinger3 = 0
-touchFinger4 = 0
-
+Triggerpoint = 200
+ResetTriggerPoint = 150
 
 
 xmin, ymin = 0, 0
@@ -92,17 +62,6 @@ accelerationXaxis = 0
 accelerationYaxis = 0
 
 #endregion
-
-#region
-def Rightmouseclick():
-    pt = POINT()
-    windll.user32.GetCursorPos(byref(pt))
-    pyautogui.rightClick(x=pt.x, y=pt.y)
-
-def Leftmouseclick():
-    pt = POINT()
-    windll.user32.GetCursorPos(byref(pt))
-    pyautogui.click(x=pt.x, y=pt.y)
 
 def ClosePage():
     pyautogui.hotkey('ctrl', 'w')  
@@ -150,34 +109,71 @@ def PauseGlove():
         return
 
 def CheckFingers():
-    #the indexfinger is bend when the value of the flex resistor (2 flex sensors on each finger) is larger than 200 for each
-    if(flexFinger1>=200 and flexFinger2>=200):
-        thumb=True
-    else:
-        thumb=False
-    if(flexFinger3>= 200 and flexFinger4>=200): # 200 200
-        global indexFinger
-        indexFinger=True
-    else:
-        indexFinger=False
-    if(flexFinger5>=200 and flexFinger6>=200):
-        middleFinger=True
-    else:
-        middleFinger=False
+    #Trigger checking
+    if(flexThumb>=Triggerpoint):
+        CheckTrigger("flexthumb")
+    if(flexIndex1>=Triggerpoint):
+        CheckTrigger("flexindex")
+    if(flexMiddle1>=Triggerpoint): # 200 200
+        CheckTrigger("flexmiddle")
+    if(flexRing1>=Triggerpoint):
+        CheckTrigger("flexring")
+    if(flexPink0>=Triggerpoint):
+        CheckTrigger("flexpink")
 
-    if(flexFinger7>=200 and flexFinger8>=200):
-        ringFinger=True
-    else:
-        ringFinger=False
+    if(touchIndex>=Triggerpoint):
+        CheckTrigger("touchindex")
+    if(touchMiddle>=Triggerpoint):
+        CheckTrigger("touchmiddle")
+    if(touchRing>=Triggerpoint):
+        CheckTrigger("touchring")
+    if(touchPink>=Triggerpoint):
+        CheckTrigger("touchpink")
 
-    if(flexFinger9>=200 and flexFinger10>=200):
-        littleFinger=True
-    else:
-       littleFinger=False
+    #CanTrigger again
+    if(flexThumb<=ResetTriggerPoint):
+        ResetTrigger ("flexthumb")
+    if(flexIndex1<=ResetTriggerPoint):
+        ResetTrigger("flexindex")
+    if(flexMiddle1<=ResetTriggerPoint): # 200 200
+        ResetTrigger("flexmiddle")
+    if(flexRing1<=ResetTriggerPoint):
+        ResetTrigger("flexring")
+    if(flexPink0<=ResetTriggerPoint):
+        ResetTrigger("flexpink")
+
+    if(touchIndex<=ResetTriggerPoint):
+        ResetTrigger("touchindex")
+    if(touchMiddle<=ResetTriggerPoint):
+        ResetTrigger("touchmiddle")
+    if(touchRing<=ResetTriggerPoint):
+        ResetTrigger("touchring")
+    if(touchPink<=ResetTriggerPoint):
+        ResetTrigger("touchpink")
+
+def DisableAllMacrosExcept(name):
+    global MacrosList
+    print("Disabling all marco's")
+    for macroToDisable in MacrosList:
+        if not macroToDisable.Name == name: #All other macro's other than the disabling macro
+            print("Disabled: " + macroToDisable.Name)
+            macroToDisable.ChangeLock()
+
+def CheckTrigger(trigger):
+    for macro in MacrosList:
+        if macro.TryTrigger(trigger) == False:
+            DisableAllMacrosExcept(macro.Name)
+            
+
+def ResetTrigger(trigger):
+    for macro in MacrosList:
+        macro.ResetTrigger(trigger)
+
+
 
        #callable function for the thread
 def CallUpdate():
-    global flexFinger1, felxFinger2, flexFinger3, flexFinger4, flexFinger5, flexFinger6, flexFinger7, flexFinger9, flexFinger10, accelerationXaxis, accelerationYaxis
+    global flexThumb, flexIndex0, flexIndex1, flexMiddle0, flexMiddle1, flexRing0, flexRing1, flexPink0, accelerationXaxis, accelerationYaxis
     #update values from the Bluetooth
     python101.update()
     flexThumb = python101.data["Thumb_0"]
@@ -188,61 +184,16 @@ def CallUpdate():
     flexRing0 = python101.data["RingF_0"]
     flexRing1 = python101.data["RingF_1"]
     flexPink0 = python101.data["LittleF_0"]
-
     touchIndex = python101.data["IndexF_tip"]
     touchMiddle = python101.data["MiddleF_tip"]
+    flexPink1 = python101.data["LittleF_1"]
+    
     touchRing = python101.data["RingF_tip"]
     touchPink = python101.data["LittleF_tip"]
     accelerationXaxis = python101.data["Accel_X"]
     accelerationYaxis = python101.data["Accel_Y"]
-    #print(str(flexFinger3) + " " + str(flexFinger4)) #for demo purposes
     #endloop
 #endcallupdate
-
-def CheckPauseGlove():
-    SplitMessage = message.split("-")
-    indexSplitMessage = 0
-    for macro in SplitMessage:
-        if(macro == "PauseGlove"):
-            #print("macro = pause")
-            gloveActivatedFinger = indexSplitMessage
-            indexSplitMessage = indexSplitMessage + 1
-        else:
-            gloveActivatedFinger = 5 #failsafe
-            #print("macro is not pause")
-
-    #when you bend the finger that is assigned to let the glove be paused and used: if you bend the glove it's inactive, if you bend that finger again, the glove is back active.
-    if(gloveActivatedFinger==0):
-        if(thumb):
-            PauseGlove()
-    elif(gloveActivatedFinger==1):
-        if(indexFinger):
-            PauseGlove()
-    elif(gloveActivatedFinger==2):
-        if(middleFinger):
-            PauseGlove()
-    elif(gloveActivatedFinger==3):
-       if(ringFinger):
-            PauseGlove()
-    elif(gloveActivatedFinger==4):
-        if(littleFinger):
-            PauseGlove()
-    elif(gloveActivatedFinger==5):
-        pass #failsafe
-
-
-
-def ValidationFingers():
-    SplitMessage = message.split("-")
-    CheckPauseGlove()
-
-    if(True):
-        if(thumb): eval(SplitMessage[0]+'()')
-        if(indexFinger): eval(SplitMessage[1]+'()')
-        if(middleFinger): eval(SplitMessage[2]+'()')
-        if(ringFinger): eval(SplitMessage[3]+'()')
-        if(littleFinger): eval(SplitMessage[4]+'()')
-        #print(SplitMessage[1])
 
 def constrain(val, min_val, max_val):
 
@@ -348,18 +299,6 @@ class updateMousemovement(Thread):
             time.sleep(0.01) #100Hz
 updateMousemovement()
 
-class validationFingers(Thread):
-    def __init__(self):
-        Thread.__init__(self)
-        self.daemon=True
-        self.start()
-    def run(self):
-        while True:
-           ValidationFingers()
-           time.sleep(0.01) #100Hz
-validationFingers()
-
-
 print("initiating sockets")
 socket
 listensocket=socket.socket()
@@ -382,10 +321,21 @@ print("now running")
 
 
 while True:
-    print("message received")
     #socket-message
-    message=clientsocket.recv(1024).decode()
-    if(message!=""):
-        SplitMessage=message.split("-")
-        print(str(message))
-
+    data=clientsocket.recv(1024).decode()
+    if(data!=""):
+        print("message received")
+        splitData=data.split("%")
+        print(str(splitData))
+        for dataRow in splitData:
+            print(dataRow)
+            if dataRow!="":
+                macroData = dataRow.split("~")
+                duplicate=False
+                for macro in MacrosList:
+                    if(macroData[0]==macro.Name):
+                        duplicate=True
+                if (duplicate):
+                    print("Macro " + macroData[0] + " already exists")
+                else:
+                    MacrosList.append(MacroClass.Macro(macroData[0],macroData[1],macroData[2]))
