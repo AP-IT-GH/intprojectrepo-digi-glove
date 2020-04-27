@@ -4,11 +4,15 @@ import time
 import numpy as np
 import math
 
-port = "COM15"
-port = "COM" + input("what com port does the glove use? ex: 15 \r\n") #trying to write auto port detection software
-print(port)
+connected = False
+port = "COM9"
+configFile = "./PortConfig.txt"
 try:
+    f = open(configFile, "r")
+    port = str(f.read())
+    f.close()
     ser1 = serial.Serial(port, 9600, 8) #attempts to make a connection to a device
+    connected = True
 except:
     print("error either bluetooth is off or the device in not connected only 0's will be returned")
 print("if the device is connected, comms will now start")
