@@ -5,12 +5,9 @@ import numpy as np
 import math
 
 connected = False
-port = "COM9"
-configFile = "./PortConfig.txt"
+port = "COM7"
+configFile = "PortConfig.txt"
 try:
-    f = open(configFile, "r")
-    port = str(f.read())
-    f.close()
     ser1 = serial.Serial(port, 9600, 8) #attempts to make a connection to a device
     connected = True
 except:
