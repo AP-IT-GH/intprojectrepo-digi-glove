@@ -5,16 +5,20 @@ VisualStudioVersion = 16.0.29820.132
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Digi-Glove-Application", "Digi-Glove-Application.csproj", "{6ED5AB53-6026-45F6-9E70-1AE99F71ABEA}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Digi-Glove-Installer", "..\Setup\Setup.vdproj", "{8E99C897-D8A3-49D5-BE4C-DA67B40359EA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{6ED5AB53-6026-45F6-9E70-1AE99F71ABEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6ED5AB53-6026-45F6-9E70-1AE99F71ABEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6ED5AB53-6026-45F6-9E70-1AE99F71ABEA}.Debug|Any CPU.ActiveCfg = Release|Any CPU
+		{6ED5AB53-6026-45F6-9E70-1AE99F71ABEA}.Debug|Any CPU.Build.0 = Release|Any CPU
 		{6ED5AB53-6026-45F6-9E70-1AE99F71ABEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6ED5AB53-6026-45F6-9E70-1AE99F71ABEA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8E99C897-D8A3-49D5-BE4C-DA67B40359EA}.Debug|Any CPU.ActiveCfg = Release
+		{8E99C897-D8A3-49D5-BE4C-DA67B40359EA}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

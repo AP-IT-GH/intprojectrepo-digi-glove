@@ -12,6 +12,7 @@ import MacroClass
 from random import randrange
 import math
 import numpy
+import os
 
 message = "PrintScreen-PrintScreen-PrintScreen-PrintScreen-PrintScreen" #overidden from Zeno's gui
 print("loaded libraries")      
@@ -329,6 +330,8 @@ while True:
         print(str(splitData))
         for dataRow in splitData:
             print(dataRow)
+            if dataRow=="exit":
+                os._exit(1)
             if dataRow!="":
                 macroData = dataRow.split("~")
                 duplicate=False
