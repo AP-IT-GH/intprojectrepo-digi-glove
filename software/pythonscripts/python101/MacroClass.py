@@ -23,6 +23,7 @@ class Macro():
 
     def TryTrigger(self, trigger):
         if self.Trigger==trigger and self.CanTrigger == True and self.Locked == False:
+            print("try trigger succesfull")
             self.CanTrigger = False
             return self.Excecute()
     def ResetTrigger(self, trigger):
