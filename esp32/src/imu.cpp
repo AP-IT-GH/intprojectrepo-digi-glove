@@ -1,3 +1,9 @@
+/*
+    * Copyright (c) 2020 All rights reserved.
+    * 
+    * This work is licensed under the terms of the MIT license.  
+    * For a copy, see <https://opensource.org/licenses/MIT>
+*/
 #include <freertos/FreeRTOS.h>
 #include <freertos/task.h>
 #include <esp_log.h>
@@ -8,6 +14,7 @@
 #include "sdkconfig.h"
 #include "pins.h"
 #include "bt_spp.h"
+#include "RGB_led.h"
 
 #define FREQUENCY 10 // 5 = 200Hz, 10 = 100Hz
 
@@ -20,6 +27,9 @@
 
 #define OUTPUT_READABLE 1
 #define OUTPUT_PACKET 1
+
+volatile int btn_1_flag = 0;
+void imu_calibration(void);
 
 void task_initI2C(void *ignore) {
     i2c_config_t conf;
@@ -51,39 +61,47 @@ void imu_task(void* ignore) {
     imu.setYGyroOffset(GYRO_X_OFFSET);
     imu.setZGyroOffset(GYRO_X_OFFSET);
     imu.setXGyroOffset(GYRO_X_OFFSET);
-    imu.CalibrateAccel(6);
-    imu.CalibrateGyro(6);
+    imu_calibration();
     imu.setDMPEnabled(true);
     imu_data_t packet;
     uint8_t fifoBuffer[64];
     const TickType_t xFrequency = FREQUENCY;
-    int test = 0; 	// just for testing and troubleshoothing
     TickType_t xLastWakeTime = xTaskGetTickCount();
-    //int curTime = 0;
-    //int prevTime = 0;
-    //int tTime = 0;
-
-
+    int curTime = 0;
+    int prevTime = 0;
+    int tTime = 0;
 
     while(1) {
+        if (btn_1_flag) {
+            imu_calibration();
+            btn_1_flag = 0;
+        }
         if (imu.dmpGetCurrentFIFOPacket(fifoBuffer)) { // Get the Latest packet 
-            //curTime = esp_timer_get_time();
-            //tTime = curTime - prevTime;
-            packet.capture_time = esp_timer_get_time();
+            curTime = esp_timer_get_time();
+            tTime = curTime - prevTime;
+            packet.capture_time = esp_timer_get_time(); 
             packet.data[0] = fifoBuffer[0] << 8 | fifoBuffer[1];	// quaternion W component
             packet.data[1] = fifoBuffer[4] << 8 | fifoBuffer[5];	// quaternion X component
             packet.data[2] = fifoBuffer[8] << 8 | fifoBuffer[9];	// quaternion Y component
             packet.data[3] = fifoBuffer[12] << 8 | fifoBuffer[13];	// quaternion Z component
-            packet.data[4] = fifoBuffer[22] << 8 | fifoBuffer[23];	// acceleration X component
-            packet.data[5] = fifoBuffer[24] << 8 | fifoBuffer[25];	// acceleration Y component
-            packet.data[6] = fifoBuffer[26] << 8 | fifoBuffer[27];	// acceleration Z component
-            bt_create_packet(NULL,&packet);
+            packet.data[4] = fifoBuffer[16] << 8 | fifoBuffer[17];	// acceleration X component
+            packet.data[5] = fifoBuffer[18] << 8 | fifoBuffer[19];	// acceleration Y component
+            packet.data[6] = fifoBuffer[20] << 8 | fifoBuffer[21];	// acceleration Z component
 
-            //printf("time = %d \t W = %d\r\n", tTime, packet.data[0]);
-            //prevTime = curTime;
-           
+
+            bt_create_packet(NULL,&packet);
+            //printf("%d \r\n", curTime);
+            //printf("W = %d \t X = %d \t Y = %d \t Z = %d\r\n", packet.data[0],packet.data[1],packet.data[2],packet.data[3]);
+            prevTime = curTime;
         }
         //vTaskDelay(10);
         vTaskDelayUntil(&xLastWakeTime, xFrequency);
     }
+}
+
+void imu_calibration(void) {
+    MPU6050 imu = MPU6050();
+    imu.CalibrateAccel(6);
+    imu.CalibrateGyro(6);
+    rgb_set(30, 20, 0, 500);
 }

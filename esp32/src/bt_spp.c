@@ -1,3 +1,9 @@
+/*
+    * Copyright (c) 2020 All rights reserved.
+    * 
+    * This work is licensed under the terms of the MIT license.  
+    * For a copy, see <https://opensource.org/licenses/MIT>
+*/
 /**
  * --- Bluetooth ---
  * 
@@ -33,6 +39,7 @@ extern "C" {
 #include "esp_bt_device.h"
 #include "esp_spp_api.h"
 #include "bt_spp.h"
+#include "RGB_led.h"
 
 #define SPP_TAG "SPP_BLUETOOTH"
 #define SPP_SERVER_NAME "SPP_SERVER"
@@ -138,6 +145,7 @@ static void esp_spp_cb(esp_spp_cb_event_t event, esp_spp_cb_param_t *param)
         ESP_LOGI(SPP_TAG, "ESP_SPP_CLOSE_EVT");
         bt_spp_conn_properties.bt_available = false;
         bt_spp_conn_properties.device_handle = 0;
+        rgb_set(30, 20, 0, 500);
         break;
     case ESP_SPP_START_EVT:
         ESP_LOGI(SPP_TAG, "ESP_SPP_START_EVT");
@@ -159,6 +167,7 @@ static void esp_spp_cb(esp_spp_cb_event_t event, esp_spp_cb_param_t *param)
         ESP_LOGI(SPP_TAG, "ESP_SPP_SRV_OPEN_EVT");
         bt_spp_conn_properties.device_handle = param->srv_open.handle;
         bt_spp_conn_properties.bt_available = true;
+        rgb_set(0, 20, 0, 500);
         break;
     default:
         break;

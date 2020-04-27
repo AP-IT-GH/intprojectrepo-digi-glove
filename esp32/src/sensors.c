@@ -35,11 +35,13 @@ static const adc1_channel_t channel_2 = MUX_2_Y;
 static const adc_atten_t atten = ADC_ATTEN_DB_11;   // 150 to 2450 mV
 static const adc_unit_t unit = ADC_UNIT_1;
 
-void set_muxs(uint8_t address);
-void reset_calibration_task(void* ignore);
+volatile int btn_2_flag = 0;
 
-volatile int maxValue[NUM_OF_ELEMENTS];             // Pressing a button will...
-volatile int minValue[NUM_OF_ELEMENTS];             // ...reset these
+void set_muxs(uint8_t address);
+void reset_calibration(void);
+
+int maxValue[NUM_OF_ELEMENTS];             // Pressing a button will...
+int minValue[NUM_OF_ELEMENTS];             // ...reset these
 
 void sensors_init(void)
 {
@@ -89,10 +91,15 @@ void sensors_task(void* ignore)
     int outputMax = pow(2,RESOLUTION) - 1;
 
     /* Initialize calibration arrays */
-    xTaskCreate(reset_calibration_task, "reset_calibration_task", 2048, NULL, configMAX_PRIORITIES, NULL);
-    
+    //xTaskCreate(reset_calibration_task, "reset_calibration_task", 2048, NULL, configMAX_PRIORITIES, NULL);
+    reset_calibration();
+
     TickType_t xLastWakeTime = xTaskGetTickCount();
     while (1) {
+        if (btn_2_flag) {
+            reset_calibration();
+            btn_2_flag = 0;
+        }
         /* Had to seperate these, because ADC was not working with them in the same loop */
         for (int i = 0; i < MUX_MAX_ADDRESS; i++) {
             adc_reading[i] = adc1_get_raw(channel_1);               // Mux 1
@@ -138,8 +145,10 @@ void sensors_task(void* ignore)
 
         bt_create_packet(&packet,NULL);
 
+
         /* DEBUG PRINTS HERE */
-        //printf("Value = %d \t Voltage = %d \t MIN = %d \t MAX = %d", packet.data[0], voltage[0],minValue[0],maxValue[0]);
+        //printf("Value = %d \t Voltage = %d \t MIN = %d \t MAX = %d\r\n", packet.data[0], voltage[0],minValue[0],maxValue[0]);
+        //printf("Value = %d \t Voltage = %d \t MIN = %d \t MAX = %d\r\n", packet.data[4], voltage[4],minValue[4],maxValue[4]);
 
         vTaskDelayUntil(&xLastWakeTime, xFrequency);
     }
@@ -157,10 +166,9 @@ void set_muxs(uint8_t address)
     gpio_set_level(MUX_2_A, address & 0x1);
 }
 
-void reset_calibration_task(void* ignore) {
+void reset_calibration(void) {
     for (int i = 0; i < NUM_OF_ELEMENTS; i++) {
         maxValue[i] = -4000;
         minValue[i] = 5000;
     }
-    vTaskDelete(NULL);
 }

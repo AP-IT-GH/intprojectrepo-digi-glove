@@ -1,3 +1,9 @@
+/*
+    * Copyright (c) 2020 All rights reserved.
+    * 
+    * This work is licensed under the terms of the MIT license.  
+    * For a copy, see <https://opensource.org/licenses/MIT>
+*/
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -17,11 +23,16 @@ static xQueueHandle gpio_evt_queue = NULL;
 volatile int64_t prevTime_1 = 0;
 volatile int64_t prevTime_2 = 0;
 
+
+extern volatile int btn_1_flag;
+extern volatile int btn_2_flag;
+
 static void IRAM_ATTR gpio_isr_handler_1(void* arg)
 {
     uint32_t gpio_num = (uint32_t) arg;
     if((esp_timer_get_time() - prevTime_1) > 1000000) {
         xQueueSendFromISR(gpio_evt_queue, &gpio_num, NULL);
+        btn_1_flag = 1;
         prevTime_1 = esp_timer_get_time();
         }
 }
@@ -30,6 +41,7 @@ static void IRAM_ATTR gpio_isr_handler_2(void* arg)
     uint32_t gpio_num = (uint32_t) arg;
     if((esp_timer_get_time() - prevTime_2) > 1000000) {
         xQueueSendFromISR(gpio_evt_queue, &gpio_num, NULL);
+        btn_2_flag = 1;
         prevTime_2 = esp_timer_get_time();
         }
 }
@@ -57,11 +69,12 @@ void buttons_task(void* ignore)
             if(gpio_get_level(io_num)) {
                 if(io_num == BTN_1) {
                     /* Stuff here */
-                    rgb_set(5, 0, 0, 100);  //test example
+
+                    //rgb_set(5, 0, 0, 100);  //test example
                 }
                 else if(io_num == BTN_2) {
                     /* Stuff here */
-                    rgb_set(0, 5, 0, 100);  //test example
+                    //rgb_set(0, 5, 0, 100);  //test example
                 }
             }      
         }
