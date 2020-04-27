@@ -12,6 +12,7 @@ from tkinter import Tk,Label,Button
 from random import randrange
 import math
 import numpy
+import os
 
 message = "PrintScreen-PrintScreen-PrintScreen-PrintScreen-PrintScreen" #overidden from Zeno's gui
 print("loaded libraries")          
@@ -186,38 +187,6 @@ def CallUpdate():
     #endloop
 #endcallupdate
 
-#Rewrite Zeno!!!
-#def CheckPauseGlove():
-    #SplitMessage = message.split("-")
-    #indexSplitMessage = 0
-    #for macro in SplitMessage:
-        #if(macro == "PauseGlove"):
-            #print("macro = pause")
-            #gloveActivatedFinger = indexSplitMessage
-            #indexSplitMessage = indexSplitMessage + 1
-        #else:
-            #gloveActivatedFinger = 5 #failsafe
-            #print("macro is not pause")
-
-    #when you bend the finger that is assigned to let the glove be paused and used: if you bend the glove it's inactive, if you bend that finger again, the glove is back active.
-    #if(gloveActivatedFinger==0):
-        #if(thumb):
-            #PauseGlove()
-    #elif(gloveActivatedFinger==1):
-        #if(indexFinger):
-            #PauseGlove()
-    #elif(gloveActivatedFinger==2):
-        #if(middleFinger):
-            #PauseGlove()
-    #elif(gloveActivatedFinger==3):
-       #if(ringFinger):
-            #PauseGlove()
-    #elif(gloveActivatedFinger==4):
-        #if(littleFinger):
-            #PauseGlove()
-    #elif(gloveActivatedFinger==5):
-        #pass #failsafe      
-
 def CheckMousemovement():
     #HIER DE CODE DIE ELKE KEER MOET GERUND WORDEN. (eigenlijk een while loop dus niet te zwaar belasten maar enkel de variabelen die nodig zijn of stuk code)
      
@@ -313,6 +282,8 @@ while True:
         print(str(splitData))
         for dataRow in splitData:
             print(dataRow)
+            if dataRow=="exit":
+                os._exit(1)
             if dataRow!="":
                 macroData = dataRow.split("~")
                 duplicate=False

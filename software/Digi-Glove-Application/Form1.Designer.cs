@@ -201,6 +201,7 @@
             this.configurations_usercontrol.Location = new System.Drawing.Point(0, 0);
             this.configurations_usercontrol.Margin = new System.Windows.Forms.Padding(0);
             this.configurations_usercontrol.Name = "configurations_usercontrol";
+            this.configurations_usercontrol.Padding = new System.Windows.Forms.Padding(20);
             this.configurations_usercontrol.Size = new System.Drawing.Size(727, 530);
             this.configurations_usercontrol.TabIndex = 4;
             // 
@@ -211,6 +212,7 @@
             this.home_usercontrol.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.home_usercontrol.Location = new System.Drawing.Point(0, 0);
             this.home_usercontrol.Name = "home_usercontrol";
+            this.home_usercontrol.Padding = new System.Windows.Forms.Padding(20);
             this.home_usercontrol.Size = new System.Drawing.Size(727, 530);
             this.home_usercontrol.TabIndex = 2;
             // 
@@ -222,6 +224,7 @@
             this.info_usercontrol.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.info_usercontrol.Location = new System.Drawing.Point(0, 0);
             this.info_usercontrol.Name = "info_usercontrol";
+            this.info_usercontrol.Padding = new System.Windows.Forms.Padding(20);
             this.info_usercontrol.Size = new System.Drawing.Size(727, 530);
             this.info_usercontrol.TabIndex = 1;
             // 

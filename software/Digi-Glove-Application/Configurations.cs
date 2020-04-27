@@ -131,26 +131,33 @@ namespace Digi_Glove_Application
 
             Debug.WriteLine("Saved in " + savePath);
 
+            string configurations = "";
+            foreach (Macro macro in macros)
+            {
+               configurations += macro.Name + "~" + macro.Excecutable+ "~" + ConvertMacroTriggers()[macro.Trigger] + "%";
+            }
+            //string configurations = (string)comboBox_Thumb.SelectedItem + "-" + (string)comboBox_IndexFinger.SelectedItem + "-" + (string)comboBox_MiddleFinger.SelectedItem + "-" + (string)comboBox_RingFinger.SelectedItem + "-" + (string)comboBox_Pinky.SelectedItem;
+            Debug.WriteLine(configurations);
+
+            SendData(configurations);
+        }
+
+        public bool SendData(string msg)
+        {
             if (client != null)
             {
-                string configurations = "";
-                foreach (Macro macro in macros)
-                {
-                    configurations += macro.Name + "~" + macro.Excecutable+ "~" + ConvertMacroTriggers()[macro.Trigger] + "%";
-                }
-                //string configurations = (string)comboBox_Thumb.SelectedItem + "-" + (string)comboBox_IndexFinger.SelectedItem + "-" + (string)comboBox_MiddleFinger.SelectedItem + "-" + (string)comboBox_RingFinger.SelectedItem + "-" + (string)comboBox_Pinky.SelectedItem;
-                Debug.WriteLine(configurations);
 
                 try
                 {
-                    byteCount=Encoding.ASCII.GetByteCount(configurations);
-                    sendData=new byte[byteCount];
-                    sendData=Encoding.ASCII.GetBytes(configurations);
-                    stream=client.GetStream();
+                    byteCount = Encoding.ASCII.GetByteCount(msg);
+                    sendData = new byte[byteCount];
+                    sendData = Encoding.ASCII.GetBytes(msg);
+                    stream = client.GetStream();
                     try
                     {
                         stream.Write(sendData, 0, sendData.Length);
                         Debug.WriteLine(sendData);
+                        return true;
                     }
                     catch (Exception)
                     {
@@ -158,16 +165,18 @@ namespace Digi_Glove_Application
                         button_config_connect.Enabled = true;
                         button_config_connect.Text = "Connect";
                         client = null;
-                        MessageBox.Show( "Connection failed", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show("Connection failed", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        return false;
                     }
 
                 }
                 catch (System.NullReferenceException)
                 {
                     Debug.WriteLine("No connection");
+                    return false;
                 }
             }
-
+            return false;
         }
 
         private void button_config_connect_Click(object sender, EventArgs e)

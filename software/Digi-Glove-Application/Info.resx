@@ -117,22 +117,18 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="textBox_info.Text" xml:space="preserve">
-    <value>The Digi-Glove is a controller that can both control the mouse and excecute configured macros...
-
-How to configure a macro:
-To create a macro press the "add macro" button under the configurations tab. A blank macro will appear where you enter a name, chose a trigger and enter the macro itself. 
-A couple of rules:
--You cannot configure two macros with the same name.
--To create a macro for a shortcut you must include a + sign in the macro, ex.: ctrl+shift or prsc+.
--You can have the same trigger on multiple macros, but beware all those macros will excecute when the trigger happens.
-Special Macros:
--'leftmouseclick'  		Left clicks a single time on the current mouse position
--'rightmouseclick'		Right clicks a single time on the current mouse position
--'disable' 			Disables all other macros and reenables if triggered again
-
-All keys that work in the macros:
-['\t',  '\n',  '\r',  ' ',  '!',  '"',  '#',  '$',  '&amp;',   "'",   '(',
+  <data name="textBox16.Text" xml:space="preserve">
+    <value>-Elias Toivola (Hardware)
+-Nisar Kainulainen (Hardware)
+-Jaakko Ropponen (Hardware)
+-Stef Martens (Software)
+-Jan Boeckx (Software)
+-Zeno Hattas (Software)
+-Charlie Cramm (Software)
+-Quinten Van Ginderen (Software)</value>
+  </data>
+  <data name="textBox9.Text" xml:space="preserve">
+    <value>['\t',  '\n',  '\r',  ' ',  '!',  '"',  '#',  '$',  '&amp;',   "'",   '(',
 ')',   '*',   '+',   ',',   '-',   '.',   '/',   '0',   '1',   '2',   '3',   '4',   '5',   '6',   '7',
 '8',   '9',   ':',   ';',   '&lt;',   '=',   '&gt;',   '?',   '@',   '[',   '\\',   ']',   '^',   '_',   '`',
 'a',   'b',   'c',   'd',   'e',   'f',   'g',   'h',   'i',   'j',   'k',   'l',   'm',   'n',   'o',
@@ -153,24 +149,22 @@ All keys that work in the macros:
 'prtsc',   'prtscr',   'return',   'right',   'scrolllock',   'select',   'separator',
 'shift',   'shiftleft',   'shiftright',   'sleep',   'space',   'stop',   'subtract',   'tab',
 'up',   'volumedown',   'volumemute',   'volumeup',   'win',   'winleft',   'winright',   'yen',
-'command',   'option',   'optionleft',   'optionright']
-
-
-What are the triggers:
-The triggers are the actions you make with the glove. Bend corresponds to the bending of set finger. Touch corresponds to touching something with said finger.
-
-What is a macro:
-A macro is a set of action that fires one after another together by the press of a single button, or in this case the movement of a finger.
-
-Digi-Glove was created by:
--Elias Toivola (Hardware)
--Nisar Kainulainen (Hardware)
--Jaakko Ropponen (Hardware)
--Stef Martens (Software)
--Jan Boeckx (Software)
--Zeno Hattas (Software)
--Charlie Cramm (Software)
--Quinten Van Ginderen (Software)</value>
+'command',   'option',   'optionleft',   'optionright']</value>
+  </data>
+  <data name="textBox7.Text" xml:space="preserve">
+    <value>-'leftmouseclick'  		Left clicks a single time on the current mouse position
+-'rightmouseclick'		Right clicks a single time on the current mouse position
+-'disable' 			Disables all other macros and reenables if triggered again</value>
+  </data>
+  <data name="textBox5.Text" xml:space="preserve">
+    <value>-You cannot configure two macros with the same name.
+-To create a macro for a shortcut you must include a + sign in the macro, ex.: ctrl+shift or prsc+.
+-To create a macro that types a prewritten message quickly don't use a + sign.
+-You can have the same trigger on multiple macros, but beware all those macros will excecute when the trigger happens. This could be used to excecute a set of macro's quickly one after another.
+-Macro's wil be excecuted in order they were programmed in the gui from top to bottom.</value>
+  </data>
+  <data name="textBox1.Text" xml:space="preserve">
+    <value>The Digi-Glove is a controller that can both control the mouse, write prewritten messages in an instant and excecute configured macros. The Digi-Glove was designed, build and programmed by student of Artesis Plantijn Antwerpen and the Oulu University of Applied Sciences.</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="button_title_calibration.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">

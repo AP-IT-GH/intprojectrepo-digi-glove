@@ -472,6 +472,11 @@
 -Charlie Cramm (Software)
 -Quinten Van Ginderen (Software)</value>
   </data>
+  <data name="textBox_info.Text" xml:space="preserve">
+    <value>Thank you for using Digi-glove! Digi-Glove is a smart glove that can be used as or as tool for performing macro's. You can connect it with your computer through Bluetooth. The Bluetooth-transmitter sends captured data continuously to the Bluetooth-receiver. The connection between this GUI and the glove is used to configure the glove as u desire. You can configure multiple macros that work together or stand alone or have the option to type out written messages instantaneous. You are able to choose which macro you want to connect to which trigger in the glove.
+
+This Digi-Glove was made possible by Artesis Plantin and the Oulu University of Applied Scienes.</value>
+  </data>
   <data name="button_title_calibration.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAA+gAAAABCAIAAADCYhNkAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
