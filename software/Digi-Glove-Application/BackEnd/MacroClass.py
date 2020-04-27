@@ -11,7 +11,7 @@ class Macro():
         self.Trigger = trigger
         self.CanTrigger = True
         self.Locked = False
-        if "leftmouseclick" == macro == "rightmouseclick" == macro or "disable" == macro:
+        if macro == "leftmouseclick" or macro == "rightmouseclick" == macro or "disable" == macro:
             self.Excecutable = SpecialExcecutable(macro)
         elif("+" in macro):
             self.Excecutable = Hotkey(macro.split("+"))
