@@ -5,18 +5,20 @@ import numpy as np
 import math
 
 connected = False
-port = "COM9"
+port = "COM7"
 configFile = "./PortConfig.txt"
-try:
-    f = open(configFile, "r")
-    port = str(f.read())
-    f.close()
-    ser1 = serial.Serial(port, 9600, 8) #attempts to make a connection to a device
-    connected = True
-except:
-    print("error either bluetooth is off or the device in not connected only 0's will be returned")
-print("if the device is connected, comms will now start")
-
+#ser1 = serial.Serial(port, 9600, 8) #attempts to make a connection to a device
+while not connected:
+    try:
+        f = open(configFile, "r")
+        port = str(f.read())
+        f.close()
+        ser1 = serial.Serial(port, 9600, 8) #attempts to make a connection to a device
+        connected = True
+    except:
+        print("error either bluetooth is off or the device in not connected only 0's will be returned")
+    print("if the device is connected, comms will now start")
+    
 gravity = [0,0,0]
 data = {"reserved_0" : 0 , "reserved_1" : 0 , "reserved_2" : 0 , "reserved_3" : 0 , "reserved_4" : 0 , "reserved_5" : 0 , "reserved_6" : 0 , "reserved_7" : 0 ,  #reserved0
         "timestamp_0" : 0 , "timestamp_1" : 0 , "timestamp_2" : 0, "timestamp_3" : 0, "timestamp_4" : 0, "timestamp_5" : 0, "timestamp_6" : 0, "timestamp_7" : 0, #timestamp
@@ -35,7 +37,7 @@ def update(): #to edit in release
        try:
             if(ser1.inWaiting() >= 64):
                 data_seq = ser1.read(64) #read the buffer as soon as it reached 64 bytes aka a full sequence has entered1
-                #print(data["IndexF_1"], data["MiddleF_0"], data["RingF_0"], data["LittleF_0"], data["Thumb_0"])
+                #print(data["IndexF_tip"], data["MiddleF_tip"], data["RingF_tip"], data["LittleF_tip"])
                 data["reserved_0"] = int(data_seq[0])
                 data["reserved_1"] = int(data_seq[1])
                 data["reserved_2"] = int(data_seq[2])

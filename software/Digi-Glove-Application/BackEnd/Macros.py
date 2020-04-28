@@ -338,6 +338,9 @@ while True:
                     if(macroData[0]==macro.Name):
                         duplicate=True
                 if (duplicate):
-                    print("Macro " + macroData[0] + " already exists")
+                    macro.Name = macroData[0]
+                    macro.Trigger = macroData[1]
+                    macro.Excecutable = macroData[2]
+                    print("Updated macro: " + macro.Name)
                 else:
                     MacrosList.append(MacroClass.Macro(macroData[0],macroData[1],macroData[2]))
