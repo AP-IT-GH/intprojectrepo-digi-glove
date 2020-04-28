@@ -29,11 +29,12 @@ flexPink0 = python101.data["LittleF_0"]
 flexPink1 = python101.data["LittleF_1"]
 flexThumb = python101.data["Thumb_0"]
 
-touchIndex = 200 #python101.data["IndexF_tip"]
-touchMiddle = 200 #python101.data["MiddleF_tip"]
+touchIndex = python101.data["IndexF_tip"]
+touchMiddle = python101.data["MiddleF_tip"]
 touchRing = python101.data["RingF_tip"]
 touchPink = python101.data["LittleF_tip"]
 
+Touchtrigger = 80
 Triggerpoint = 200
 ResetTriggerPoint = 150
 
@@ -122,13 +123,13 @@ def CheckFingers():
     if(flexPink0>=Triggerpoint):
         CheckTrigger("flexpink")
 
-    if(touchIndex>=Triggerpoint):
+    if(touchIndex>=Touchtrigger):
         CheckTrigger("touchindex")
-    if(touchMiddle>=Triggerpoint):
+    if(touchMiddle>=Touchtrigger):
         CheckTrigger("touchmiddle")
-    if(touchRing>=Triggerpoint):
+    if(touchRing>=Touchtrigger):
         CheckTrigger("touchring")
-    if(touchPink>=Triggerpoint):
+    if(touchPink>=Touchtrigger):
         CheckTrigger("touchpink")
 
     #CanTrigger again
@@ -143,13 +144,13 @@ def CheckFingers():
     if(flexPink0<=ResetTriggerPoint):
         ResetTrigger("flexpink")
 
-    if(touchIndex<=ResetTriggerPoint):
+    if(touchIndex<=20):
         ResetTrigger("touchindex")
-    if(touchMiddle<=ResetTriggerPoint):
+    if(touchMiddle<=20):
         ResetTrigger("touchmiddle")
-    if(touchRing<=ResetTriggerPoint):
+    if(touchRing<=20):
         ResetTrigger("touchring")
-    if(touchPink<=ResetTriggerPoint):
+    if(touchPink<=20):
         ResetTrigger("touchpink")
 
 def DisableAllMacrosExcept(name):
@@ -174,7 +175,7 @@ def ResetTrigger(trigger):
 
        #callable function for the thread
 def CallUpdate():
-    global flexThumb, flexIndex0, flexIndex1, flexMiddle0, flexMiddle1, flexRing0, flexRing1, flexPink0, accelerationXaxis, accelerationYaxis
+    global flexThumb, flexIndex0, flexIndex1, flexMiddle0, flexMiddle1, flexRing0, flexRing1, flexPink0, accelerationXaxis, accelerationYaxis, touchIndex, touchMiddle, touchPink, touchRing
     #update values from the Bluetooth
     python101.update()
     flexThumb = python101.data["Thumb_0"]
@@ -189,10 +190,13 @@ def CallUpdate():
     touchMiddle = python101.data["MiddleF_tip"]
     flexPink1 = python101.data["LittleF_1"]
     
+    touchIndex = python101.data["IndexF_tip"]
+    touchMiddle = python101.data["MiddleF_tip"]
     touchRing = python101.data["RingF_tip"]
     touchPink = python101.data["LittleF_tip"]
     accelerationXaxis = python101.data["Accel_X"]
     accelerationYaxis = python101.data["Accel_Y"]
+    #print(touchMiddle)
     #endloop
 #endcallupdate
 
@@ -262,7 +266,10 @@ def CheckMousemovement():
         PreviousstateX = math.floor(PreviousstateX)
         PreviousstateY = math.floor(PreviousstateY)
         if(python101.connected == True):
-            win32api.SetCursorPos((int(PreviousstateX),int(PreviousstateY)))
+            try:
+                win32api.SetCursorPos((int(PreviousstateX),int(PreviousstateY)))
+            except:
+                print("failed movement")
 
 class updateThread(Thread):
     def __init__(self):
