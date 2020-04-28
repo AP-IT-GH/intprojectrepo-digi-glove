@@ -59,7 +59,7 @@ extern "C" {
 static const esp_spp_mode_t esp_spp_mode = ESP_SPP_MODE_CB;
 static const esp_spp_sec_t sec_mask = ESP_SPP_SEC_AUTHENTICATE;
 static const esp_spp_role_t role_slave = ESP_SPP_ROLE_SLAVE;
-
+int connected = 0;
 // For storing the device name:
 char device_name[64];
 
@@ -146,6 +146,7 @@ static void esp_spp_cb(esp_spp_cb_event_t event, esp_spp_cb_param_t *param)
         bt_spp_conn_properties.bt_available = false;
         bt_spp_conn_properties.device_handle = 0;
         rgb_set(30, 20, 0, 500);
+        connected = 0;
         break;
     case ESP_SPP_START_EVT:
         ESP_LOGI(SPP_TAG, "ESP_SPP_START_EVT");
@@ -168,6 +169,7 @@ static void esp_spp_cb(esp_spp_cb_event_t event, esp_spp_cb_param_t *param)
         bt_spp_conn_properties.device_handle = param->srv_open.handle;
         bt_spp_conn_properties.bt_available = true;
         rgb_set(0, 20, 0, 500);
+        connected = 1;
         break;
     default:
         break;

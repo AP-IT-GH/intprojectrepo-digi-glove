@@ -24,6 +24,7 @@ extern "C" {
     void dummydata_task(void* ignore);
     void buttons_task(void* ignore);
 }
+
 extern void imu_task(void* ignore);
 extern void task_initI2C(void* ignore);
     
@@ -44,6 +45,9 @@ void app_main(void)
     vTaskDelay(100/portTICK_PERIOD_MS);
 
     xTaskCreate(sensors_task, "sensors_task", 6144, NULL, configMAX_PRIORITIES, NULL);
+
+    
     
     //xTaskCreate(dummydata_task, "dummydata_task", 4096, NULL, configMAX_PRIORITIES, NULL);
+
 }

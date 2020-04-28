@@ -23,7 +23,8 @@ static xQueueHandle gpio_evt_queue = NULL;
 volatile int64_t prevTime_1 = 0;
 volatile int64_t prevTime_2 = 0;
 
-
+extern void imu_calibration(void);
+//extern void imu_task(void* ignore);
 extern volatile int btn_1_flag;
 extern volatile int btn_2_flag;
 
@@ -49,18 +50,19 @@ static void IRAM_ATTR gpio_isr_handler_2(void* arg)
 void buttons_task(void* ignore)
 {
     gpio_config_t io_conf;
-    io_conf.intr_type = GPIO_PIN_INTR_POSEDGE;              //interrupt of rising edge
+    io_conf.intr_type = (gpio_int_type_t)GPIO_PIN_INTR_POSEDGE;              //interrupt of rising edge
     io_conf.pin_bit_mask = GPIO_INPUT_PIN_SEL;              //bit mask of the pins
     io_conf.mode = GPIO_MODE_INPUT;                         //set as input mode
-    io_conf.pull_down_en = 1; io_conf.pull_up_en = 0;       //disable pulldown and pullup                 
+    io_conf.pull_down_en = (gpio_pulldown_t)1; io_conf.pull_up_en = (gpio_pullup_t)0;       //disable pulldown and pullup                 
     gpio_config(&io_conf);                                  //configure GPIO with the given settings
     gpio_evt_queue = xQueueCreate(40, sizeof(uint32_t));    //create a queue to handle gpio event from isr
 
     gpio_install_isr_service(ESP_INTR_FLAG_DEFAULT);        //install gpio isr service
-    gpio_isr_handler_add(BTN_1, gpio_isr_handler_1, (void*) BTN_1);
-    gpio_isr_handler_add(BTN_2, gpio_isr_handler_2, (void*) BTN_2);
+    gpio_isr_handler_add((gpio_num_t)BTN_1, gpio_isr_handler_1, (void*) BTN_1);
+    gpio_isr_handler_add((gpio_num_t)BTN_2, gpio_isr_handler_2, (void*) BTN_2);
 
-    uint32_t io_num;
+    //uint32_t io_num;
+    gpio_num_t io_num;
     const TickType_t xFrequency = FREQUENCY;
     TickType_t xLastWakeTime = xTaskGetTickCount();
     
@@ -69,7 +71,6 @@ void buttons_task(void* ignore)
             if(gpio_get_level(io_num)) {
                 if(io_num == BTN_1) {
                     /* Stuff here */
-
                     //rgb_set(5, 0, 0, 100);  //test example
                 }
                 else if(io_num == BTN_2) {

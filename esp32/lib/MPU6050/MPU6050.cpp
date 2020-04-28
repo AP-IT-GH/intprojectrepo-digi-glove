@@ -2780,9 +2780,10 @@ int8_t MPU6050::GetCurrentFIFOPacket(uint8_t *data, uint8_t length) { // overflo
          if ((fifoC = getFIFOCount())  > length) {
 
              if (fifoC > 200) { // if you waited to get the FIFO buffer to > 200 bytes it will take longer to get the last packet in the FIFO Buffer than it will take to  reset the buffer and wait for the next to arrive
+                 //printf("Here\r\n");
                  resetFIFO(); // Fixes any overflow corruption
                  fifoC = 0;
-                 while (!(fifoC = getFIFOCount()) && ((esp_timer_get_time() - BreakTimer) <= (11000))); // Get Next New Packet
+                 while (!(fifoC = getFIFOCount()) && ((esp_timer_get_time() - BreakTimer) <= (1100))); // Get Next New Packet
                  } else { //We have more than 1 packet but less than 200 bytes of data in the FIFO Buffer
                  uint8_t Trash[BUFFER_LENGTH];
                  while ((fifoC = getFIFOCount()) > length) {  // Test each time just in case the MPU is writing to the FIFO Buffer

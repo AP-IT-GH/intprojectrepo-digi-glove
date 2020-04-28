@@ -16,7 +16,7 @@
 #include "bt_spp.h"
 #include "RGB_led.h"
 
-#define FREQUENCY 10 // 5 = 200Hz, 10 = 100Hz
+#define FREQUENCY 1 // 5 = 200Hz, 10 = 100Hz    1000Hz now, because trying to circumevent the bug where reading sometimes takes half a second
 
 #define ACCEL_X_OFFSET -6989
 #define ACCEL_Y_OFFSET -7580
@@ -28,6 +28,7 @@
 #define OUTPUT_READABLE 1
 #define OUTPUT_PACKET 1
 
+extern int connected;
 volatile int btn_1_flag = 0;
 void imu_calibration(void);
 
@@ -54,7 +55,6 @@ void imu_task(void* ignore) {
         printf("ERROR: MPU6050 might be connected succesfully but, device ID = %d \r\n", devId);
     imu.initialize();
     imu.dmpInitialize();
-
     imu.setXAccelOffset(ACCEL_X_OFFSET);
     imu.setYAccelOffset(ACCEL_Y_OFFSET);
     imu.setZAccelOffset(ACCEL_Z_OFFSET);
@@ -70,6 +70,7 @@ void imu_task(void* ignore) {
     int curTime = 0;
     int prevTime = 0;
     int tTime = 0;
+    float div = 16384.0;
 
     while(1) {
         if (btn_1_flag) {
@@ -91,17 +92,26 @@ void imu_task(void* ignore) {
 
             bt_create_packet(NULL,&packet);
             //printf("%d \r\n", curTime);
-            //printf("W = %d \t X = %d \t Y = %d \t Z = %d\r\n", packet.data[0],packet.data[1],packet.data[2],packet.data[3]);
+            printf("W = %f \t X = %f \t Y = %f \t Z = %f\r\n", packet.data[0] / div,packet.data[1]/ div,packet.data[2]/ div,packet.data[3]/ div);
             prevTime = curTime;
         }
-        //vTaskDelay(10);
         vTaskDelayUntil(&xLastWakeTime, xFrequency);
+        //vTaskDelay(10);
     }
 }
 
 void imu_calibration(void) {
+    rgb_set(30, 20, 0, 500);
     MPU6050 imu = MPU6050();
+    imu.initialize();               
+    imu.dmpInitialize();
+    imu.PrintActiveOffsets();
     imu.CalibrateAccel(6);
     imu.CalibrateGyro(6);
-    rgb_set(30, 20, 0, 500);
+    imu.PrintActiveOffsets();
+    imu.setDMPEnabled(true);
+    if (connected)
+        rgb_set(0, 20, 0, 500);
+    else
+        rgb_set(30, 20, 0, 500);
 }
