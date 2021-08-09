@@ -13,7 +13,7 @@ PyScreeze==0.1.26
 pyserial==3.4
 PyTweening==1.0.3
 pytz==2019.3
-pywin32==227
+pywin32==301
 PyYAML==5.3.1
 serial==0.0.97
 sockets==1.0.0
